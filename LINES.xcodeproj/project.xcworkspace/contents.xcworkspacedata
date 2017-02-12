@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:linetest1.2.xcodeproj">
+      location = "self:/Users/david/Documents/Rise training/linetest1.2/LINES.xcodeproj">
    </FileRef>
 </Workspace>
