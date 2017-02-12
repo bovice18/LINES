@@ -469,7 +469,7 @@
 				DEVELOPMENT_TEAM = 224499EHSL;
 				INFOPLIST_FILE = linetest1.2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Crabtree.linetest1-2";
+				PRODUCT_BUNDLE_IDENTIFIER = Crabtree.LINES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -482,7 +482,7 @@
 				DEVELOPMENT_TEAM = 224499EHSL;
 				INFOPLIST_FILE = linetest1.2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Crabtree.linetest1-2";
+				PRODUCT_BUNDLE_IDENTIFIER = Crabtree.LINES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
