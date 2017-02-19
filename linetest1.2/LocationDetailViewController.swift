@@ -22,14 +22,22 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var locatingImage: UIImageView!
     
+    @IBOutlet weak var MapButton: UIButton!
+    
+    @IBOutlet weak var CallButton: UIButton!
+    
     var Location: location?
     
     var ratings = [rating]()
+    
+    var llLocation: String?
     
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mostRecentTime()
         
         if let savedRatings = loadRatings() {
             ratings += savedRatings
@@ -44,8 +52,12 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             locatingImage.image = location.locationImagine
             ratings = location.ratingList as! [rating]
             navigationItem.title = location.detail1
-            phoneLbl.text = location.phoneNumber
-            adressLbl.text = location.address
+           // phoneLbl.text = location.phoneNumber
+           // adressLbl.text = location.address
+            MapButton.setTitle(location.displayedAddress, for: .normal)
+            CallButton.setTitle(location.displayedPhoneNumber, for: .normal)
+            llLocation = location.llLocation
+            
         }
 
         // Do any additional setup after loading the view.
@@ -102,7 +114,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         //Determining the line status and adding a color to go along with it: red- very Slow, slow/fast - white, very fast - green
         if rating.lineRating == 0 {
             cell.infoLbl.text = "Very fast"
-            cell.backgroundColor = UIColor(red: 0.1, green: 1.0, blue: 0.1, alpha: 1.0)
+            cell.backgroundColor = UIColor(red: 0.0, green: 0.9, blue: 0.0, alpha: 1.0)
         }
         if rating.lineRating == 1 {
             cell.infoLbl.text = "fast"
@@ -149,6 +161,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             */
             
         }
+        mostRecentTime()
         saveRatings()
         
     }
@@ -170,18 +183,23 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let detail2 = detail2Lbl.text ?? ""
             let locationImage1 = locatingImage.image
             let ratingList = ratings as NSArray
-            let address = adressLbl.text
-            let phoneNumber = phoneLbl.text
+            let address = Location?.address
+            let phoneNumber = Location?.phoneNumber
+            let displayedAddress = MapButton.currentTitle
+            let displayedPhoneNumber = CallButton.currentTitle
+            let llLocation = Location?.llLocation
+            let qLocation = Location?.qLocation
         
             // Set the reting to be passed to LocationTableViewController after the unwind segue.
-        Location = location(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImage1!, address: address!, phoneNumber: phoneNumber!)
+        Location = location(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImage1!, address: address!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation!, qLocation: qLocation!)
         
         saveRatings()
+        mostRecentTime()
         }
     
     private func loadSample() {
         let rating1 = rating(time: "", lineRating: 1, slider: 1, comments: "")
-        
+
         ratings += [rating1]
     }
         // Get the new view controller using segue.destinationViewController.
@@ -201,9 +219,42 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         return NSKeyedUnarchiver.unarchiveObject(withFile: rating.ArchiveURL.path) as? [rating]
     }
     
+    //MARK: Actions
+    
+    private func mostRecentTime() {
+        
+        if ratings.count >= 1{
+            let indexPath1 = NSIndexPath(row: 0, section: 0)
+            
+            let cellIdentifier = "RatingTableViewCell"
+            
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath1 as IndexPath) as? RatingTableViewCell
+            
+            let mostRecentRating = ratings[indexPath1.row]
+            
+            detail2Lbl.text = "most recent: " + String(mostRecentRating.slider) + " minutes"
+
+        }
+    }
+    
+    @IBAction func CallButton(_ sender: UIButton) {
+        
+        var url:NSURL = NSURL(string: "tel://" + (Location?.phoneNumber)!)!
+        UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+    }
+    @IBAction func mapAdress(_ sender: UIButton) {
+        
+        var address:NSURL = NSURL(string: "http://maps.apple.com/z=21&?ll=" + (Location?.llLocation)! + "&z=21&?q=" + (Location?.qLocation)! + "&z=21")!
+        UIApplication.shared.open(address as URL, options: [:], completionHandler: nil)
+        
+
+    }
+    
 }
+
     
-    
+
 
 
 

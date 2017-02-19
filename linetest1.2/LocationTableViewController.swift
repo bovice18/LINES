@@ -148,10 +148,10 @@ class LocationTableViewController: UITableViewController {
         
         //currently loads blank arrays into the LocaitonDetailViewController table view when a location is selceted.  Thinking we would say ratingList: name of databased containing the ratings to be entered into the table.  Until we change the the rating list from an empty array every time the app is restarted it will continue to load with no ratings.
         
-        guard let location1 = location(detail1: "Chipolte", detail2: "place1", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), address: "College Park Shopping Center, 7332 Baltimore Ave, College Park, MD 20740", phoneNumber: "(240) 582-0015") else {
+        guard let location1 = location(detail1: "Chipolte Mexican Grill", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), address: "7332/BaltimoreAve", phoneNumber: "2405820015", displayedAddress: "7332 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(240) 582-0015", llLocation: "38.9803374,-76.9389147", qLocation: "Chipotle+Mexican+Grill") else {
             fatalError("Unable to instantiate loction1")
         }
-        guard let location2 = location(detail1: "Bentley's", detail2: "place2", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "bently's"), address: "Address: 7323 Baltimore Ave. College Park, MD 20740", phoneNumber: "(301)277-8898") else {
+        guard let location2 = location(detail1: "R J Bentley's Restuarant", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "bently's"), address: "7323/BaltimoreAve", phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: "38.9804811,-76.9375566", qLocation: "R+J+Bentley's+Restaurant") else {
             fatalError("Unable to instantiate location2")
         }
 

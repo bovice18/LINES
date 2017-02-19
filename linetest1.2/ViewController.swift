@@ -39,6 +39,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
   
         textField.delegate = self
         
@@ -50,6 +51,12 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         view.addGestureRecognizer(tap)
         
         // Do any additional setup after loading the view, typically from a nib.
+        
+        if sliderValue == 0 {
+            sliderLbl.text = "20 minutes"
+            return sliderValue = 20
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
