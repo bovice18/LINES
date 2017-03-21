@@ -14,6 +14,7 @@ class RatingTableViewCell: UITableViewCell {
     @IBOutlet weak var timeLbl: UILabel!
     @IBOutlet weak var sliderLbl: UILabel!
     @IBOutlet weak var commentLbl: UILabel!
+    @IBOutlet weak var circleControl: TriangleRatingControl!
     
     override func awakeFromNib() {
         super.awakeFromNib()

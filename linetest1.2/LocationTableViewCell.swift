@@ -13,7 +13,9 @@ class LocationTableViewCell: UITableViewCell {
     @IBOutlet weak var detail1Lbl: UILabel!
     @IBOutlet weak var detail2Lbl: UILabel!
     @IBOutlet weak var locationImagine: UIImageView!
+    @IBOutlet weak var jointheLineButton: UIButton!
     
+    @IBOutlet weak var circleRating: TriangleRatingControl!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,6 +25,7 @@ class LocationTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
+        jointheLineButton.layer.cornerRadius = 4
         // Configure the view for the selected state
     }
 

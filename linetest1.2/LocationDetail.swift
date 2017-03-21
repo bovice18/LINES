@@ -23,11 +23,9 @@ class location {
     var llLocation: String
     var qLocation: String
     
-    
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("locations")
-    
     
     //MARK: Property key
     struct PropertyKey {
@@ -72,6 +70,7 @@ class location {
         aCoder.encode(displayedPhoneNumber, forKey: PropertyKey.displayedPhoneNumber)
         aCoder.encode(llLocation, forKey: PropertyKey.llLocation)
         aCoder.encode(qLocation, forKey: PropertyKey.qLocation)
+        
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
