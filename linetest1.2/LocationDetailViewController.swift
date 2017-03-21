@@ -35,6 +35,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet weak var MapButton: UIButton!
     @IBOutlet weak var CallButton: UIButton!
     
+    @IBOutlet weak var circleRating: TriangleRatingControl!
     var Location: location?
     
     var ratings = [rating]()
@@ -113,7 +114,8 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         progressViewer12.transform = progressViewer12.transform.scaledBy(x: 1, y: 10)
         
         mostRecentTime()
-    
+        updateCircleRating()
+        
         if let savedRatings = loadRatings() {
             ratings += savedRatings
         }
@@ -134,7 +136,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
            // adressLbl.text = location.address
           //  MapButton.setTitle(location.displayedAddress, for: .normal)
            // CallButton.setTitle(location.displayedPhoneNumber, for: .normal)
-            llLocation = location.llLocation
+            circleRating.rating = location.llLocation
             qllocation = location.qLocation
             
             print("entered")
@@ -171,6 +173,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     override func viewDidAppear(_ animated: Bool) {
         mostRecentTime()
+        updateCircleRating()
     }
 
     override func didReceiveMemoryWarning() {
@@ -343,6 +346,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
         
         mostRecentTime()
+        updateCircleRating()
         saveRatings()
     }
     
@@ -372,14 +376,15 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let phoneNumber = Location?.phoneNumber
             let displayedAddress = Location?.displayedPhoneNumber
             let displayedPhoneNumber = Location?.displayedAddress
-        let llLocation = Location?.llLocation
+            let llLocation = circleRating.rating
             let qLocation = Location?.qLocation
         
         // Set the reting to be passed to LocationTableViewController after the unwind segue.
-        Location = location(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImage1!, address: address!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation!, qLocation: qLocation!)
+        Location = location(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImage1!, address: address!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation, qLocation: qLocation!)
         
         saveRatings()
         mostRecentTime()
+        updateCircleRating()
         print(ratingList)
         print("sent info back to start")
     }
@@ -424,6 +429,17 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     }
     }
     
+    private func updateCircleRating() {
+        
+         if ratings.count >= 1{
+        let indexPath1 = NSIndexPath(row: 0, section: 0)
+        let cellIdentifier = "RatingTableViewCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath1 as IndexPath) as? RatingTableViewCell
+        let mostRecentRating = ratings[indexPath1.row]
+
+        circleRating.rating = mostRecentRating.circleRating
+        }
+    }
 
     private func mostRecentTime() {
         
@@ -460,7 +476,6 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                 let LineMinutesString = "20"
                 detail2Lbl.text = postedDate + " ago: " + LineMinutesString + " minutes"
             }
-            
         }
     }
     

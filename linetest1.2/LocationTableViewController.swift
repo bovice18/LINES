@@ -69,6 +69,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
             cell.detail1Lbl.text = location.detail1
             cell.detail2Lbl.text = location.detail2
+            cell.circleRating.rating = location.llLocation
             cell.locationImagine.image = location.locationImagine
         
         return cell
@@ -133,19 +134,19 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         //currently loads blank arrays into the LocaitonDetailViewController table view when a location is selceted.  Thinking we would say ratingList: name of databased containing the ratings to be entered into the table.  Until we change the the rating list from an empty array every time the app is restarted it will continue to load with no ratings.
         
-        guard let Chipotle = location(detail1: "Chipolte Mexican Grill", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), address: "7332/BaltimoreAve", phoneNumber: "2405820015", displayedAddress: "7332 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(240) 582-0015", llLocation: "38.9803374,-76.9389147", qLocation: "Chipotle+Mexican+Grill") else {
+        guard let Chipotle = location(detail1: "Chipolte Mexican Grill", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), address: "7332/BaltimoreAve", phoneNumber: "2405820015", displayedAddress: "7332 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(240) 582-0015", llLocation: 0, qLocation: "Chipotle+Mexican+Grill") else {
             fatalError("Unable to instantiate loction1")
         }
-        guard let Bentleys = location(detail1: "R J Bentley's Restuarant", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "bently's"), address: "7323/BaltimoreAve", phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: "38.9804811,-76.9375566", qLocation: "R+J+Bentley's+Restaurant") else {
+        guard let Bentleys = location(detail1: "R J Bentley's Restaurant", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "bently's"), address: "7323/BaltimoreAve", phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: 0, qLocation: "R+J+Bentley's+Restaurant") else {
             fatalError("Unable to instantiate location2")
         }
-        guard let CornerStone = location(detail1: "Cornerstone Grill & Loft", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Cornerstone"), address: "7325/BaltimoreAve", phoneNumber: "3017797044", displayedAddress: "7325 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 779-7044", llLocation: "38.9804811,-76.9375566", qLocation: "R+J+Bentley's+Restaurant") else {
+        guard let CornerStone = location(detail1: "Cornerstone Grill & Loft", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Cornerstone"), address: "7325/BaltimoreAve", phoneNumber: "3017797044", displayedAddress: "7325 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 779-7044", llLocation: 0, qLocation: "R+J+Bentley's+Restaurant") else {
             fatalError("Unable to instantiate location2")
         }
-        guard let TerrapiansTurf = location(detail1: "Terrapins Turf", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), address: "4410/KnoxRd", phoneNumber: "3012778377", displayedAddress: "4410 Knox Rd, College Park, MD", displayedPhoneNumber: "(301) 277-8377", llLocation: "38.9804811,-76.9375566", qLocation: "Terrapins+Turf") else {
+        guard let TerrapiansTurf = location(detail1: "Terrapins Turf", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), address: "4410/KnoxRd", phoneNumber: "3012778377", displayedAddress: "4410 Knox Rd, College Park, MD", displayedPhoneNumber: "(301) 277-8377", llLocation: 0, qLocation: "Terrapins+Turf") else {
                 fatalError("Unable to instantiate location2")
         }
-        guard let PotBelly = location(detail1: "Potbelly Sandwich Shop", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Potbelly"), address: "7422/BaltimoreAve", phoneNumber: "3012090635", displayedAddress: "7422 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 209-0635", llLocation: "38.9804811,-76.9375566", qLocation: "Potbelly+Sandwich+Shop") else {
+        guard let PotBelly = location(detail1: "Potbelly Sandwich Shop", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Potbelly"), address: "7422/BaltimoreAve", phoneNumber: "3012090635", displayedAddress: "7422 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 209-0635", llLocation: 0, qLocation: "Potbelly+Sandwich+Shop") else {
             fatalError("Unable to instantiate location2")
         }
         locations += [Chipotle, Bentleys, CornerStone, TerrapiansTurf, PotBelly]

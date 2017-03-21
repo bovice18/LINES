@@ -20,7 +20,7 @@ class location {
     var phoneNumber: String
     var displayedAddress: String
     var displayedPhoneNumber: String
-    var llLocation: String
+    var llLocation: Int
     var qLocation: String
     
     //MARK: Archiving Paths
@@ -43,7 +43,7 @@ class location {
     
     //MARK: Initialization
 
-    init?(detail1: String, detail2: String, ratingList: NSArray, locationImagine: UIImage, address: String, phoneNumber: String, displayedAddress: String, displayedPhoneNumber: String, llLocation: String, qLocation: String) {
+    init?(detail1: String, detail2: String, ratingList: NSArray, locationImagine: UIImage, address: String, phoneNumber: String, displayedAddress: String, displayedPhoneNumber: String, llLocation: Int, qLocation: String) {
     
     //Initialize stored properties
     self.detail1 = detail1
@@ -82,9 +82,9 @@ class location {
         let phoneNumber = aDecoder.decodeObject(forKey: PropertyKey.phoneNumber) as! String
         let displayedPhoneNumber = aDecoder.decodeObject(forKey: PropertyKey.displayedPhoneNumber) as! String
         let displayedAddress = aDecoder.decodeObject(forKey: PropertyKey.displayedAddress) as! String
-        let llLocation = aDecoder.decodeObject(forKey: PropertyKey.llLocation) as! String
+        let llLocation = aDecoder.decodeObject(forKey: PropertyKey.llLocation) as? Int
         let qLocation = aDecoder.decodeObject(forKey: PropertyKey.qLocation) as! String
         
-        self.init(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImagine, address: address, phoneNumber: phoneNumber, displayedAddress: displayedAddress, displayedPhoneNumber: displayedPhoneNumber, llLocation: llLocation, qLocation: qLocation)
+        self.init(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImagine, address: address, phoneNumber: phoneNumber, displayedAddress: displayedAddress, displayedPhoneNumber: displayedPhoneNumber, llLocation: llLocation!, qLocation: qLocation)
     }
 }
