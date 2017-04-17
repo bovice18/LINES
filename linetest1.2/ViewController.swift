@@ -51,6 +51,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         view.tintColor = UIColor.lightGray
         
         var region1 = CLCircularRegion(center: center, radius: 1000, identifier: identifier)
@@ -135,6 +136,20 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         let comments = textField.text
         let timeIntervalSinceNow1 = NSDate()
         let timeNow = timeIntervalSinceNow1
+        
+        if let destinationView = segue.destination as? LocationDetailViewController {
+            if destinationView.detail1Lbl.text == "Chipolte Mexican Grill" {
+                //let locationIdentifier = 1
+                print("id working")
+            } else {
+                print("id wrong location")
+            }
+        }
+        else {
+            print("id not working")
+        }
+
+    
     
         Rating = rating(time: time!, lineRating: lineRating, circleRating: ratingInt, comments: comments!, timeIntervalSinceNow: timeNow)
         
@@ -164,20 +179,20 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         print(segementLineController.selectedSegmentIndex)
         
         if segementLineController.selectedSegmentIndex == 0 {
-            view.tintColor = #colorLiteral(red: 0.002271278063, green: 0.5700045824, blue: 0, alpha: 1)
-            navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.002271278063, green: 0.5700045824, blue: 0, alpha: 1)
+           // view.tintColor = #colorLiteral(red: 0.002271278063, green: 0.5700045824, blue: 0, alpha: 1)
+           // navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.002271278063, green: 0.5700045824, blue: 0, alpha: 1)
         }
         if segementLineController.selectedSegmentIndex == 1 {
-            view.tintColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-            navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+           // view.tintColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+           // navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         }
         if segementLineController.selectedSegmentIndex == 2 {
-            view.tintColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+           // view.tintColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+           // navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
         }
         if segementLineController.selectedSegmentIndex == 3 {
-            view.tintColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
-            navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+          //  view.tintColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+            //navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
         }
     }
 

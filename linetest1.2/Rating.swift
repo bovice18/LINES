@@ -12,6 +12,7 @@ import UIKit
 class rating: NSObject, NSCoding {
     
     //MARK: Properties
+   // var locationIdentifier: Int
     var lineRating: Int?
     var circleRating: Int
     var time: String
@@ -24,6 +25,7 @@ class rating: NSObject, NSCoding {
     
     //MARK: Property key
     struct PropertyKey {
+      //  static let locationIdentifier = "locationIdentifier"
         static let time = "time"
         static let lineRating = "lineRating"
         static let comments = "comments"
@@ -32,13 +34,13 @@ class rating: NSObject, NSCoding {
     }
     
     // initialize
-    init?(time: String, lineRating: Int?, circleRating: Int, comments: String, timeIntervalSinceNow: NSDate?) {
+    init?(/*locationIdentifier: Int,*/time: String, lineRating: Int?, circleRating: Int, comments: String, timeIntervalSinceNow: NSDate?) {
         
         // The rating must be between 0 and 5 inclusively
         guard (circleRating >= 0) && (circleRating <= 5) else {
             return nil
         }
-        
+       // self.locationIdentifier = locationIdentifier
         self.time = time
         self.comments = comments
         self.lineRating = lineRating
@@ -48,6 +50,7 @@ class rating: NSObject, NSCoding {
 
     //MARK: NSCoding:
     func encode(with aCoder: NSCoder) {
+       // aCoder.encode(locationIdentifier, forKey: PropertyKey.locationIdentifier)
         aCoder.encode(time, forKey: PropertyKey.time)
         aCoder.encode(comments, forKey: PropertyKey.comments)
         aCoder.encode(lineRating, forKey: PropertyKey.lineRating)
@@ -56,11 +59,14 @@ class rating: NSObject, NSCoding {
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
+        
+       // let locationIdentifier = aDecoder.decodeInteger(forKey:  PropertyKey.locationIdentifier)
         let time = aDecoder.decodeObject(forKey: PropertyKey.time) as! String
         let comments = aDecoder.decodeObject(forKey: PropertyKey.comments) as! String
-             let circleRating = aDecoder.decodeInteger(forKey:  PropertyKey.circleRating)
+        let circleRating = aDecoder.decodeInteger(forKey:  PropertyKey.circleRating)
         let lineRating = aDecoder.decodeObject(forKey: PropertyKey.lineRating) as? Int
         let timeIntervalSinceNow = aDecoder.decodeObject(forKey: PropertyKey.timeIntervalSinceNow) as? NSDate
-        self.init(time: time, lineRating: lineRating, circleRating: circleRating, comments: comments, timeIntervalSinceNow: timeIntervalSinceNow)
+        
+        self.init(/*locationIdentifier: locationIdentifier, */time: time, lineRating: lineRating, circleRating: circleRating, comments: comments, timeIntervalSinceNow: timeIntervalSinceNow)
     }
 }

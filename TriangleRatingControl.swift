@@ -37,10 +37,7 @@ import os.log
     setupButtons()
     }
     }
-    @IBInspectable var starSizeSelected: CGSize = CGSize(width: 88.0, height: 88.0){    didSet {
-    setupButtons()
-    }
-}
+
     var rating = 0 {
         didSet {
             updateButtonSelectionStates()

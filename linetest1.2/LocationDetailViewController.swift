@@ -67,6 +67,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
+  
         
         let locationTableView = LocationTableViewController()
         let locationDetailView = LocationDetailViewController()
@@ -76,42 +77,45 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             performSegue(withIdentifier: "Post", sender: viewDidAppear(true))
         }
         
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         self.progressViewer1.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer1.transform = progressViewer1.transform.scaledBy(x: 1, y: 10)
+        progressViewer1.transform = progressViewer1.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer2.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer2.transform = progressViewer2.transform.scaledBy(x: 1, y: 10)
-        
+        progressViewer2.transform = progressViewer2.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer3.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer3.transform = progressViewer3.transform.scaledBy(x: 1, y: 10)
+        progressViewer3.transform = progressViewer3.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer4.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer4.transform = progressViewer4.transform.scaledBy(x: 1, y: 10)
+        progressViewer4.transform = progressViewer4.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer5.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer5.transform = progressViewer5.transform.scaledBy(x: 1, y: 10)
+        progressViewer5.transform = progressViewer5.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer6.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer6.transform = progressViewer6.transform.scaledBy(x: 1, y: 10)
+        progressViewer6.transform = progressViewer6.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer7.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer7.transform = progressViewer7.transform.scaledBy(x: 1, y: 10)
+        progressViewer7.transform = progressViewer7.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer8.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer8.transform = progressViewer8.transform.scaledBy(x: 1, y: 10)
+        progressViewer8.transform = progressViewer8.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer9.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer9.transform = progressViewer9.transform.scaledBy(x: 1, y: 10)
+        progressViewer9.transform = progressViewer9.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer10.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer10.transform = progressViewer10.transform.scaledBy(x: 1, y: 10)
+        progressViewer10.transform = progressViewer10.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer11.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer11.transform = progressViewer11.transform.scaledBy(x: 1, y: 10)
+        progressViewer11.transform = progressViewer11.transform.scaledBy(x: 2, y: 10)
         
         self.progressViewer12.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer12.transform = progressViewer12.transform.scaledBy(x: 1, y: 10)
+        progressViewer12.transform = progressViewer12.transform.scaledBy(x: 2, y: 10)
         
         mostRecentTime()
         updateCircleRating()
@@ -119,10 +123,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         if let savedRatings = loadRatings() {
             ratings += savedRatings
         }
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        
+
         refreshControl = UIRefreshControl()
         tableView.addSubview(refreshControl!)
         
@@ -152,7 +153,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                 let value8 = 0.7
                 let value9 = 0.5
                 let value10 = 0.5
-                let value11 = 0.2
+                let value11 = 0.4
                 let value12 = 0.8
         
                 self.progressViewer1.progress = Float(value1)
@@ -168,7 +169,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                 self.progressViewer11.progress = Float(value11)
                 self.progressViewer12.progress = Float(value12)
         
+     
+        
     // Do any additional setup after loading the view.
+    
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -230,7 +234,6 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             // Add a new rating.
              let newIndexPath = IndexPath(row: ratings.count, section: 0)
             
-
             ratings.insert(rating, at: ratings.count-ratings.count)
             
             //Insert into the table
@@ -421,8 +424,8 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     if seconds > 60 || hours == 0{
         return String(format: "%2d", minutes) + " mins"
     }
-    if minutes > 60 {
-        return String(format: "%02d", hours) + " hours"
+    if minutes > 60  || hours >= 1{
+        return String(format: "%2d", hours) + " hours"
     } else {
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
 
@@ -434,19 +437,19 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
          if ratings.count >= 1{
         let indexPath1 = NSIndexPath(row: 0, section: 0)
         let cellIdentifier = "RatingTableViewCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath1 as IndexPath) as? RatingTableViewCell
+        //let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath1 as IndexPath) as? RatingTableViewCell
         let mostRecentRating = ratings[indexPath1.row]
 
         circleRating.rating = mostRecentRating.circleRating
         }
     }
 
-    private func mostRecentTime() {
+    func mostRecentTime() {
         
         if ratings.count >= 1{
             let indexPath1 = NSIndexPath(row: 0, section: 0)
             let cellIdentifier = "RatingTableViewCell"
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath1 as IndexPath) as? RatingTableViewCell
+           // let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath1 as IndexPath) as? RatingTableViewCell
             let mostRecentRating = ratings[indexPath1.row]
             let mintuesOfLine = mostRecentRating.lineRating
             let timenow = NSDate()
@@ -479,7 +482,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
-    private func RefresherRequestForData() {
+    private func RefresherRequestForData1() {
         timer =  Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(endOfWork), userInfo: nil, repeats: false)
         print("time set")
     }
@@ -494,7 +497,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     
      func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if refreshControl!.isRefreshing {
-            RefresherRequestForData()
+            RefresherRequestForData1()
             print("refresherRequest")
         }
     }

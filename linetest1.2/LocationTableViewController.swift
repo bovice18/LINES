@@ -216,13 +216,19 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     private func RefresherRequestForData() {
+        //let locationdetailviewcontroller = LocationDetailViewController()
+       // locationdetailviewcontroller.mostRecentTime()
+      
+        //LocationDetailViewController.stringFromTimeInterval(LocationDetailViewController)
+       // reloadInputViews()
+       // tableView.reloadData()
         timer =  Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(endOfWork), userInfo: nil, repeats: false)
         print("time set")
     }
     
     func endOfWork() {
         refreshControl!.endRefreshing()
-        
+    
         timer.invalidate()
         timer = nil
         print("end of work")
@@ -231,6 +237,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if refreshControl!.isRefreshing {
             RefresherRequestForData()
+           // reloadInputViews()
             print("refresherRequest")
         
         }

@@ -15,6 +15,7 @@ class LocationTableViewCell: UITableViewCell {
     @IBOutlet weak var locationImagine: UIImageView!
     @IBOutlet weak var jointheLineButton: UIButton!
     
+    @IBOutlet weak var whiteView: UIView!
     @IBOutlet weak var circleRating: TriangleRatingControl!
     
     override func awakeFromNib() {
@@ -24,8 +25,12 @@ class LocationTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
+        whiteView.layer.cornerRadius = 4
 
         jointheLineButton.layer.cornerRadius = 4
+        jointheLineButton.layer.borderWidth = 1
+        jointheLineButton.layer.borderColor = UIColor.blue.cgColor
         // Configure the view for the selected state
     }
 
