@@ -10,9 +10,11 @@ import UIKit
 import CoreLocation
 import os.log
 
-class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate {
+class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var sliderLbl: UILabel!
+    
+    @IBOutlet weak var commentsPickerView: UIPickerView!
     
     @IBOutlet weak var timeLbl: UILabel!
     
@@ -47,14 +49,57 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     var identifier: String {
         return "San Fran"
     }
+    
+    let pickerData = ["not moving", "quick","long","slow","worth it", "short", "not worth it", "no line", "no wait", "out of the door"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        commentsPickerView.dataSource = self
+        commentsPickerView.delegate = self
         
         view.tintColor = UIColor.lightGray
+    
+        /*let source1 =
         
+        let something = source1?.navigationItem.title
+        let source = parent?.navigationItem.title
+        
+        navigationItem.title = source
+        */
+        
+        if let rating = Rating {
+            navigationItem.title = rating.locationName
+            print("rating11")
+        }
+        
+        var title = String()
+        
+        var TitleID = UserDefaults.standard.integer(forKey: "title")
+        
+        switch TitleID {
+        case 1:
+            navigationItem.title = "Chipotle"
+        case 2:
+            navigationItem.title = "Bentley's"
+        case 3:
+            navigationItem.title = "Cornerstone"
+        case 4:
+            navigationItem.title = "Terrapin Turf"
+        case 5:
+            navigationItem.title = "Potbelly"
+        default:
+            navigationItem.title = "What's the Line Like?"
+        }
+    
+        // if UserDefaults.standard.bool(forKey: "Chipotle Mexican Grill") == true {
+        //    navigationItem.title = "Chipotle Mexican Grill"
+        //    UserDefaults.standard.set(false, forKey: "Chipotle Mexican Grill")
+          //  UserDefaults.standard.synchronize()
+      //  }
+    
         var region1 = CLCircularRegion(center: center, radius: 1000, identifier: identifier)
+ 
        
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -108,6 +153,27 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         // Dispose of any resources that can be recreated.
     }
     
+    //PickerView Data Sources/Delegates
+        //MARK: Picker View Data Sources
+        func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            return 1
+        }
+        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            return pickerData.count
+        }
+        func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+            return 200.0
+        }
+    
+        //MARK: Picker View Delegates
+        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+            return pickerData[row]
+        }
+        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        }
+
+    
+    
     func resetPost1() {
         UserDefaults.standard.set(false, forKey: "switchState")
         UserDefaults.standard.synchronize()
@@ -133,12 +199,17 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         let lineRating = segementLineController.selectedSegmentIndex
         let time = timeLbl.text
         let ratingInt = circleRating.rating
-        let comments = textField.text
+      //  let indexRow = commentsPickerView.selectedRow(inComponent: 1)
+      //  let indexset = IndexPath(row: indexRow, section: 0)
+        let comments = pickerData[commentsPickerView.selectedRow(inComponent: 0)]
         let timeIntervalSinceNow1 = NSDate()
         let timeNow = timeIntervalSinceNow1
+        let locationName = navigationItem.title!
         
         if let destinationView = segue.destination as? LocationDetailViewController {
-            if destinationView.detail1Lbl.text == "Chipolte Mexican Grill" {
+           let locationName = destinationView.detail1Lbl.text
+            if destinationView.detail1Lbl.text == "Chipotle Mexican Grill" {
+              //  navigationItem.title = "Chipotle Mexican Grill"
                 //let locationIdentifier = 1
                 print("id working")
             } else {
@@ -149,9 +220,40 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
             print("id not working")
         }
 
+     // print("missed")
     
-    
-        Rating = rating(time: time!, lineRating: lineRating, circleRating: ratingInt, comments: comments!, timeIntervalSinceNow: timeNow)
+        Rating = rating(locationName: locationName, time: time!, lineRating: lineRating, circleRating: ratingInt, comments: comments, timeIntervalSinceNow: timeNow)
+        
+         var request = URLRequest(url: URL(string: "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/insert.php")!)
+        
+         request.httpMethod = "POST"
+        
+        
+        
+         let postString = "Location_Name=\(locationName)"+"&Line_Rating=\(lineRating)"+"&Circle_Rating=\(ratingInt)"+"&Comments=\(comments)"
+        
+         request.httpBody = postString.data(using: .utf8)
+        
+         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+         guard let data = data, error == nil else {                                                 // check for fundamental networking error
+         print("error=\(error)")
+         return
+         }
+         
+         if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+            print("statusCode should be 200, but is \(httpStatus.statusCode)")
+            print("response = \(response)")
+         }
+         
+         let responseString = String(data: data, encoding: .utf8)
+            print("responseString = \(responseString)")
+         }
+         task.resume()
+ 
+        
+       // print(Rating?.locationName as Any)
+      //  print(Rating)
+       // print("missed")
         
         print(Rating?.timeIntervalSinceNow)
     }

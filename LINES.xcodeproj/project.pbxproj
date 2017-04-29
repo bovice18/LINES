@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63330A401EB15D9700E88D5C /* JSONRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63330A3F1EB15D9600E88D5C /* JSONRating.swift */; };
 		63412A481E3C34CD00E59C0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63412A451E3C340200E59C0E /* Main.storyboard */; };
 		63E49BA11E3C41AD00C4B5BE /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E49BA01E3C41AD00C4B5BE /* Rating.swift */; };
 		63E49BA31E3C42FD00C4B5BE /* RatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E49BA21E3C42FD00C4B5BE /* RatingTableViewCell.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		63330A3F1EB15D9600E88D5C /* JSONRating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONRating.swift; sourceTree = "<group>"; };
 		63412A461E3C340200E59C0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = linetest1.2/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		63E49BA01E3C41AD00C4B5BE /* Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		63E49BA21E3C42FD00C4B5BE /* RatingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingTableViewCell.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				63E84C381E3BFF770024DEA9 /* LocationDetailViewController.swift */,
 				63E84C3C1E3BFF9F0024DEA9 /* LocationTableViewCell.swift */,
 				63E84C3E1E3BFFAD0024DEA9 /* LocationTableViewController.swift */,
+				63330A3F1EB15D9600E88D5C /* JSONRating.swift */,
 				63E84C0F1E3BFEAF0024DEA9 /* Assets.xcassets */,
 				63E84C111E3BFEAF0024DEA9 /* LaunchScreen.storyboard */,
 				63E84C141E3BFEAF0024DEA9 /* Info.plist */,
@@ -311,6 +314,7 @@
 			files = (
 				63E84C3D1E3BFF9F0024DEA9 /* LocationTableViewCell.swift in Sources */,
 				63E84C391E3BFF770024DEA9 /* LocationDetailViewController.swift in Sources */,
+				63330A401EB15D9700E88D5C /* JSONRating.swift in Sources */,
 				63E84C371E3BFF5D0024DEA9 /* LocationDetail.swift in Sources */,
 				63E84C0B1E3BFEAF0024DEA9 /* ViewController.swift in Sources */,
 				63E49BA31E3C42FD00C4B5BE /* RatingTableViewCell.swift in Sources */,

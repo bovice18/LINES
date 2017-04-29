@@ -12,6 +12,8 @@ import os.log
 
 class LocationDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
 
+    @IBOutlet weak var timeSincePostLbl: UILabel!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var progressViewer1: UIProgressView!
     @IBOutlet weak var detail1Lbl: UILabel!
     @IBOutlet weak var progressViewer3: UIProgressView!
@@ -50,9 +52,9 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     var ratingsAt6 = [rating]()
     var ratingsAt7 = [rating]()
     
-    var llLocation: String?
+  //  var llLocation: String?
     
-    var qllocation: String?
+   // var qllocation: String?
     
    // var postStatus = [post]()
     
@@ -67,14 +69,65 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let location = Location {
+            detail1Lbl.text = location.detail1
+            print(location.detail1)
+            detail2Lbl.text = location.detail2
+            locatingImage.image = location.locationImagine
+            ratings = location.ratings
+            print(location.ratings)
+            print(ratings)
+            print("target")
+            navigationItem.title = location.detail1
+            // phoneLbl.text = location.phoneNumber
+            // adressLbl.text = location.address
+            //  MapButton.setTitle(location.displayedAddress, for: .normal)
+            // CallButton.setTitle(location.displayedPhoneNumber, for: .normal)
+            circleRating.rating = location.llLocation
+            //segmentedControl.selectedSegmentIndex = location.llLocation
+            
+            print("entered")
+        }
+
   
         
         let locationTableView = LocationTableViewController()
         let locationDetailView = LocationDetailViewController()
         let jointheline = UIStoryboardSegue.init(identifier: "JoinTheLine", source: locationTableView, destination: locationDetailView)
         
+        jointheline.destination.navigationItem.title = "name"
+        
+       // UserDefaults.standard.set(true, forKey: (Location?.detail1)!)
+        
+        var title = (Location?.detail1)!
+        switch title {
+    
+        case "Chipotle Mexican Grill":
+            UserDefaults.standard.set(1, forKey: "title")
+            UserDefaults.standard.synchronize()
+        case "R J Bentley's Restaurant":
+            UserDefaults.standard.set(2, forKey: "title")
+            UserDefaults.standard.synchronize()
+        case "Potbelly Sandwich Shop":
+                UserDefaults.standard.set(5, forKey: "title")
+                UserDefaults.standard.synchronize()
+        case "Terrapins Turf":
+            UserDefaults.standard.set(4, forKey: "title")
+            UserDefaults.standard.synchronize()
+        case "Cornerstone Grill & Loft":
+            UserDefaults.standard.set(3, forKey: "title")
+            UserDefaults.standard.synchronize()
+        default:
+            UserDefaults.standard.set(0, forKey: "title")
+            UserDefaults.standard.synchronize()
+        }
+        //UserDefaults.standard.set(<#T##value: Int##Int#>, forKey: <#T##String#>)
+       // UserDefaults.standard.synchronize()
+        
         if directPost == 1 {
             performSegue(withIdentifier: "Post", sender: viewDidAppear(true))
+            
         }
         
         
@@ -117,32 +170,19 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         self.progressViewer12.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
         progressViewer12.transform = progressViewer12.transform.scaledBy(x: 2, y: 10)
         
+        loadData()
         mostRecentTime()
         updateCircleRating()
         
-        if let savedRatings = loadRatings() {
-            ratings += savedRatings
-        }
+        
+      // if let savedRatings = loadRatings() {
+       //     ratings += savedRatings
+        //}
 
         refreshControl = UIRefreshControl()
         tableView.addSubview(refreshControl!)
         
-        if let location = Location {
-            detail1Lbl.text = location.detail1
-            detail2Lbl.text = location.detail2
-            locatingImage.image = location.locationImagine
-            ratings = location.ratingList as! [rating]
-            navigationItem.title = location.detail1
-           // phoneLbl.text = location.phoneNumber
-           // adressLbl.text = location.address
-          //  MapButton.setTitle(location.displayedAddress, for: .normal)
-           // CallButton.setTitle(location.displayedPhoneNumber, for: .normal)
-            circleRating.rating = location.llLocation
-            qllocation = location.qLocation
-            
-            print("entered")
-        }
-        //GRAPH setup- not connected to info yet
+                //GRAPH setup- not connected to info yet
                 let value1 = 0.7
                 let value2 = 0.2
                 let value3 = 0.4
@@ -204,9 +244,23 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         // Fetches the appropriate day for the data source laout
         let rating = ratings[indexPath.row]
         
-        cell.timeLbl.text = rating.time
+       // cell.timeLbl.text = rating.time
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .short
+        
+        let date1 = dateFormatter.string(from: rating.timeIntervalSinceNow as! Date)
+        
+       // let date = dateFormatter(
+        
+        cell.timeLbl.text = date1
+        
+      //  let time = rating.timeIntervalSinceNow
+      //  let dateFormatter = DateFormatter()
+        
         cell.circleControl.rating = rating.circleRating
     
+        /*
         //Determining the line status and adding a color to go along with it: red- very Slow, slow/fast - white, very fast - green
         if rating.lineRating == 0 {
             cell.infoLbl.text = "5 minutes"
@@ -220,7 +274,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         if rating.lineRating == 3 {
             cell.infoLbl.text = "20 minutes"
         }
+ */
         cell.commentLbl.text = "comments: " + rating.comments
+        
+     
         
         return cell
     }
@@ -232,17 +289,19 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         if let sourceViewController = sender.source as? RatingViewController, let rating = sourceViewController.Rating {
             
             // Add a new rating.
-             let newIndexPath = IndexPath(row: ratings.count, section: 0)
+          //   let newIndexPath = IndexPath(row: ratings.count, section: 0)
             
-            ratings.insert(rating, at: ratings.count-ratings.count)
+           // ratings.insert(rating, at: ratings.count-ratings.count)
             
             //Insert into the table
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+           // tableView.insertRows(at: [newIndexPath], with: .automatic)
             
             //Reloads table data so it is ordered from most recent at the top
             tableView.reloadData()
             
             let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "Hh:mm"
+            
             
             dateFormatter.dateFormat = "HH"
             let dateString = dateFormatter.string(from: rating.timeIntervalSinceNow as! Date)
@@ -380,11 +439,12 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let displayedAddress = Location?.displayedPhoneNumber
             let displayedPhoneNumber = Location?.displayedAddress
             let llLocation = circleRating.rating
-            let qLocation = Location?.qLocation
+            let qLocation = segmentedControl.selectedSegmentIndex
+            let ratings1 = Location?.ratings
         
         // Set the reting to be passed to LocationTableViewController after the unwind segue.
-        Location = location(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImage1!, address: address!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation, qLocation: qLocation!)
-        
+        Location = location(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImage1!, address: address!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation, qLocation: qLocation, ratings: ratings1!)
+        loadData()
         saveRatings()
         mostRecentTime()
         updateCircleRating()
@@ -422,13 +482,17 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         return String("1 minute")
     }
     if seconds > 60 || hours == 0{
-        return String(format: "%2d", minutes) + " mins"
+        return String(format: "%2d", minutes) + " mins ago"
     }
-    if minutes > 60  || hours >= 1{
-        return String(format: "%2d", hours) + " hours"
+    if minutes > 60  || hours == 1{
+        return String(format: "%2d", hours) + " hour ago"
+    }
+    if minutes > 60  || hours > 1{
+        return String(format: "%2d", hours) + " hours ago"
     } else {
+        print("else")
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-
+    
     }
     }
     
@@ -441,6 +505,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         let mostRecentRating = ratings[indexPath1.row]
 
         circleRating.rating = mostRecentRating.circleRating
+        segmentedControl.selectedSegmentIndex = mostRecentRating.lineRating!
         }
     }
 
@@ -451,15 +516,18 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let cellIdentifier = "RatingTableViewCell"
            // let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath1 as IndexPath) as? RatingTableViewCell
             let mostRecentRating = ratings[indexPath1.row]
-            let mintuesOfLine = mostRecentRating.lineRating
+            //let mintuesOfLine = mostRecentRating.lineRating
             let timenow = NSDate()
             let dateFormatter = DateFormatter()
             let PostedDate = mostRecentRating.timeIntervalSinceNow
-            let minutes = dateFormatter
-            dateFormatter.dateFormat = "mm"
+          //  let minutes = dateFormatter
+           // dateFormatter.dateFormat = "mm"
             let intervalSincePost = PostedDate?.timeIntervalSinceNow
             let postedDate = stringFromTimeInterval(interval: intervalSincePost! * -1)
             
+            timeSincePostLbl.text = postedDate
+            
+            /*
             if mostRecentRating.lineRating == 0 {
                 let LineMinutesString = "5"
                 detail2Lbl.text = postedDate + " ago: " + LineMinutesString + " minutes"
@@ -479,6 +547,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                 let LineMinutesString = "20"
                 detail2Lbl.text = postedDate + " ago: " + LineMinutesString + " minutes"
             }
+ */
         }
     }
     
@@ -502,22 +571,292 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
+    func loadData() {
+    
+    let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getData.php"
+    
+    // Add one parameter
+    let urlWithParams = scriptURL
+    
+    let myUrl = NSURL(string: urlWithParams);
+    
+    let request = NSMutableURLRequest(url: myUrl as! URL);
+    
+    request.httpMethod = "GET"
+    
+    let task = URLSession.shared.dataTask(with: request as URLRequest) {
+        data, response, error in
+        
+        // Check for error
+        if error != nil
+        {
+            print("error=\(error)")
+            return
+        }
+        
+        // Print out response string
+        let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+        print("responseString = \(responseString)")
+        
+        let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+        
+        if let dictionary = json as? [String: Any] {
+            if let number = dictionary["ratingId"] as? String {
+                // access individual value in dictionary
+                print(number)
+            }
+            
+            for (key, value) in dictionary {
+                print("anything")
+                // access all key / value pairs in dictionary
+            }
+            
+            if let nestedDictionary = dictionary[""] as? [String: Any] {
+                print(nestedDictionary)
+                print("anything")
+                // access nested dictionary values by key
+            }
+            
+        }
+        
+        if let array = json as? [Any] {
+            if let firstObject = array.first {
+                print("firstObject")
+                print(firstObject)
+                
+                if let dictionary = firstObject as? [String: Any] {
+                    
+                    var time1 = NSDate()
+                    var comments1: String
+                    var locationName1: String
+                    var ratingId1: String
+                    var circleRating1: Int
+                    
+                    
+                    if let ratingId = dictionary["ratingId"] as? String {
+                        // access individual value in dictionary
+                        print(ratingId)
+                        ratingId1 = ratingId
+                        
+                    if let comments = dictionary["comments"] as? String {
+                        // access individual value in dictionary
+                        print(comments)
+                        comments1 = comments
+                        
+                    if let circleRating = dictionary["circleRating"] as? String {
+                        // access individual value in dictionary
+                        print(circleRating)
+                        circleRating1 = Int(circleRating)!
+                       
+                    
+                    if let locationName = dictionary["locationName"] as? String {
+                        // access individual value in dictionary
+                        print(locationName)
+                        locationName1 = locationName
+                    
+                    if let timeDate = dictionary["timeDate"] as? NSDate {
+                        // access individual value in dictionary
+                        print(timeDate)
+                        time1 = timeDate
+                        }
+                        //time1 =
+                    
+                        let rating1 = rating(locationName: locationName1, time: locationName1, lineRating: circleRating1, circleRating: circleRating1, comments: comments1, timeIntervalSinceNow: time1)
+                        
+                        if locationName1 == "Bentley's" {
+                         //   self.ratings.append(rating1!)
+                         //   self.tableView.reloadData()
+                            print(self.ratings)
+                            print("working")
+
+                        }
+                        
+                    }
+                        }
+                        }
+                    }
+                }
+                
+                // access individual object in array
+
+            }
+            
+            if let firstObject = array.last {
+                print("firstObject")
+                print(firstObject)
+                
+                if let dictionary = firstObject as? [String: Any] {
+                    
+                    if let ratingId = dictionary["ratingId"] as? String {
+                        // access individual value in dictionary
+                        print(ratingId)
+                    }
+                    if let comments = dictionary["comments"] as? String {
+                        // access individual value in dictionary
+                        print(comments)
+                    }
+                    if let locationName = dictionary["locationName"] as? String {
+                        // access individual value in dictionary
+                        print(locationName)
+                    }
+                    if let timeDate = dictionary["timeDate"] as? String {
+                        // access individual value in dictionary
+                        print(timeDate)
+                    }
+                }
+                
+            }
+            
+            for object in array {
+                
+                if let dictionary = object as? [String: Any] {
+                    
+                        var time1: Date
+                        var comments1: String
+                        var locationName1: String
+                        var lineRating1: Int
+                        var circleRating1: Int
+                        
+                        
+                       // if let ratingId = dictionary["ratingId"] as? String {
+                            // access individual value in dictionary
+                          //  print(ratingId)
+                         //   ratingId1 = ratingId
+                          //
+                            
+                        if let comments = dictionary["comments"] as? String {
+                            // access individual value in dictionary
+                            print(comments)
+                            comments1 = comments
+                            
+                            
+                        if let lineRating = dictionary["lineRating"] as? String {
+                            // access individual value in dictionary
+                            print(comments)
+                            lineRating1 = Int(lineRating)!
+
+                                
+                        if let circleRating = dictionary["circleRating"] as? String {
+                            // access individual value in dictionary
+                            print(circleRating)
+                            circleRating1 = Int(circleRating)!
+                                    
+                                    
+                        if let locationName = dictionary["locationName"] as? String {
+                            // access individual value in dictionary
+                            print(locationName)
+                            locationName1 = locationName
+                                        
+                        if let timeDate = dictionary["timeDate"] as? String {
+                            // access individual value in dictionary
+                            print(timeDate)
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                           // let date = dateFormatter.date(from:timeDate)
+                            let date1 = dateFormatter.date(from: timeDate)!
+                            time1 = date1
+                        
+                    let rating1 = rating(locationName: locationName1, time: timeDate, lineRating: lineRating1, circleRating: circleRating1, comments: comments1, timeIntervalSinceNow: time1 as NSDate?)
+                            
+                            var Filter = self.detail1Lbl.text!
+                            switch Filter {
+                            case "R J Bentley's Restaurant":
+                                if locationName1 == "Bentley's" {
+                                    self.ratings.append(rating1!)
+                                    self.ratings.reverse()
+                                    self.tableView.reloadData()
+                                }
+                            case "Chipotle Mexican Grill":
+                                if locationName1 == "Chipotle" {
+                                    self.ratings.append(rating1!)
+                                    self.ratings.reverse()
+                                    self.tableView.reloadData()
+                                }
+                                
+                            case "Cornerstone Grill & Loft":
+                                if locationName1 == "Cornerstone" {
+                                    self.ratings.append(rating1!)
+                                    self.ratings.reverse()
+                                    self.tableView.reloadData()
+                                }
+                            case "Terrapins Turf":
+                                    if locationName1 == "Terrapin Turf" {
+                                        self.ratings.append(rating1!)
+                                        self.ratings.reverse()
+                                        self.tableView.reloadData()
+                                    }
+                            case "Potbelly Sandwich Shop":
+                                        if locationName1 == "Potbelly" {
+                                            self.ratings.append(rating1!)
+                                            self.ratings.reverse()
+                                            self.tableView.reloadData()
+                                        }
+                            default:
+                                self.ratings.reverse()
+                                 self.tableView.reloadData()
+                              
+
+                            }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    }
+            
+                print("object")
+                print(object)
+                // access all objects in array
+            }
+            
+            for case let string as String in array {
+                print("string")
+                print(string)
+                // access only string values in array
+            }
+        }
+        // Convert server json response to NSDictionary
+        do {
+            if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
+                
+                // Print out dictionary
+                print(convertedJsonIntoDict)
+                
+                // Get value by key
+                let firstNameValue = convertedJsonIntoDict["ratingId"] as? String
+                print(firstNameValue!)
+                
+            }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
+    }
+    
+    task.resume()
+        mostRecentTime()
+}
+
+
+
+
     /*
     @IBAction func CallButton(_ sender: UIButton) {
-        
+ 
         var url:NSURL = NSURL(string: "tel://" + (Location?.phoneNumber)!)!
         UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
     }
     @IBAction func mapAdress(_ sender: UIButton) {
-        
+ 
         var address:NSURL = NSURL(string: "http://maps.apple.com/z=21&?ll=" + (Location?.llLocation)! + "&z=21&?q=" + (Location?.qLocation)! + "&z=21")!
         UIApplication.shared.open(address as URL, options: [:], completionHandler: nil)
     }
     */
-    
+
 }
 
-    
+
 
 
 

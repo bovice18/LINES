@@ -21,7 +21,8 @@ class location {
     var displayedAddress: String
     var displayedPhoneNumber: String
     var llLocation: Int
-    var qLocation: String
+    var qLocation: Int
+    var ratings = [rating]()
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -39,11 +40,12 @@ class location {
         static let displayedAddress = "displayedAddress"
         static let llLocation = "llLocation"
         static let qLocation = "qLocation"
+        static let ratings = "ratings"
     }
     
     //MARK: Initialization
 
-    init?(detail1: String, detail2: String, ratingList: NSArray, locationImagine: UIImage, address: String, phoneNumber: String, displayedAddress: String, displayedPhoneNumber: String, llLocation: Int, qLocation: String) {
+    init?(detail1: String, detail2: String, ratingList: NSArray, locationImagine: UIImage, address: String, phoneNumber: String, displayedAddress: String, displayedPhoneNumber: String, llLocation: Int, qLocation: Int, ratings: [rating]) {
     
     //Initialize stored properties
     self.detail1 = detail1
@@ -56,6 +58,7 @@ class location {
     self.displayedPhoneNumber = displayedPhoneNumber
     self.llLocation = llLocation
     self.qLocation = qLocation
+    self.ratings = ratings
     }
     
     //MARK: NSCoding:
@@ -70,6 +73,7 @@ class location {
         aCoder.encode(displayedPhoneNumber, forKey: PropertyKey.displayedPhoneNumber)
         aCoder.encode(llLocation, forKey: PropertyKey.llLocation)
         aCoder.encode(qLocation, forKey: PropertyKey.qLocation)
+        aCoder.encode(ratings, forKey: PropertyKey.ratings)
         
     }
     
@@ -83,8 +87,9 @@ class location {
         let displayedPhoneNumber = aDecoder.decodeObject(forKey: PropertyKey.displayedPhoneNumber) as! String
         let displayedAddress = aDecoder.decodeObject(forKey: PropertyKey.displayedAddress) as! String
         let llLocation = aDecoder.decodeObject(forKey: PropertyKey.llLocation) as? Int
-        let qLocation = aDecoder.decodeObject(forKey: PropertyKey.qLocation) as! String
+        let qLocation = aDecoder.decodeObject(forKey: PropertyKey.qLocation) as? Int
+        let ratings = aDecoder.decodeObject(forKey: PropertyKey.ratings) as! [rating]
         
-        self.init(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImagine, address: address, phoneNumber: phoneNumber, displayedAddress: displayedAddress, displayedPhoneNumber: displayedPhoneNumber, llLocation: llLocation!, qLocation: qLocation)
+        self.init(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImagine, address: address, phoneNumber: phoneNumber, displayedAddress: displayedAddress, displayedPhoneNumber: displayedPhoneNumber, llLocation: llLocation!, qLocation: qLocation!, ratings: ratings)
     }
 }

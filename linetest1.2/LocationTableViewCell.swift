@@ -18,6 +18,7 @@ class LocationTableViewCell: UITableViewCell {
     @IBOutlet weak var whiteView: UIView!
     @IBOutlet weak var circleRating: TriangleRatingControl!
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
