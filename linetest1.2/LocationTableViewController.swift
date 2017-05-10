@@ -12,6 +12,7 @@ import os.log
 
 class LocationTableViewController: UITableViewController, UISearchBarDelegate {
 
+    //@IBOutlet weak var searchBar: UISearchBar!
     var timer: Timer!
     
     var locations = [location]()
@@ -20,40 +21,162 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     var ratings = [rating]()
     
+    var ChipotleCircle: Int?
+    
     var chipotleRatings = [rating]()
     var potbellyRatings = [rating]()
     var cornerstoneRatings = [rating]()
     var bentleysRatings = [rating]()
     var terripansRatings = [rating]()
     
+    
+    
     @IBOutlet weak var searchBar: UISearchBar!
+    
+//var refreshControl: UIRefreshControl!
+
+//var filteredLocations = [location.PropertyKey.detail1]
+//let filteredLocation = [String]()
+//var resultSeachController = UISearchController()
+var locationList: [location] = [location]()
+var locationSearchingList: [location] = [location]()
+
+
     
     var isSearching: Bool = false
     
+    let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getData.php"
+    
+       private func loadData1() {
+        
+        print("load started")
+        
+        //  var time1 = NSDate()
+        // var comments1 = String()
+        // var locationName1 = String()
+        // var ratingId1 = String()
+        // var circleRating1 = Int()
+        
+        var task: URLSessionDataTask
+        
+        // Add one parameter
+        let urlWithParams = scriptURL
+        
+        let myUrl = NSURL(string: urlWithParams);
+        
+        let request = NSMutableURLRequest(url: myUrl as! URL);
+        
+        request.httpMethod = "GET"
+        
+        print("load1.5")
+        // ChipotleCircle = 3
+        
+        task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            // Check for error
+            if error != nil
+            {
+                print("error=\(error)")
+                return
+            }
+            
+            // Print out response string
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            
+            print("working")
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+        
+                guard let array = json as? [Any] else {
+                    print("error")
+                    return
+                }
+                    guard let firstObject = array.first else {
+                        print("error")
+                        return
+                }
+                        
+                    guard let dictionary = firstObject as? [String: Any] else {
+                            
+                            print("error")
+                            return
+                        }
+                        
+                        guard let circleRating = dictionary["circleRating"] as? String,
+                            let lineRating = dictionary["lineRating"] as? String,
+                            let Time = dictionary["timeDate"] as? String,
+                            let location = dictionary["locationName"] as? String,
+                            let comments = dictionary["comments"] as? String
+                            else {
+                                print("error")
+                                return
+                            }
+            
+            
+            self.ChipotleCircle = Int(circleRating)!
+            self.sampleLocations()
+       //  self.tableView.reloadData()
+           // self.sampleLocations()
+         //   self.sampleLocations()
+            
+            
+            }
+        
+        task.resume()
+    }
+    
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //  loadData()
+         // loadData()
+        
+      //  ChipotleCircle = 1
+        
+
+       // self.searchBar.delegate = self
+        /*
+        self.resultSeachController = UISearchController(searchResultsController: nil)
+        self.resultSeachController.searchResultsUpdater = self
+        self.resultSeachController.dimsBackgroundDuringPresentation = false
+        self.resultSeachController.searchBar.sizeToFit()
+*/
+        //self.tableView.tableHeaderView = self.resultSeachController.searchBar
+
+       // self.tableView.reloadData()
+
         
         refreshControl = UIRefreshControl()
         tableView.addSubview(refreshControl!)
         
-  //loadData()
-   
-        sampleLocations()
-   
+ // loadData()
         
+      //  ChipotleCircle == 2
+        //ChipotleCircle = 2
+   
+        loadData1()
+       // sampleLocations()
         
-        if let savedRatings = loadRatings() {
+   
+     
+        
+        //if let savedRatings = loadRatings() {
             //  loadData()
-          locations += savedRatings
+         // locations += savedRatings
         //     print("true")
-       }
+     //  }
     
         print(chipotleRatings)
    
    
         let currentDate = NSDate()
         print(currentDate)
+        
+    //     self.searchBar.delegate = self
+        
+        locationList = locations
         
     }
 
@@ -66,11 +189,30 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
+    
+
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return locations.count
+        /*
+        if self.resultSeachController.isActive {
+            return self.filteredLocations.count
+            
+        }
+        else {
+            return self.locations.count
+        } 
+         */
+        
+        if self.isSearching == true {
+            return locationSearchingList.count
+        } else {
+            //locationList.reverse()
+            return locations.count
+        }
+        
+      //  return locations.count
     }
 
     
@@ -84,16 +226,43 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         // Fetches the appropriate meal for the data source layout.
         let location = locations[indexPath.row]
         
+        if self.isSearching == true {
+            
+            let searchLocation = locationSearchingList[indexPath.row]
+
+            
+            cell.detail1Lbl.text = searchLocation.detail1
+            cell.detail2Lbl.text = searchLocation.detail2
+            cell.circleRating.rating = searchLocation.llLocation
+            cell.locationImagine.image = searchLocation.locationImagine
+            cell.segmentedControl.selectedSegmentIndex = searchLocation.qLocation
+
+        } else {
+        
             cell.detail1Lbl.text = location.detail1
             cell.detail2Lbl.text = location.detail2
             cell.circleRating.rating = location.llLocation
             cell.locationImagine.image = location.locationImagine
-        cell.segmentedControl.selectedSegmentIndex = location.qLocation
+            cell.segmentedControl.selectedSegmentIndex = location.qLocation
+        }
         
         return cell
     }
     
+    
+// Override to support rearranging the table view.
+override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+
+}
+
+// Override to support conditional rearranging of the table view.
+override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+// Return false if you do not want the item to be re-orderable.
+return true
+}
+
     // MARK: - Navigation
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -114,12 +283,23 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                 fatalError("The selected cell is not being displayed by the table")
             }
             
-       
+            if self.isSearching == true {
+                
+                let searchLocation = locationSearchingList[indexPath.row]
+                
+                locationDetailViewController.Location = searchLocation
+                locationDetailViewController.directPost = 0
+               
+                
+            } else {
             
             let selectedLocation = locations[indexPath.row]
             locationDetailViewController.Location = selectedLocation
             locationDetailViewController.directPost = 0
-            
+            }
+           //tableView.reloadData()
+            // self.isSearching = false
+       
             case "JoinTheLine":
             
                 guard let locationDetailViewController = segue.destination as? LocationDetailViewController else {
@@ -152,15 +332,16 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
  //   var rating5: rating?
     
     //MARK: Private methods
+    /*
     private func loadData() {
         
+        print("load started")
         
-        var time1 = NSDate()
-        var comments1 = String()
-        var locationName1 = String()
-        var ratingId1 = String()
-        var circleRating1 = Int()
-        
+      //  var time1 = NSDate()
+       // var comments1 = String()
+       // var locationName1 = String()
+       // var ratingId1 = String()
+       // var circleRating1 = Int()
         
         let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getData.php"
         
@@ -173,7 +354,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         request.httpMethod = "GET"
         
-        
+        print("load1.5")
         let task = URLSession.shared.dataTask(with: request as URLRequest) {
             data, response, error in
             
@@ -191,6 +372,41 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             print("working")
             let json = try? JSONSerialization.jsonObject(with: data!, options: [])
             
+            if let array = json as? [Any] {
+                
+                if let firstObject = array.first {
+                    
+                    if let dictionary = firstObject as? [String: Any] {
+                        
+                        if let number1 = dictionary["circleRating"] as? String {
+                            
+                            print("made it")
+                            
+                            self.ChipotleCircle = 1
+                            print(self.ChipotleCircle)
+                            
+                        }
+                        print("double check")
+                      print(self.ChipotleCircle)
+                    }
+                        print("triple check")
+                     print(self.ChipotleCircle)
+                }
+                    print("4 check")
+                 print(self.ChipotleCircle)
+            }
+                print("5 check")
+             print(self.ChipotleCircle)
+        }
+        print("6 check")
+        print(self.ChipotleCircle)
+             task.resume()
+        print("7 check")
+        print(self.ChipotleCircle)
+        }
+
+    
+        */
             /*
             if let dictionary = json as? [String: Any] {
                 if let number = dictionary["ratingId"] as? String {
@@ -204,9 +420,26 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                     // access nested dictionary values by key
                 }
             }
-            */
-        
+ 
+        print("load2")
             if let array = json as? [Any] {
+                
+                if let firstObject = array.first {
+                    
+                    if let dictionary = firstObject as? [String: Any] {
+                        
+                        if let number = dictionary["circleRating"] as? String {
+                            
+                            print("made it")
+                            
+                            self.ChipotleCircle = 1
+                            
+                            // access individual value in dictionary
+                        }
+                    }
+                    // access individual object in array
+                
+                /*
                 print("working")
                 for object in array {
              
@@ -231,6 +464,8 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                                     // access individual value in dictionary
                                     print(circleRating)
                                     circleRating1 = Int(circleRating)!
+                                   self.ChipotleCircle = Int(circleRating)!
+                                    
                                 }
                                     if let locationName = dictionary["locationName"] as? String {
                                         // access individual value in dictionary
@@ -243,65 +478,64 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                                             time1 = timeDate
                                             
                                         }
+                     /*   //var Filter = self.detail1Lbl.text!
+                        switch Filter {
+                        case "R J Bentley's Restaurant":
+                            if locationName1 == "Bentley's" {
+                                
+                            }
+                        case "Chipotle Mexican Grill":
+                            if locationName1 == "Chipotle" {
+                                self.ratings.append(rating1!)
+                                self.ratings.reverse()
+                                self.tableView.reloadData()
+                            }
+                            
+                        case "Cornerstone Grill & Loft":
+                            if locationName1 == "Cornerstone" {
+                                self.ratings.append(rating1!)
+                                self.ratings.reverse()
+                                self.tableView.reloadData()
+                            }
+                        case "Terrapins Turf":
+                            if locationName1 == "Terrapin Turf" {
+                                self.ratings.append(rating1!)
+                                self.ratings.reverse()
+                                self.tableView.reloadData()
+                            }
+                        case "Potbelly Sandwich Shop":
+                            if locationName1 == "Potbelly" {
+                                self.ratings.append(rating1!)
+                                self.ratings.reverse()
+                                self.tableView.reloadData()
+                            }
+                        default:
+                            self.ratings.reverse()
+                            self.tableView.reloadData()
+                            */
+                 ]
+                        */
+                
                     }
                 }
             }
-        }
-        let rating6 = rating(locationName: locationName1, time: locationName1, lineRating: circleRating1, circleRating: circleRating1, comments: comments1, timeIntervalSinceNow: time1)
-                                        
-                                        print("working")
-                                        chipotleRatings.append(rating6!)
-                        
-                                        var FilterRating = locationName1
-                                        switch FilterRating {
-                                        case "Chipotle":
-                                          //  self.chipotleRatings += [rating6!]
-                                           // self.chipotleRatings.insert(rating6!, at: 0)
-                                            chipotleRatings.append(rating6!)
-                                            tableView.reloadData()
-                            
     
-                                          //  self.chipotleRatings.insert(rating6!)
-                                            
-                                            print("inserted Chipolte Rating")
-                                            
-                                            
-                                        case "Bentley's":
-                                            bentleysRatings.append(rating6!)
-                                            print("inserted Bentley's Rating")
-                                            
-                                        default:
-                                            ratings.append(rating6!)
-                                            print("defualt")
-                                            
-                                        }
-                                        
-                                        //self.ratings.append(rating1!)
-                                        
-                                        //  self.tableView.reloadData()
-                                        print(self.ratings)
-                                        print(self.chipotleRatings)
-                                        
-                                        print(self.bentleysRatings)
-                                        print("working")
-                    
-                    print("object")
-                    //print(object)
-                    // access all objects in array
 
-        task.resume()
-        print(self.chipotleRatings)
+    task.resume()
+        
+    print(self.chipotleRatings)
         
     }
+ */
     
     private func sampleLocations() {
         
         //currently loads blank arrays into the LocaitonDetailViewController table view when a location is selceted.  Thinking we would say ratingList: name of databased containing the ratings to be entered into the table.  Until we change the the rating list from an empty array every time the app is restarted it will continue to load with no ratings.
-       // loadData()
+    //  loadData()
            let currentDate = NSDate()
         //data()
-        //loadData()
-        
+    
+       //loadData1()
         
       //  let rating1 = rating(time: "", lineRating: 1, circleRating: 1, comments: "", timeIntervalSinceNow: currentDate)
       //  let rating2 = rating(time: "", lineRating: 2, circleRating: 2, comments: "", timeIntervalSinceNow: currentDate)
@@ -309,12 +543,12 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
        // chipotleRatings += [rating1!, rating2!, rating3!]
         
-        guard let Chipotle = location(detail1: "Chipotle Mexican Grill", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), address: "7332/BaltimoreAve", phoneNumber: "2405820015", displayedAddress: "7332 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(240) 582-0015", llLocation: 0, qLocation: 0, ratings: chipotleRatings) else {
+        guard let Chipotle = location(detail1: "Chipotle Mexican Grill", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), address: "7332/BaltimoreAve", phoneNumber: "2405820015", displayedAddress: "7332 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(240) 582-0015", llLocation: self.ChipotleCircle!, qLocation: 0, ratings: chipotleRatings) else {
             fatalError("Unable to instantiate loction1")
         }
         print("check")
-        print(chipotleRatings)
-        guard let Bentleys = location(detail1: "R J Bentley's Restaurant", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "bently's"), address: "7323/BaltimoreAve", phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: 0, qLocation: 0, ratings: bentleysRatings) else {
+        print(self.ChipotleCircle)
+        guard let Bentleys = location(detail1: "R J Bentley's Restaurant", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "bently's"), address: "7323/BaltimoreAve", phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: 2, qLocation: 0, ratings: bentleysRatings) else {
             fatalError("Unable to instantiate location2")
         }
         guard let CornerStone = location(detail1: "Cornerstone Grill & Loft", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Cornerstone"), address: "7325/BaltimoreAve", phoneNumber: "3017797044", displayedAddress: "7325 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 779-7044", llLocation: 0, qLocation: 0, ratings: ratings) else {
@@ -326,7 +560,12 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         guard let PotBelly = location(detail1: "Potbelly Sandwich Shop", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Potbelly"), address: "7422/BaltimoreAve", phoneNumber: "3012090635", displayedAddress: "7422 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 209-0635", llLocation: 0, qLocation: 0, ratings: ratings) else {
             fatalError("Unable to instantiate location2")
         }
+        locationList = [Chipotle, Bentleys, CornerStone, TerrapiansTurf, PotBelly]
+        locations.removeAll()
         locations += [Chipotle, Bentleys, CornerStone, TerrapiansTurf, PotBelly]
+        locations.sort  { $0.detail1 < $1.detail1 }
+        tableView.reloadData()
+        
     }
     
     //MARK: Actions
@@ -342,7 +581,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                     
                     let cell = LocationDetailViewController()
                     
-                    if Location.detail1 == "Chipolte Mexican Grill" {
+                    if Location.detail1 == "Chipotle Mexican Grill" {
                         let indexPath1 = IndexPath(row: 0, section: 0)
                         
                         locations[indexPath1.row] = Location
@@ -379,6 +618,58 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
+  /*   @IBAction func unwindToLocationList(sender: UIGestureRecognizer) {
+        if let sourceViewController = sender as? LocationDetailViewController, let Location = sourceViewController.Location {
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+                // Update an existing meal.
+                locations[selectedIndexPath.row] = Location
+                tableView.reloadRows(at: [selectedIndexPath], with: .none)
+            } else {
+                
+                var indexPath: NSIndexPath!
+                
+                let cell = LocationDetailViewController()
+                
+                if Location.detail1 == "Chipolte Mexican Grill" {
+                    let indexPath1 = IndexPath(row: 0, section: 0)
+                    
+                    locations[indexPath1.row] = Location
+                    tableView.reloadRows(at: [indexPath1], with: .none)
+                }
+                if Location.detail1 == "R J Bentley's Restuarant" {
+                    let indexPath1 = IndexPath(row: 1, section: 0)
+                    
+                    locations[indexPath1.row] = Location
+                    tableView.reloadRows(at: [indexPath1], with: .none)
+                }
+                
+                if Location.detail1 == "Cornerstone Grill & Loft" {
+                    let indexPath1 = IndexPath(row: 2, section: 0)
+                    
+                    locations[indexPath1.row] = Location
+                    tableView.reloadRows(at: [indexPath1], with: .none)
+                }
+                
+                if Location.detail1 == "Terrapins Turf" {
+                    let indexPath1 = IndexPath(row: 3, section: 0)
+                    
+                    locations[indexPath1.row] = Location
+                    tableView.reloadRows(at: [indexPath1], with: .none)
+                }
+                
+                if Location.detail1 == "Potbelly Sandwich Shop" {
+                    let indexPath1 = IndexPath(row: 4, section: 0)
+                    
+                    locations[indexPath1.row] = Location
+                    tableView.reloadRows(at: [indexPath1], with: .none)
+                }
+            }
+        }
+
+        
+    }*/
+    
+    
     private func saveRatings() {
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(locations, toFile: location.ArchiveURL.path)
         if isSuccessfulSave {
@@ -399,7 +690,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         //LocationDetailViewController.stringFromTimeInterval(LocationDetailViewController)
        // reloadInputViews()
        // tableView.reloadData()
-        loadData()
+        loadData1()
         timer =  Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(endOfWork), userInfo: nil, repeats: false)
         print("time set")
     }
@@ -435,9 +726,73 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
-   
+   /*
+    func updateSearchResults(for searchController: UISearchController) {
+
+            self.filteredLocations.removeAll(keepingCapacity: false)
+            let searchPredicate = NSPredicate(format: "SELF CONTAINS[C] %@", searchController.searchBar.text!)
+            let array = (self.locations as NSArray).filtered(using: searchPredicate)
+
+            // self.filteredLocations =  array as filteredLocations
+            self.tableView.reloadData()
+        }
+ */
     
-    
+        //Search Bar delegate
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if self.searchBar.text!.isEmpty {
+
+            // set searching false
+            self.isSearching = false
+            // reload table view
+            self.tableView.reloadData()
+
+        }else{
+
+            // set searghing true
+            self.isSearching = true
+
+            // empty searching array
+             self.locationSearchingList.removeAll(keepingCapacity: false)
+
+            // find matching item and add it to the searcing array
+            for i in 0..<locations.count {
+
+                let listItem : location = locations[i]
+                
+                if listItem.detail1.lowercased().range(of: self.searchBar.text!.lowercased()) != nil {
+                     if listItem.detail1.lowercased().range(of: "z") != nil {
+                        self.locationSearchingList.append(listItem)
+                    }
+                    
+                  //  self.locationSearchingList.append(locationList.)
+                }
+            }
+
+            self.tableView.reloadData()
+        }
+
+}
+
+
+// hide kwyboard when search button clicked
+func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    self.searchBar.resignFirstResponder()
+    self.tableView.reloadData()
+
+}
+
+// hide keyboard when cancel button clicked
+func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    self.searchBar.text = ""
+    self.searchBar.resignFirstResponder()
+    self.isSearching = false
+    self.tableView.reloadData()
+    tableView.reloadData()
+}
+
+ 
     
     
 }

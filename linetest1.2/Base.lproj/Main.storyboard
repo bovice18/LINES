@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="0.52239404965753422" colorSpace="calibratedRGB"/>
-                        <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -31,14 +31,14 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rf8-zX-JDS">
-                                            <rect key="frame" x="449" y="8" width="97" height="78"/>
+                                            <rect key="frame" x="118.33333333333334" y="8" width="97" height="78"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="97" id="6ae-is-XgA"/>
                                                 <constraint firstAttribute="height" constant="78" id="grb-nU-DzR"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Nuo-HL-wgH">
-                                            <rect key="frame" x="147" y="11" width="74" height="32"/>
+                                            <rect key="frame" x="147.33333333333334" y="11" width="74" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="74" id="IOy-HB-xpr"/>
                                                 <constraint firstAttribute="height" constant="32" id="hau-Vp-ORy"/>
@@ -55,7 +55,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Y3-bO-C2e">
-                                            <rect key="frame" x="8" y="8" width="398" height="194"/>
+                                            <rect key="frame" x="8.3333333333333144" y="8" width="67" height="194"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nGk-wI-f46">
                                                     <rect key="frame" x="13" y="48" width="377" height="138"/>
@@ -63,10 +63,10 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="50V-7G-m7s">
-                                                    <rect key="frame" x="-8" y="46" width="414" height="70"/>
+                                                    <rect key="frame" x="-7.6666666666666572" y="46" width="414" height="70"/>
                                                     <subviews>
-                                                        <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Xsd-j9-M2p" customClass="TriangleRatingControl" customModule="LINES" customModuleProvider="target">
-                                                            <rect key="frame" x="31" y="14" width="176" height="44"/>
+                                                        <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Xsd-j9-M2p" customClass="TriangleRatingControl" customModule="LINES" customModuleProvider="target">
+                                                            <rect key="frame" x="31.333333333333343" y="14" width="175.99999999999997" height="44"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="44" id="GT3-FY-hGf"/>
@@ -80,20 +80,19 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="srK-n5-iw8">
-                                                    <rect key="frame" x="-5" y="124" width="414" height="54"/>
+                                                    <rect key="frame" x="0.33333333333334281" y="124" width="414" height="54"/>
                                                     <subviews>
-                                                        <segmentedControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" momentary="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5hb-3w-wvD">
-                                                            <rect key="frame" x="46" y="13" width="321" height="29"/>
+                                                        <segmentedControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="3" momentary="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5hb-3w-wvD">
+                                                            <rect key="frame" x="46.333333333333343" y="13" width="321" height="29"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="5hb-3w-wvD" secondAttribute="height" multiplier="321:28" id="ie4-fF-Jhs"/>
                                                             </constraints>
                                                             <segments>
-                                                                <segment title="0-5"/>
-                                                                <segment title="5-10"/>
-                                                                <segment title="10-20"/>
-                                                                <segment title="+ 20"/>
+                                                                <segment title="0-5" enabled="NO"/>
+                                                                <segment title="5-10" enabled="NO"/>
+                                                                <segment title="10-20" enabled="NO"/>
+                                                                <segment title="+ 20" enabled="NO"/>
                                                             </segments>
-                                                            <color key="tintColor" red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </segmentedControl>
                                                     </subviews>
                                                     <constraints>
@@ -103,7 +102,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3F-ln-o2c">
-                                                    <rect key="frame" x="279" y="5" width="99" height="21"/>
+                                                    <rect key="frame" x="-51.666666666666657" y="5" width="99" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="99" id="G9n-yZ-ov7"/>
                                                         <constraint firstAttribute="height" constant="21" id="aUZ-gy-pXa"/>
@@ -120,11 +119,11 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gLu-tl-rwN">
-                                                    <rect key="frame" x="8" y="41" width="382" height="2"/>
+                                                    <rect key="frame" x="8.3333333333333428" y="41" width="382" height="2"/>
                                                     <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bh1-O6-fCJ">
-                                                    <rect key="frame" x="8" y="8" width="390" height="35"/>
+                                                    <rect key="frame" x="8.3333333333333428" y="8" width="59" height="35"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="Label">
                                                             <attributes>
@@ -166,12 +165,11 @@
                                             </constraints>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="characterWrap" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uPc-Vh-y5G">
-                                            <rect key="frame" x="251" y="74" width="120" height="44"/>
+                                            <rect key="frame" x="-79.666666666666671" y="74" width="119.99999999999999" height="44"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="120" id="1qG-QG-XCW"/>
                                             </constraints>
-                                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <state key="normal">
                                                 <attributedString key="attributedTitle">
                                                     <fragment content="Join the Line">
@@ -207,6 +205,7 @@
                                 </tableViewCellContentView>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                 <connections>
+                                    <outlet property="SecondWhiteView" destination="nGk-wI-f46" id="K3D-7Q-j9I"/>
                                     <outlet property="circleRating" destination="Xsd-j9-M2p" id="3yC-Ii-FYN"/>
                                     <outlet property="detail1Lbl" destination="Bh1-O6-fCJ" id="ft2-mh-dIZ"/>
                                     <outlet property="detail2Lbl" destination="Nuo-HL-wgH" id="jUI-2M-9pa"/>
@@ -249,80 +248,112 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nf1-B7-Isq">
                                 <rect key="frame" x="12" y="232" width="382" height="158"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" distribution="fillEqually" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Svl-FO-r2e">
-                                        <rect key="frame" x="52" y="72" width="284" height="66"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" distribution="fillEqually" spacing="70" translatesAutoresizingMaskIntoConstraints="NO" id="Svl-FO-r2e">
+                                        <rect key="frame" x="34" y="62" width="286" height="2"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" distribution="equalSpacing" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Jcp-aV-JVN">
+                                        <rect key="frame" x="48" y="15" width="284" height="145"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <stackView opaque="NO" alpha="0.34999999999999998" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" alignment="center" spacing="-26" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jQT-wr-Z8N">
-                                                <rect key="frame" x="0.0" y="0.0" width="284.33333333333331" height="13"/>
+                                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QOg-Tm-9hk">
+                                                <rect key="frame" x="0.0" y="0.0" width="284.33333333333331" height="128"/>
                                                 <subviews>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6oS-dT-pWD">
-                                                        <rect key="frame" x="0.0" y="5.3333333333333357" width="47.666666666666664" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ngj-nQ-NAd">
-                                                        <rect key="frame" x="21.666666666666664" y="5.3333333333333357" width="47.333333333333336" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OB5-Al-evu">
-                                                        <rect key="frame" x="43.000000000000007" y="5.3333333333333357" width="47.666666666666679" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0Dn-fP-c3T">
-                                                        <rect key="frame" x="64.666666666666686" y="5.3333333333333357" width="47.333333333333329" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="TRq-gm-pUz">
-                                                        <rect key="frame" x="86" y="5.3333333333333357" width="47.666666666666657" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6ZM-cX-72I">
-                                                        <rect key="frame" x="107.66666666666666" y="5.3333333333333357" width="47.666666666666657" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="8d1-uM-UQI">
-                                                        <rect key="frame" x="129.33333333333334" y="5.3333333333333357" width="47.333333333333314" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qIG-iV-dgx">
-                                                        <rect key="frame" x="150.66666666666666" y="5.3333333333333357" width="47.666666666666686" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="LP7-rw-Hgz">
-                                                        <rect key="frame" x="172.33333333333334" y="5.3333333333333357" width="47.333333333333314" height="2"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                        <rect key="contentStretch" x="0.10000000000000001" y="0.0" width="1" height="1"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Xgx-i7-EWM">
-                                                        <rect key="frame" x="193.66666666666666" y="5.3333333333333357" width="47.666666666666686" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Hs3-Aa-ynT">
-                                                        <rect key="frame" x="215.33333333333331" y="5.3333333333333357" width="47.333333333333314" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleAspectFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Ae5-VU-LCa">
-                                                        <rect key="frame" x="236.66666666666669" y="5.3333333333333357" width="47.666666666666686" height="2"/>
-                                                        <color key="progressTintColor" red="1" green="0.23303501115262959" blue="0.28926256121157967" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <color key="trackTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </progressView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" alignment="bottom" spacing="5" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6ea-r7-quJ">
+                                                        <rect key="frame" x="-19" y="20" width="319" height="89"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <subviews>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f4I-lf-wid">
+                                                                <rect key="frame" x="0.0" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="90l-Qn-gmY"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ggN-uZ-4Yg">
+                                                                <rect key="frame" x="27" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="g6Y-Te-r3H"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5WX-n0-kRd">
+                                                                <rect key="frame" x="54" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="5XF-1q-L33"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UsK-Ey-QlM">
+                                                                <rect key="frame" x="81" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="Xk1-Fp-PUp"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6d3-oZ-alf">
+                                                                <rect key="frame" x="108" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="Qfa-2R-xyT"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F1b-eT-ijE">
+                                                                <rect key="frame" x="135" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="51V-9a-YwK"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yis-iW-nWx">
+                                                                <rect key="frame" x="162" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="96A-Br-Tef"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TBf-Cs-6AC">
+                                                                <rect key="frame" x="189" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="BXv-SL-rf1"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wlJ-0m-pNb">
+                                                                <rect key="frame" x="216" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="JDO-4c-sL9"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hQB-rg-hvB">
+                                                                <rect key="frame" x="243" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="1QT-7y-qXj"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m2V-Gc-dCo">
+                                                                <rect key="frame" x="270" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="Bew-4n-iOv"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="68u-5X-dXK">
+                                                                <rect key="frame" x="297" y="0.0" width="22" height="89"/>
+                                                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="22" id="H72-4y-zAp"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                    </stackView>
                                                 </subviews>
-                                            </stackView>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillProportionally" alignment="center" spacing="29" translatesAutoresizingMaskIntoConstraints="NO" id="4EO-Yo-jTp">
-                                                <rect key="frame" x="0.0" y="53" width="284.33333333333331" height="13"/>
+                                                <rect key="frame" x="0.0" y="132" width="284.33333333333331" height="13"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dvw-Kg-Ski">
                                                         <rect key="frame" x="0.0" y="0.0" width="27.666666666666668" height="13"/>
@@ -399,6 +430,11 @@
                                             </stackView>
                                         </subviews>
                                     </stackView>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p6o-WR-iXc">
+                                        <rect key="frame" x="0.0" y="15" width="382" height="0.0"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -443,12 +479,11 @@
                                         <rect key="frame" x="45" y="92" width="299" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <segments>
-                                            <segment title="0-5"/>
-                                            <segment title="5-10"/>
-                                            <segment title="10-20"/>
-                                            <segment title="+ 20"/>
+                                            <segment title="0-5" enabled="NO"/>
+                                            <segment title="5-10" enabled="NO"/>
+                                            <segment title="10-20" enabled="NO"/>
+                                            <segment title="+ 20" enabled="NO"/>
                                         </segments>
-                                        <color key="tintColor" red="0.99009674787521362" green="0.088111035525798798" blue="0.01674593985080719" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </segmentedControl>
                                     <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zHd-HS-6FS" customClass="TriangleRatingControl" customModule="LINES" customModuleProvider="target">
                                         <rect key="frame" x="106" y="40" width="176" height="44"/>
@@ -557,7 +592,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rsl-yP-xH9" customClass="TriangleRatingControl" customModule="LINES" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="5" width="352" height="88"/>
+                                                    <rect key="frame" x="8" y="49" width="176" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="176" id="2WF-Hb-GRY"/>
                                                         <constraint firstAttribute="height" constant="44" id="4y9-nu-Tfi"/>
@@ -622,23 +657,23 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="barDisplay1" destination="68u-5X-dXK" id="yFp-8K-Wph"/>
+                        <outlet property="barDisplay10" destination="5WX-n0-kRd" id="9B2-CL-fuo"/>
+                        <outlet property="barDisplay11" destination="ggN-uZ-4Yg" id="RqH-qm-wUz"/>
+                        <outlet property="barDisplay12" destination="f4I-lf-wid" id="xLM-Jp-1bH"/>
+                        <outlet property="barDisplay2" destination="m2V-Gc-dCo" id="OvQ-fN-nUt"/>
+                        <outlet property="barDisplay3" destination="hQB-rg-hvB" id="dQ7-AL-ZgO"/>
+                        <outlet property="barDisplay4" destination="wlJ-0m-pNb" id="tuf-YG-lLW"/>
+                        <outlet property="barDisplay5" destination="TBf-Cs-6AC" id="Wx5-w9-7yL"/>
+                        <outlet property="barDisplay6" destination="Yis-iW-nWx" id="kVu-Vc-8zn"/>
+                        <outlet property="barDisplay7" destination="F1b-eT-ijE" id="4Np-7b-Gf1"/>
+                        <outlet property="barDisplay8" destination="6d3-oZ-alf" id="QDh-LR-ASF"/>
+                        <outlet property="barDisplay9" destination="UsK-Ey-QlM" id="eSw-0n-fAr"/>
                         <outlet property="circleRating" destination="zHd-HS-6FS" id="Fsp-Hg-KCK"/>
                         <outlet property="detail1Lbl" destination="3nf-ON-7fh" id="e1t-FB-xlW"/>
                         <outlet property="detail2Lbl" destination="iLp-Ov-3FW" id="57w-KE-aTY"/>
                         <outlet property="joinTheLineButton" destination="RKG-W1-3Sp" id="pIA-TR-cFM"/>
                         <outlet property="locatingImage" destination="H66-fK-9KP" id="1mr-NO-A35"/>
-                        <outlet property="progressViewer1" destination="LP7-rw-Hgz" id="vcP-XP-Lyz"/>
-                        <outlet property="progressViewer10" destination="6ZM-cX-72I" id="n9W-UJ-nKY"/>
-                        <outlet property="progressViewer11" destination="8d1-uM-UQI" id="azs-Oo-fCx"/>
-                        <outlet property="progressViewer12" destination="TRq-gm-pUz" id="V5P-On-pCs"/>
-                        <outlet property="progressViewer2" destination="qIG-iV-dgx" id="zuw-0K-Efw"/>
-                        <outlet property="progressViewer3" destination="0Dn-fP-c3T" id="JOk-Q1-JK4"/>
-                        <outlet property="progressViewer4" destination="Xgx-i7-EWM" id="sZT-EU-CZ1"/>
-                        <outlet property="progressViewer5" destination="6oS-dT-pWD" id="NaN-YM-ITA"/>
-                        <outlet property="progressViewer6" destination="Ae5-VU-LCa" id="vEn-YT-OGI"/>
-                        <outlet property="progressViewer7" destination="Hs3-Aa-ynT" id="gch-aO-xcF"/>
-                        <outlet property="progressViewer8" destination="OB5-Al-evu" id="VKo-UP-uVd"/>
-                        <outlet property="progressViewer9" destination="Ngj-nQ-NAd" id="Qeg-b3-58m"/>
                         <outlet property="saveButton" destination="7Wt-U9-Bkc" id="lWh-MG-rAd"/>
                         <outlet property="segmentedControl" destination="3kY-LG-c1x" id="BGu-89-YVd"/>
                         <outlet property="tableView" destination="Vs0-xo-Q9Y" id="18v-Qw-feR"/>
@@ -840,8 +875,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aKH-B5-0GE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="0.81537543400000001" green="0.04418945312" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <color key="barTintColor" red="0.81537543400000001" green="0.04418945312" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="barTintColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -858,13 +892,13 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iac-fQ-CNf" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hf4-Jn-KEd">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="hf4-Jn-KEd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.81537543402777779" green="0.044189453125" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="barTintColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="textShadowColor" red="1" green="0.70246596539999995" blue="0.68424275030000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -886,7 +920,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="0.81537543400000001" green="0.04418945312" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="barTintColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

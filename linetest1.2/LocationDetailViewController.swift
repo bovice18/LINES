@@ -12,21 +12,12 @@ import os.log
 
 class LocationDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
 
+ //   @IBOutlet weak var graphBar1: UIView!
     @IBOutlet weak var timeSincePostLbl: UILabel!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
-    @IBOutlet weak var progressViewer1: UIProgressView!
+
     @IBOutlet weak var detail1Lbl: UILabel!
-    @IBOutlet weak var progressViewer3: UIProgressView!
-    @IBOutlet weak var progressViewer2: UIProgressView!
-    @IBOutlet weak var progressViewer4: UIProgressView!
-    @IBOutlet weak var progressViewer5: UIProgressView!
-    @IBOutlet weak var progressViewer6: UIProgressView!
-    @IBOutlet weak var progressViewer7: UIProgressView!
-    @IBOutlet weak var progressViewer8: UIProgressView!
-    @IBOutlet weak var progressViewer9: UIProgressView!
-    @IBOutlet weak var progressViewer10: UIProgressView!
-    @IBOutlet weak var progressViewer11: UIProgressView!
-    @IBOutlet weak var progressViewer12: UIProgressView!
+  
     @IBOutlet weak var detail2Lbl: UILabel!
     @IBOutlet weak var joinTheLineButton: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
@@ -36,6 +27,22 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     @IBOutlet weak var locatingImage: UIImageView!
     @IBOutlet weak var MapButton: UIButton!
     @IBOutlet weak var CallButton: UIButton!
+    
+    @IBOutlet weak var barDisplay1: UIView!
+    @IBOutlet weak var barDisplay2: UIView!
+    @IBOutlet weak var barDisplay3: UIView!
+    @IBOutlet weak var barDisplay4: UIView!
+    @IBOutlet weak var barDisplay5: UIView!
+    @IBOutlet weak var barDisplay6: UIView!
+    @IBOutlet weak var barDisplay7: UIView!
+    @IBOutlet weak var barDisplay8: UIView!
+    @IBOutlet weak var barDisplay9: UIView!
+    @IBOutlet weak var barDisplay10: UIView!
+    @IBOutlet weak var barDisplay11: UIView!
+    @IBOutlet weak var barDisplay12: UIView!
+    
+    
+    
     
     @IBOutlet weak var circleRating: TriangleRatingControl!
     var Location: location?
@@ -51,6 +58,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     var ratingsAt5 = [rating]()
     var ratingsAt6 = [rating]()
     var ratingsAt7 = [rating]()
+    var BarDisplayData = [Int]()
     
   //  var llLocation: String?
     
@@ -134,42 +142,80 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         tableView.delegate = self
         tableView.dataSource = self
         
+        barDisplay1.layer.cornerRadius = 4
+        
+        barDisplay1.layer.borderColor = UIColor.gray.cgColor
+       // barDisplay1.heightAnchor.constraint(equalToConstant: 20).isActive = true
+          barDisplay2.heightAnchor.constraint(equalToConstant: 10).isActive = true
+          barDisplay3.heightAnchor.constraint(equalToConstant: 15).isActive = true
+          barDisplay4.heightAnchor.constraint(equalToConstant: 12).isActive = true
+          barDisplay5.heightAnchor.constraint(equalToConstant: 5).isActive = true
+          barDisplay6.heightAnchor.constraint(equalToConstant: 9).isActive = true
+          barDisplay7.heightAnchor.constraint(equalToConstant: 11).isActive = true
+          barDisplay8.heightAnchor.constraint(equalToConstant: 25).isActive = true
+          barDisplay9.heightAnchor.constraint(equalToConstant: 20).isActive = true
+          barDisplay10.heightAnchor.constraint(equalToConstant: 24).isActive = true
+          barDisplay11.heightAnchor.constraint(equalToConstant: 11).isActive = true
+          barDisplay12.heightAnchor.constraint(equalToConstant: 21).isActive = true
+        
+      //  barDisplay2.heightAnchor.constraint(equalToConstant: 13)
+
+      //  barDisplay3.heightAnchor.constraint(equalToConstant: 11)
+        //barDisplay4.heightAnchor.constraint(equalToConstant: 7)
+
+        barDisplay1.layer.borderWidth = 1
+        barDisplay2.layer.cornerRadius = 4
+        barDisplay3.layer.cornerRadius = 4
+        barDisplay4.layer.cornerRadius = 4
+        barDisplay5.layer.cornerRadius = 4
+        barDisplay6.layer.cornerRadius = 4
+        barDisplay7.layer.cornerRadius = 4
+        barDisplay8.layer.cornerRadius = 4
+        barDisplay9.layer.cornerRadius = 4
+        barDisplay10.layer.cornerRadius = 4
+        barDisplay11.layer.cornerRadius = 4
+        barDisplay12.layer.cornerRadius = 4
+        
+      //  graphBar1.layer.cornerRadius = 4
+        //graphBar1.frame.height == 10
+      /*
         self.progressViewer1.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer1.transform = progressViewer1.transform.scaledBy(x: 2, y: 10)
+        progressViewer1.transform = progressViewer1.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer2.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer2.transform = progressViewer2.transform.scaledBy(x: 2, y: 10)
+        progressViewer2.transform = progressViewer2.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer3.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer3.transform = progressViewer3.transform.scaledBy(x: 2, y: 10)
+        progressViewer3.transform = progressViewer3.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer4.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer4.transform = progressViewer4.transform.scaledBy(x: 2, y: 10)
+        progressViewer4.transform = progressViewer4.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer5.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer5.transform = progressViewer5.transform.scaledBy(x: 2, y: 10)
+        progressViewer5.transform = progressViewer5.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer6.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer6.transform = progressViewer6.transform.scaledBy(x: 2, y: 10)
+        progressViewer6.transform = progressViewer6.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer7.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer7.transform = progressViewer7.transform.scaledBy(x: 2, y: 10)
+        progressViewer7.transform = progressViewer7.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer8.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer8.transform = progressViewer8.transform.scaledBy(x: 2, y: 10)
+        progressViewer8.transform = progressViewer8.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer9.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer9.transform = progressViewer9.transform.scaledBy(x: 2, y: 10)
+        progressViewer9.transform = progressViewer9.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer10.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer10.transform = progressViewer10.transform.scaledBy(x: 2, y: 10)
+        progressViewer10.transform = progressViewer10.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer11.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer11.transform = progressViewer11.transform.scaledBy(x: 2, y: 10)
+        progressViewer11.transform = progressViewer11.transform.scaledBy(x: 3, y: 12)
         
         self.progressViewer12.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer12.transform = progressViewer12.transform.scaledBy(x: 2, y: 10)
+        progressViewer12.transform = progressViewer12.transform.scaledBy(x: 3, y: 12)
         
+ */
         loadData()
         mostRecentTime()
         updateCircleRating()
@@ -182,6 +228,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         refreshControl = UIRefreshControl()
         tableView.addSubview(refreshControl!)
         
+        /*
                 //GRAPH setup- not connected to info yet
                 let value1 = 0.7
                 let value2 = 0.2
@@ -209,6 +256,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                 self.progressViewer11.progress = Float(value11)
                 self.progressViewer12.progress = Float(value12)
         
+        */
      
         
     // Do any additional setup after loading the view.
@@ -306,6 +354,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             dateFormatter.dateFormat = "HH"
             let dateString = dateFormatter.string(from: rating.timeIntervalSinceNow as! Date)
             print(dateString)
+            
+            navigationItem.title = "Thank You!"
+            
+            Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(LocationDetailViewController.changeTitleBack), userInfo: nil, repeats: false)
             
             // Graph code 
             /*
@@ -416,6 +468,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         UserDefaults.standard.set(false, forKey: "switchState")
         UserDefaults.standard.synchronize()
         print("timer stopped")
+    }
+    
+    func changeTitleBack() {
+         navigationItem.title = Location?.detail1
     }
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -769,6 +825,57 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                                 }
                             case "Chipotle Mexican Grill":
                                 if locationName1 == "Chipotle" {
+                                    
+                                   // self.BarDisplayData.removeAll()
+                                    self.BarDisplayData.append(lineRating1)
+                                    
+                                    let sum = self.BarDisplayData.reduce(0, { x, y in x + y})
+                                    print("sum")
+                                    print(sum)
+
+                                    let exact = sum / self.BarDisplayData.count
+                                    print(self.BarDisplayData)
+                                    
+                                    print("division")
+                                    print(exact)
+                                    
+                                    switch exact {
+                                    case 1:
+                                       let size = 10 * self.BarDisplayData.count
+                                         self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
+                                         print("case1")
+                                    case 2:
+                                        let size = 10 * self.BarDisplayData.count
+                                         self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
+                                         print("case2")
+                                    case 3:
+                                        let size = 89
+                                        self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
+                                         print("case3")
+                                    case 4:
+                                        let size = 10 * 6
+                                         self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
+                                        print("case4")
+                                    default:
+                                        let size = 10 * 6
+                                         self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
+                                        print("defaulting")
+                                    }
+                                    
+                                    
+                                 /* let sumOfRatingAt11 = BarDisplayData.reduce(0, { x, y in x + y})
+                                    
+                                    let value2 = sumOfRatingAt11 / BarDisplayData.count
+
+                                    for value in self.BarDisplayData {
+                                       // let first = value / BarDisplayData.count
+                                        
+                                    }
+                                    */
+                                    
+                                    print(self.BarDisplayData)
+                                    //let constant = self.BarDisplayData.count
+                                    //self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(constant)).isActive = true
                                     self.ratings.append(rating1!)
                                     self.ratings.reverse()
                                     self.tableView.reloadData()
@@ -836,6 +943,8 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     task.resume()
         mostRecentTime()
+        print(BarDisplayData)
+        print("bardisplay")
 }
 
 
