@@ -5,7 +5,7 @@
 //  Created by david crabtree on 5/8/17.
 //  Copyright © 2017 david crabtree. All rights reserved.
 //
-
+/*
 import UIKit
 import CoreLocation
 import os.log
@@ -137,3 +137,4 @@ import os.log
     
     
 }
+ */

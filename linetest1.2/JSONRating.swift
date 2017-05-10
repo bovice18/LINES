@@ -5,7 +5,7 @@
 //  Created by david crabtree on 4/26/17.
 //  Copyright © 2017 david crabtree. All rights reserved.
 //
-
+/*
 import Foundation
 
 struct JSONRating {
@@ -205,5 +205,6 @@ extension JSONRating {
             */
  */
 */
+ */
 
 

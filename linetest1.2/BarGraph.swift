@@ -5,7 +5,7 @@
 //  Created by david crabtree on 5/9/17.
 //  Copyright © 2017 david crabtree. All rights reserved.
 //
-
+/*
 import Foundation
 import UIKit
 
@@ -51,5 +51,7 @@ class BarGraph: NSObject {
         //Initialize stored properties
       //  self.detail1 = detail1
     
-    
+    }
 }
+ 
+ */
