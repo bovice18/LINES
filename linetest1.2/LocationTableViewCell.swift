@@ -15,11 +15,14 @@ class LocationTableViewCell: UITableViewCell {
     @IBOutlet weak var locationImagine: UIImageView!
     @IBOutlet weak var jointheLineButton: UIButton!
     
+    @IBOutlet weak var timeSinceLastPostLbl: UILabel!
+
     @IBOutlet weak var whiteView: UIView!
     @IBOutlet weak var circleRating: TriangleRatingControl!
     
     @IBOutlet weak var SecondWhiteView: UIView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -31,7 +34,7 @@ class LocationTableViewCell: UITableViewCell {
         whiteView.layer.cornerRadius = 4
       //  whiteView.layer.borderWidth = 4
       //  whiteView.layer.borderColor = UIColor.gray.cgColor
-      //  SecondWhiteView.layer.cornerRadius = 4
+        SecondWhiteView.layer.cornerRadius = 4
        // SecondWhiteView.layer.borderColor = UIColor.gray.cgColor
        // SecondWhiteView.layer.borderWidth = 4
       // circleRating.layer.borderWidth = 4

@@ -49,6 +49,19 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     var ratings = [rating]()
     
+    var waitsAt11 = [Int]()
+      var waitsAt12 = [Int]()
+      var waitsAt1 = [Int]()
+      var waitsAt2 = [Int]()
+      var waitsAt3 = [Int]()
+      var waitsAt4 = [Int]()
+      var waitsAt5 = [Int]()
+      var waitsAt6 = [Int]()
+      var waitsAt7 = [Int]()
+      var waitsAt8 = [Int]()
+      var waitsAt9 = [Int]()
+      var waitsAt10 = [Int]()
+    
     var ratingsAt11 = [rating]()
     var ratingsAt12 = [rating]()
     var ratingsAt1 = [rating]()
@@ -59,6 +72,8 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     var ratingsAt6 = [rating]()
     var ratingsAt7 = [rating]()
     var BarDisplayData = [Int]()
+    
+    var BarDisplays = [BarDisplayDataPiece]()
     
   //  var llLocation: String?
     
@@ -83,9 +98,12 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             print(location.detail1)
             detail2Lbl.text = location.detail2
             locatingImage.image = location.locationImagine
-            ratings = location.ratings
+            BarDisplays = location.ratings
             print(location.ratings)
-            print(ratings)
+            print(BarDisplays.count)
+            print(location.ratings.count)
+            print(BarDisplays.first?.postTime)
+            print(BarDisplays.first?.waitTime)
             print("target")
             navigationItem.title = location.detail1
             // phoneLbl.text = location.phoneNumber
@@ -98,7 +116,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             print("entered")
         }
 
-  
+        SortingBarDisplayData()
         
         let locationTableView = LocationTableViewController()
         let locationDetailView = LocationDetailViewController()
@@ -120,7 +138,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         case "Potbelly Sandwich Shop":
                 UserDefaults.standard.set(5, forKey: "title")
                 UserDefaults.standard.synchronize()
-        case "Terrapins Turf":
+        case "Terrapin Turf":
             UserDefaults.standard.set(4, forKey: "title")
             UserDefaults.standard.synchronize()
         case "Cornerstone Grill & Loft":
@@ -146,17 +164,20 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         barDisplay1.layer.borderColor = UIColor.gray.cgColor
        // barDisplay1.heightAnchor.constraint(equalToConstant: 20).isActive = true
-          barDisplay2.heightAnchor.constraint(equalToConstant: 10).isActive = true
-          barDisplay3.heightAnchor.constraint(equalToConstant: 15).isActive = true
-          barDisplay4.heightAnchor.constraint(equalToConstant: 12).isActive = true
-          barDisplay5.heightAnchor.constraint(equalToConstant: 5).isActive = true
-          barDisplay6.heightAnchor.constraint(equalToConstant: 9).isActive = true
-          barDisplay7.heightAnchor.constraint(equalToConstant: 11).isActive = true
-          barDisplay8.heightAnchor.constraint(equalToConstant: 25).isActive = true
-          barDisplay9.heightAnchor.constraint(equalToConstant: 20).isActive = true
-          barDisplay10.heightAnchor.constraint(equalToConstant: 24).isActive = true
-          barDisplay11.heightAnchor.constraint(equalToConstant: 11).isActive = true
-          barDisplay12.heightAnchor.constraint(equalToConstant: 21).isActive = true
+      //    barDisplay2.heightAnchor.constraint(equalToConstant: 5).isActive = true
+         /// barDisplay3.heightAnchor.constraint(equalToConstant: 5).isActive = true
+         // barDisplay4.heightAnchor.constraint(equalToConstant: 5).isActive = true
+         // barDisplay5.heightAnchor.constraint(equalToConstant: 5).isActive = true
+         // barDisplay6.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        //  barDisplay7.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        //  barDisplay8.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        //  barDisplay9.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        //  barDisplay10.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        //  barDisplay11.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        //  barDisplay12.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        
+        SortingBarDisplayData()
+        loadBarDisplay()
         
       //  barDisplay2.heightAnchor.constraint(equalToConstant: 13)
 
@@ -219,7 +240,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         loadData()
         mostRecentTime()
         updateCircleRating()
-        
+        loadBarDisplay()
         
       // if let savedRatings = loadRatings() {
        //     ratings += savedRatings
@@ -490,7 +511,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let detail2 = detail2Lbl.text ?? ""
             let locationImage1 = locatingImage.image
             let ratingList = ratings as NSArray
-            let address = Location?.address
+            let timeSinceLastPost = Location?.timeSinceLastPost
             let phoneNumber = Location?.phoneNumber
             let displayedAddress = Location?.displayedPhoneNumber
             let displayedPhoneNumber = Location?.displayedAddress
@@ -499,7 +520,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let ratings1 = Location?.ratings
         
         // Set the reting to be passed to LocationTableViewController after the unwind segue.
-        Location = location(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImage1!, address: address!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation, qLocation: qLocation, ratings: ratings1!)
+        Location = location(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImage1!, timeSinceLastPost: timeSinceLastPost!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation, qLocation: qLocation, ratings: ratings1!)
         loadData()
         saveRatings()
         mostRecentTime()
@@ -808,10 +829,12 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                             print(timeDate)
                             let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                            // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-                           // let date = dateFormatter.date(from:timeDate)
                             let date1 = dateFormatter.date(from: timeDate)!
                             time1 = date1
+                            
+                            // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                            // let date = dateFormatter.date(from:timeDate)
+
                         
                     let rating1 = rating(locationName: locationName1, time: timeDate, lineRating: lineRating1, circleRating: circleRating1, comments: comments1, timeIntervalSinceNow: time1 as NSDate?)
                             
@@ -827,7 +850,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                                 if locationName1 == "Chipotle" {
                                     
                                    // self.BarDisplayData.removeAll()
-                                    self.BarDisplayData.append(lineRating1)
+                                /*   self.BarDisplayData.append(lineRating1)
                                     
                                     let sum = self.BarDisplayData.reduce(0, { x, y in x + y})
                                     print("sum")
@@ -861,7 +884,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                                          self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
                                         print("defaulting")
                                     }
-                                    
+                                    */
                                     
                                  /* let sumOfRatingAt11 = BarDisplayData.reduce(0, { x, y in x + y})
                                     
@@ -887,7 +910,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                                     self.ratings.reverse()
                                     self.tableView.reloadData()
                                 }
-                            case "Terrapins Turf":
+                            case "Terrapin Turf":
                                     if locationName1 == "Terrapin Turf" {
                                         self.ratings.append(rating1!)
                                         self.ratings.reverse()
@@ -947,7 +970,194 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         print("bardisplay")
 }
 
+    func SortingBarDisplayData() {
+        
+        for value in BarDisplays {
+            let time = value.postTime
+            
+            switch time {
+            case "01":
+                print("A line at 1")
+                waitsAt1.append(value.waitTime)
+            case "02":
+                print("A line at 2")
+                
+            case "03":
+                print("A line at 3")
+                
+            case "04":
+                print("A line at 4")
+                
+            case "05":
+                print("A line at 5")
+                
+            case "06":
+                print("A line at 6")
+            case "07":
+                print("A line at 7")
+            case "08":
+                print("A line at 8")
+            case "09":
+                print("A line at 9")
+            case "10":
+                print("A line at 10")
+            case "11":
+                print("A line at 11")
+                waitsAt11.append(value.waitTime)
+            case "12":
+                print("A line at 12")
+                waitsAt12.append(value.waitTime)
+            case "13":
+                print("A line at 13")
+                waitsAt1.append(value.waitTime)
+            case "14":
+                print("A line at 14")
+                waitsAt2.append(value.waitTime)
+            case "15":
+                print("A line at 15")
+                waitsAt3.append(value.waitTime)
+            case "16":
+                print("A line at 16")
+                waitsAt4.append(value.waitTime)
+            case "17":
+                print("A line at 17")
+                waitsAt5.append(value.waitTime)
+            case "18":
+                print("A line at 18")
+                waitsAt6.append(value.waitTime)
+            case "19":
+                print("A line at 19")
+                waitsAt7.append(value.waitTime)
+            case "20":
+                print("A line at 20")
+                waitsAt8.append(value.waitTime)
+            case "21":
+                print("A line at 21")
+                waitsAt9.append(value.waitTime)
+            case "22":
+                print("A line at 22")
+                waitsAt10.append(value.waitTime)
+            case "23":
+                print("A line at 23")
+            case "24":
+                print("A line at 24")
+            default:
+                print("sorting error")
+            }
+            
+        }
+        loadBarDisplay()
+    }
+    
+    func loadBarDisplay() {
+        
+        let array = [waitsAt1,waitsAt2,waitsAt3]
+        
+        let sumAt11 = waitsAt11.reduce(0, { x, y in x + y})
+        
+        if sumAt11 > 0 {
+            let sizeAt11 = sumAt11 / waitsAt11.count * 20
+            self.barDisplay11.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt11)).isActive = true
 
+        }
+        
+        let sumAt12 = waitsAt12.reduce(0, { x, y in x + y})
+        if sumAt12 > 0 {
+            let sizeAt12 = sumAt12 / waitsAt12.count * 20
+            self.barDisplay12.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+        }
+        
+        let sumAt1 = waitsAt1.reduce(0, { x, y in x + y})
+        if sumAt12 > 0 {
+            let sizeAt1 = sumAt1 / waitsAt1.count * 20
+            self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt1)).isActive = true
+        }
+     
+        
+        let sumAt2 = waitsAt2.reduce(0, { x, y in x + y})
+        
+        if sumAt2 > 0 {
+            let sizeAt2 = sumAt2 / waitsAt2.count * 20
+            self.barDisplay2.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt2)).isActive = true
+        }
+      //  let sizeAt2 = sumAt2 / waitsAt2.count * 20
+        
+        let sumAt3 = waitsAt3.reduce(0, { x, y in x + y})
+        if sumAt3 > 0 {
+            let sizeAt3 = sumAt3 / waitsAt3.count * 20
+            self.barDisplay3.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt3)).isActive = true
+        }
+        
+        let sumAt4 = waitsAt4.reduce(0, { x, y in x + y})
+        if sumAt4 > 0 {
+            let sizeAt4 = sumAt4 / waitsAt4.count * 20
+            self.barDisplay4.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt4)).isActive = true
+        }
+        
+        let sumAt5 = waitsAt5.reduce(0, { x, y in x + y})
+        
+        if sumAt5 > 0 {
+            let sizeAt5 = sumAt5 / waitsAt5.count * 20
+            self.barDisplay5.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt5)).isActive = true
+        }
+       
+        
+        let sumAt6 = waitsAt6.reduce(0, { x, y in x + y})
+        if sumAt6 > 0 {
+             let sizeAt6 = sumAt6 / waitsAt6.count * 20
+            self.barDisplay6.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt6)).isActive = true
+        }
+       
+        
+        let sumAt7 = waitsAt7.reduce(0, { x, y in x + y})
+        if sumAt7 > 0 {
+            let sizeAt7 = sumAt7 / waitsAt7.count * 20
+            self.barDisplay7.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt7)).isActive = true
+        }
+     
+        
+        let sumAt8 = waitsAt8.reduce(0, { x, y in x + y})
+        if sumAt8 > 0 {
+            let sizeAt8 = sumAt8 / waitsAt8.count * 20
+            self.barDisplay8.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt8)).isActive = true
+        }
+  
+        
+        let sumAt9 = waitsAt9.reduce(0, { x, y in x + y})
+        if sumAt9 > 0 {
+            let sizeAt9 = sumAt9 / waitsAt9.count * 20
+            self.barDisplay9.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt9)).isActive = true
+        }
+       // let sizeAt9 = sumAt9 / waitsAt9.count * 20
+        
+        let sumAt10 = waitsAt10.reduce(0, { x, y in x + y})
+        if sumAt10 > 0 {
+            let sizeAt10 = sumAt10 / waitsAt10.count * 20
+            self.barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt10)).isActive = true
+        }
+        //let sizeAt10 = sumAt10 / waitsAt10.count * 20
+        
+        
+        
+        print(waitsAt1.count)
+        print(sumAt1)
+     //   print(sizeAt1)
+        print("math")
+        
+        
+       // self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt1)).isActive = true
+      //  self.barDisplay2.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt2)).isActive = true
+     //   self.barDisplay3.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt3)).isActive = true
+      //  self.barDisplay4.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt4)).isActive = true
+       // self.barDisplay5.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt5)).isActive = true
+       // self.barDisplay6.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt6)).isActive = true
+       // self.barDisplay7.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt7)).isActive = true
+       // self.barDisplay8.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt8)).isActive = true
+      //  self.barDisplay9.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt9)).isActive = true
+    //    self.barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt10)).isActive = true
+     //   self.barDisplay12.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+       
+    }
 
 
     /*

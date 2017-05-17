@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		6301EDCF1EC0A30B00C31C9F /* BarGraphDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6301EDCE1EC0A30B00C31C9F /* BarGraphDisplay.swift */; };
 		6303882D1EC2938B0082C598 /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6303882C1EC2938B0082C598 /* BarGraph.swift */; };
+		6303882F1EC400A40082C598 /* AverageWait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6303882E1EC400A40082C598 /* AverageWait.swift */; };
+		630388311EC5EC250082C598 /* BarDisplayDataPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630388301EC5EC250082C598 /* BarDisplayDataPiece.swift */; };
 		63330A401EB15D9700E88D5C /* JSONRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63330A3F1EB15D9600E88D5C /* JSONRating.swift */; };
 		63412A481E3C34CD00E59C0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63412A451E3C340200E59C0E /* Main.storyboard */; };
 		63E49BA11E3C41AD00C4B5BE /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E49BA01E3C41AD00C4B5BE /* Rating.swift */; };
@@ -47,6 +49,8 @@
 /* Begin PBXFileReference section */
 		6301EDCE1EC0A30B00C31C9F /* BarGraphDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphDisplay.swift; sourceTree = "<group>"; };
 		6303882C1EC2938B0082C598 /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
+		6303882E1EC400A40082C598 /* AverageWait.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AverageWait.swift; sourceTree = "<group>"; };
+		630388301EC5EC250082C598 /* BarDisplayDataPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarDisplayDataPiece.swift; sourceTree = "<group>"; };
 		63330A3F1EB15D9600E88D5C /* JSONRating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONRating.swift; sourceTree = "<group>"; };
 		63412A461E3C340200E59C0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = linetest1.2/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		63E49BA01E3C41AD00C4B5BE /* Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
@@ -136,9 +140,11 @@
 				63E84C361E3BFF5D0024DEA9 /* LocationDetail.swift */,
 				63412A451E3C340200E59C0E /* Main.storyboard */,
 				6303882C1EC2938B0082C598 /* BarGraph.swift */,
+				630388301EC5EC250082C598 /* BarDisplayDataPiece.swift */,
 				63E49BA21E3C42FD00C4B5BE /* RatingTableViewCell.swift */,
 				63E49BA01E3C41AD00C4B5BE /* Rating.swift */,
 				63E84C381E3BFF770024DEA9 /* LocationDetailViewController.swift */,
+				6303882E1EC400A40082C598 /* AverageWait.swift */,
 				63E84C3C1E3BFF9F0024DEA9 /* LocationTableViewCell.swift */,
 				63E84C3E1E3BFFAD0024DEA9 /* LocationTableViewController.swift */,
 				63330A3F1EB15D9600E88D5C /* JSONRating.swift */,
@@ -319,12 +325,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				6303882D1EC2938B0082C598 /* BarGraph.swift in Sources */,
+				630388311EC5EC250082C598 /* BarDisplayDataPiece.swift in Sources */,
 				63E84C3D1E3BFF9F0024DEA9 /* LocationTableViewCell.swift in Sources */,
 				63E84C391E3BFF770024DEA9 /* LocationDetailViewController.swift in Sources */,
 				63330A401EB15D9700E88D5C /* JSONRating.swift in Sources */,
 				63E84C371E3BFF5D0024DEA9 /* LocationDetail.swift in Sources */,
 				6301EDCF1EC0A30B00C31C9F /* BarGraphDisplay.swift in Sources */,
 				63E84C0B1E3BFEAF0024DEA9 /* ViewController.swift in Sources */,
+				6303882F1EC400A40082C598 /* AverageWait.swift in Sources */,
 				63E49BA31E3C42FD00C4B5BE /* RatingTableViewCell.swift in Sources */,
 				63E84C091E3BFEAF0024DEA9 /* AppDelegate.swift in Sources */,
 				63E84C3F1E3BFFAD0024DEA9 /* LocationTableViewController.swift in Sources */,
@@ -489,6 +497,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Crabtree.LINES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -503,6 +512,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Crabtree.LINES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -16,13 +16,15 @@ class location {
     var detail2: String
     var ratingList: NSArray
     var locationImagine: UIImage
-    var address: String
+    var timeSinceLastPost: String
     var phoneNumber: String
     var displayedAddress: String
     var displayedPhoneNumber: String
     var llLocation: Int
     var qLocation: Int
-    var ratings = [rating]()
+    var ratings = [BarDisplayDataPiece]()
+  //  var rating: rating
+    
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -34,7 +36,7 @@ class location {
         static let detail2 = "detail2"
         static let ratingList = "ratingList"
         static let locationImagine = "locationImagine"
-        static let address = "address"
+        static let timeSinceLastPost = "timeSinceLastPost"
         static let phoneNumber = "phoneNumber"
         static let displayedPhoneNumber = "displayedPhoneNumber"
         static let displayedAddress = "displayedAddress"
@@ -45,14 +47,14 @@ class location {
     
     //MARK: Initialization
 
-    init?(detail1: String, detail2: String, ratingList: NSArray, locationImagine: UIImage, address: String, phoneNumber: String, displayedAddress: String, displayedPhoneNumber: String, llLocation: Int, qLocation: Int, ratings: [rating]) {
+    init?(detail1: String, detail2: String, ratingList: NSArray, locationImagine: UIImage, timeSinceLastPost: String, phoneNumber: String, displayedAddress: String, displayedPhoneNumber: String, llLocation: Int, qLocation: Int, ratings: [BarDisplayDataPiece]) {
     
     //Initialize stored properties
     self.detail1 = detail1
     self.detail2 = detail2
     self.ratingList = ratingList
     self.locationImagine = locationImagine
-    self.address = address
+    self.timeSinceLastPost = timeSinceLastPost
     self.phoneNumber = phoneNumber
     self.displayedAddress = displayedAddress
     self.displayedPhoneNumber = displayedPhoneNumber
@@ -67,7 +69,7 @@ class location {
         aCoder.encode(detail2, forKey: PropertyKey.detail2)
         aCoder.encode(ratingList, forKey: PropertyKey.ratingList)
         aCoder.encode(locationImagine, forKey: PropertyKey.locationImagine)
-        aCoder.encode(address, forKey: PropertyKey.address)
+        aCoder.encode(timeSinceLastPost, forKey: PropertyKey.timeSinceLastPost)
         aCoder.encode(phoneNumber, forKey: PropertyKey.phoneNumber)
         aCoder.encode(displayedAddress, forKey: PropertyKey.displayedAddress)
         aCoder.encode(displayedPhoneNumber, forKey: PropertyKey.displayedPhoneNumber)
@@ -82,14 +84,14 @@ class location {
         let detail2 = aDecoder.decodeObject(forKey: PropertyKey.detail2) as! String
         let ratingList = aDecoder.decodeObject(forKey: PropertyKey.ratingList) as! NSArray
         let locationImagine = aDecoder.decodeObject(forKey: PropertyKey.locationImagine) as! UIImage
-        let address = aDecoder.decodeObject(forKey: PropertyKey.address) as! String
+        let timeSinceLastPost = aDecoder.decodeObject(forKey: PropertyKey.timeSinceLastPost) as! String
         let phoneNumber = aDecoder.decodeObject(forKey: PropertyKey.phoneNumber) as! String
         let displayedPhoneNumber = aDecoder.decodeObject(forKey: PropertyKey.displayedPhoneNumber) as! String
         let displayedAddress = aDecoder.decodeObject(forKey: PropertyKey.displayedAddress) as! String
         let llLocation = aDecoder.decodeObject(forKey: PropertyKey.llLocation) as? Int
         let qLocation = aDecoder.decodeObject(forKey: PropertyKey.qLocation) as? Int
-        let ratings = aDecoder.decodeObject(forKey: PropertyKey.ratings) as! [rating]
+        let ratings = aDecoder.decodeObject(forKey: PropertyKey.ratings) as! [BarDisplayDataPiece]
         
-        self.init(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImagine, address: address, phoneNumber: phoneNumber, displayedAddress: displayedAddress, displayedPhoneNumber: displayedPhoneNumber, llLocation: llLocation!, qLocation: qLocation!, ratings: ratings)
+        self.init(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImagine, timeSinceLastPost: timeSinceLastPost, phoneNumber: phoneNumber, displayedAddress: displayedAddress, displayedPhoneNumber: displayedPhoneNumber, llLocation: llLocation!, qLocation: qLocation!, ratings: ratings)
     }
 }

@@ -22,6 +22,25 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     var ratings = [rating]()
     
     var ChipotleCircle: Int?
+    var ChipotleLine: Int?
+    var ChipotleTime: String?
+  //  var ChipotleAverage: BarGraph?
+    
+    var PotBellyCircle: Int?
+    var PotBellyLine: Int?
+    var PotbellyTime: String?
+    
+    var CornerstoneCircle: Int?
+    var CornerstoneLine: Int?
+    var CornerStoneTime: String?
+    
+    var BentlysCicle: Int?
+    var BentlysLine: Int?
+    var BentlysTime: String?
+    
+    var TerrapinTurfCircle: Int?
+    var TerrapinTurfLine: Int?
+    var TerrapinTurfTime: String?
     
     var chipotleRatings = [rating]()
     var potbellyRatings = [rating]()
@@ -29,6 +48,11 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     var bentleysRatings = [rating]()
     var terripansRatings = [rating]()
     
+    var ChipotleDataPiece = [BarDisplayDataPiece]()
+    var BentlysDataPiece = [BarDisplayDataPiece]()
+    var PotbellyDataPiece = [BarDisplayDataPiece]()
+    var TerrapinTurfDataPiece = [BarDisplayDataPiece]()
+    var CornerStoneDataPiece = [BarDisplayDataPiece]()
     
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -92,16 +116,52 @@ var locationSearchingList: [location] = [location]()
                     print("error")
                     return
                 }
-                    guard let firstObject = array.first else {
-                        print("error")
-                        return
-                }
+                //    guard let firstObject = array.last else {
+                  //      print("error")
+                  //      return
+             //   }
+            
+            for firstobject in array {
                         
-                    guard let dictionary = firstObject as? [String: Any] else {
+                    guard let dictionary = firstobject as? [String: Any] else {
                             
                             print("error")
                             return
                         }
+                
+              /*  for (key, value) in dictionary {
+                    
+                    let DataPiece = BarDisplayDataPiece(locationName: "", waitTime: 0, postTime: "")
+                    
+                    let locationName = key
+                    
+                    switch locationName {
+                        case "locationName":
+                            DataPiece?.locationName = value as! String
+                          //  self.ChipotleDataPiece?.locationName = (DataPiece?.locationName)!
+                        case "lineRating":
+                           // DataPiece?.waitTime = value
+                                 print("skip")
+                        case "timeDate":
+                            DataPiece?.postTime = value as! String
+               
+                        default:
+                            print("error")
+                    }
+                    print(self.ChipotleDataPiece?.locationName)
+                    print(DataPiece)
+                    print(DataPiece?.locationName)
+                    print(DataPiece?.waitTime)
+                    print(DataPiece?.postTime)
+                    print("here///")
+                    
+                    print("key, value")
+                    print(key)
+                    print(value)
+                    
+                    // access all key / value pairs in dictionary
+                }
+ */
                         
                         guard let circleRating = dictionary["circleRating"] as? String,
                             let lineRating = dictionary["lineRating"] as? String,
@@ -113,12 +173,159 @@ var locationSearchingList: [location] = [location]()
                                 return
                             }
             
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                    let date1 = dateFormatter.date(from: Time)!
             
-            self.ChipotleCircle = Int(circleRating)!
-            self.sampleLocations()
+                    let TimeNow = date1.timeIntervalSinceNow
+                    let TimeSincePost = self.stringFromTimeInterval(interval: TimeNow * -1)
+
+                // = "Hh"
+                dateFormatter.dateFormat = "HH"
+                let dateString = dateFormatter.string(from: date1 as! Date)
+                print(dateString)
+                
+                let dataPiece = BarDisplayDataPiece(waitTime: 0, postTime: "")
+                
+                
+               // dataPiece?.locationName = location
+               // dataPiece?.waitTime = Int(lineRating)!
+                //dataPiece?.postTime = Time
+                
+              //  self.ChipotleDataPiece.append(dataPiece!)
+              //  print(self.ChipotleDataPiece)
+              //  print("array")
+              //  print(self.ChipotleDataPiece.count)
+               // print(self.ChipotleDataPiece.first?.locationName)
+                
+             //   print(self.ChipotleAverage?.waitAt1)
+                print("after")
+                
+                
+                
+            let name = location
+                switch name {
+                    case "Chipotle":
+                    print("")
+                    self.ChipotleTime = TimeSincePost
+                    self.ChipotleLine = Int(lineRating)!
+                    self.ChipotleCircle = Int(circleRating)!
+                    
+                    // dataPiece?.locationName = location
+                    dataPiece?.waitTime = Int(lineRating)!
+                    dataPiece?.postTime = dateString
+                    
+                    self.ChipotleDataPiece.append(dataPiece!)
+                    print(self.ChipotleDataPiece)
+                    print("array")
+                    print(self.ChipotleDataPiece.count)
+                    print(self.ChipotleDataPiece.first?.postTime)
+                    // print(self.ChipotleDataPiece.first?.locationName)
+                    
+                   // print(self.ChipotleAverage?.waitAt1)
+                    print("after")
+
+                    
+                    case "Potbelly":
+                        self.PotBellyCircle = Int(circleRating)!
+                        self.PotBellyLine = Int(lineRating)!
+                        self.PotbellyTime = TimeSincePost
+                        
+                        
+                        dataPiece?.waitTime = Int(lineRating)!
+                        dataPiece?.postTime = dateString
+                        
+                        self.PotbellyDataPiece.append(dataPiece!)
+                        print(self.PotbellyDataPiece)
+                        print("array")
+                        print(self.PotbellyDataPiece.count)
+
+                          //   self.sampleLocations()
+                    print("Bentleys")
+                    case "Bentley's":
+                        self.BentlysCicle = Int(circleRating)!
+                        self.BentlysLine = Int(lineRating)!
+                        self.BentlysTime = TimeSincePost
+                    
+                        dataPiece?.waitTime = Int(lineRating)!
+                        dataPiece?.postTime = dateString
+                        
+                        self.BentlysDataPiece.append(dataPiece!)
+                        print(self.BentlysDataPiece)
+                        print("array")
+                        print(self.BentlysDataPiece.count)
+
+                    case "Cornerstone":
+                        self.CornerstoneCircle = Int(circleRating)!
+                        self.CornerstoneLine = Int(lineRating)!
+                        self.CornerStoneTime = TimeSincePost
+                    
+                        dataPiece?.waitTime = Int(lineRating)!
+                        dataPiece?.postTime = dateString
+                        
+                        self.CornerStoneDataPiece.append(dataPiece!)
+                        print(self.CornerStoneDataPiece)
+                        print("array")
+                        print(self.CornerStoneDataPiece.count)
+
+                    case "Terrapin Turf":
+                        self.TerrapinTurfCircle = Int(circleRating)!
+                        self.TerrapinTurfLine = Int(lineRating)!
+                        self.TerrapinTurfTime = TimeSincePost
+                    
+                        dataPiece?.waitTime = Int(lineRating)!
+                        dataPiece?.postTime = dateString
+                        
+                        self.TerrapinTurfDataPiece.append(dataPiece!)
+                        print(self.TerrapinTurfDataPiece)
+                        print("array")
+                        print(self.TerrapinTurfDataPiece.count)
+
+                default:
+                    print("error")
+                }
+            
+            
+            
+           // self.ChipotleTime = TimeSincePost
+          //  self.ChipotleLine = Int(lineRating)!
+           // self.ChipotleCircle = Int(circleRating)!
        //  self.tableView.reloadData()
            // self.sampleLocations()
          //   self.sampleLocations()
+                /*    switch dateString {
+                 case "03":
+                 print("success at 03")
+                 let AverageWait = BarGraph(name: "Name", waitAt11: 0, waitAt12: 0, waitAt1: 0, waitAt2: 0, waitAt3: 0, waitAt4: 0, waitAt5: 0, waitAt6: 0, waitAt7: 0, waitAt8: 0, waitAt9: 0, waitAt10: 0)
+                 AverageWait?.waitAt1 = 3
+                 print(AverageWait!)
+                 print(AverageWait?.waitAt1)
+                 print("average wait 3")
+                 self.ChipotleAverage = AverageWait
+                 print(self.ChipotleAverage!)
+                 print(self.ChipotleAverage?.waitAt1)
+                 //   self.ChipotleAverage?.waitAt3 = Int(lineRating)!
+                 //  self.ChipotleAverage?.waitAt3 = 3
+                 //   print(self.ChipotleAverage?.waitAt3)
+                 print("wait at 3")
+                 default:
+                 print("time error")
+                 }
+                 if dateString == "03" {
+                 //   print("success at 03")
+                 //   print(self.ChipotleAverage?.waitAt1 as Any)
+                 }
+                 */
+            
+            }
+            
+            guard let firstObject = array.last else {
+                     print("error")
+                      return
+            }
+            
+            
+            self.sampleLocations()
             
             
             }
@@ -151,6 +358,9 @@ var locationSearchingList: [location] = [location]()
         refreshControl = UIRefreshControl()
         tableView.addSubview(refreshControl!)
         
+        refreshControl?.backgroundColor = #colorLiteral(red: 1, green: 0.04508675635, blue: 0.09558679909, alpha: 1)
+        refreshControl?.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
  // loadData()
         
       //  ChipotleCircle == 2
@@ -177,8 +387,7 @@ var locationSearchingList: [location] = [location]()
     //     self.searchBar.delegate = self
         
         locationList = locations
-        
-    }
+            }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -244,6 +453,7 @@ var locationSearchingList: [location] = [location]()
             cell.circleRating.rating = location.llLocation
             cell.locationImagine.image = location.locationImagine
             cell.segmentedControl.selectedSegmentIndex = location.qLocation
+            cell.timeSinceLastPostLbl.text = location.timeSinceLastPost
         }
         
         return cell
@@ -260,6 +470,102 @@ override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexP
 // Return false if you do not want the item to be re-orderable.
 return true
 }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        var postAction = UITableViewRowAction(style: .normal, title: "Confirm Current Line") { (action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
+
+            let firstActivityAction = self.locations[indexPath.row]
+            //let indexPath1 = IndexPath(row: 1, section: 1)
+            
+            
+            var request = URLRequest(url: URL(string: "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/insert.php")!)
+            
+            request.httpMethod = "POST"
+            
+            // locationName.replacingOccurrences(of: " ", with: "_")
+            let comments = "comment"
+            
+            let postString = "Location_Name=\(firstActivityAction.detail2)"+"&Line_Rating=\(firstActivityAction.qLocation)"+"&Circle_Rating=\(firstActivityAction.llLocation)"+"&Comments=\(comments)"
+            
+            request.httpBody = postString.data(using: .utf8)
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                    print("error=\(error)")
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(response)")
+                }
+                
+                let responseString = String(data: data, encoding: .utf8)
+                print("responseString = \(responseString)")
+            }
+            task.resume()
+            
+            self.navigationController?.isToolbarHidden
+                = false
+            self.navigationController?.toolbar.tintColor = #colorLiteral(red: 1, green: 0.04508675635, blue: 0.09558679909, alpha: 1)
+            var items = [UIBarButtonItem]()
+            //items.append(
+            //    UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+           // )
+            items.append(
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+            )
+            items.append(
+               UIBarButtonItem(title: "Updated Just Now", style: .plain, target: self, action: nil)
+                //UIBarButtonItem(barButtonSystemItem: .add, target: self, action: "Updated Just Now:")
+            )
+            items.append(
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+            )
+            self.navigationController?.toolbar.items = items
+            
+            
+               Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.removeToolBar), userInfo: nil, repeats: false)
+            
+            let indexPath1 = [indexPath]
+            
+            tableView.reloadRows(at: indexPath1 as! [IndexPath], with: .right)
+            
+            self.loadData1()
+            
+            //self.loadData1()
+
+            
+            let activityViewController = UIActivityViewController(activityItems: [firstActivityAction], applicationActivities: nil)
+
+            //let activityViewController = UIViewController(coder: location.)
+            // self.present(activityViewController, animated: true, completion: nil)
+            //  let activityViewController1 = LocationDetailViewController(
+            
+// let locationDetailView = LocationDetailViewController()
+// let it = locationDetailView(indexPath.row)
+//let selectedLocation = self.locations[indexPath1.row]
+//locationDetailView.Location = selectedLocation
+
+
+//self.performSegue(withIdentifier: "JoinTheLine", sender: UIButton())
+
+
+}
+
+postAction.backgroundColor = #colorLiteral(red: 0, green: 0.5694751143, blue: 1, alpha: 1)
+
+return [postAction]
+
+}
+    
+    @objc private func removeToolBar() {
+        self.navigationController?.isToolbarHidden
+            = true
+
+    }
+
 
     // MARK: - Navigation
     
@@ -543,21 +849,21 @@ return true
         
        // chipotleRatings += [rating1!, rating2!, rating3!]
         
-        guard let Chipotle = location(detail1: "Chipotle Mexican Grill", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), address: "7332/BaltimoreAve", phoneNumber: "2405820015", displayedAddress: "7332 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(240) 582-0015", llLocation: self.ChipotleCircle!, qLocation: 0, ratings: chipotleRatings) else {
+        guard let Chipotle = location(detail1: "Chipotle Mexican Grill", detail2: "Chipotle", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), timeSinceLastPost: self.ChipotleTime!, phoneNumber: "2405820015", displayedAddress: "7332 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(240) 582-0015", llLocation: self.ChipotleCircle!, qLocation: self.ChipotleLine!, ratings: ChipotleDataPiece) else {
             fatalError("Unable to instantiate loction1")
         }
         print("check")
         print(self.ChipotleCircle)
-        guard let Bentleys = location(detail1: "R J Bentley's Restaurant", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "bently's"), address: "7323/BaltimoreAve", phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: 2, qLocation: 0, ratings: bentleysRatings) else {
+        guard let Bentleys = location(detail1: "R J Bentley's Restaurant", detail2: "Bentley's", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "bently's"), timeSinceLastPost: self.BentlysTime!, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: self.BentlysCicle!, qLocation: self.BentlysLine!, ratings: BentlysDataPiece) else {
             fatalError("Unable to instantiate location2")
         }
-        guard let CornerStone = location(detail1: "Cornerstone Grill & Loft", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Cornerstone"), address: "7325/BaltimoreAve", phoneNumber: "3017797044", displayedAddress: "7325 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 779-7044", llLocation: 0, qLocation: 0, ratings: ratings) else {
+        guard let CornerStone = location(detail1: "Cornerstone Grill & Loft", detail2: "Cornerstone", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Cornerstone"), timeSinceLastPost: self.CornerStoneTime!, phoneNumber: "3017797044", displayedAddress: "7325 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 779-7044", llLocation: self.CornerstoneCircle!, qLocation: self.CornerstoneLine!, ratings: CornerStoneDataPiece) else {
             fatalError("Unable to instantiate location2")
         }
-        guard let TerrapiansTurf = location(detail1: "Terrapin Turf", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), address: "4410/KnoxRd", phoneNumber: "3012778377", displayedAddress: "4410 Knox Rd, College Park, MD", displayedPhoneNumber: "(301) 277-8377", llLocation: 0, qLocation: 0, ratings: ratings) else {
+        guard let TerrapiansTurf = location(detail1: "Terrapin Turf", detail2: "Terrapin Turf", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Chipotle"), timeSinceLastPost: self.TerrapinTurfTime!, phoneNumber: "3012778377", displayedAddress: "4410 Knox Rd, College Park, MD", displayedPhoneNumber: "(301) 277-8377", llLocation: self.TerrapinTurfCircle!, qLocation: self.TerrapinTurfLine!, ratings: TerrapinTurfDataPiece) else {
                 fatalError("Unable to instantiate location2")
         }
-        guard let PotBelly = location(detail1: "Potbelly Sandwich Shop", detail2: "reload", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Potbelly"), address: "7422/BaltimoreAve", phoneNumber: "3012090635", displayedAddress: "7422 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 209-0635", llLocation: 0, qLocation: 0, ratings: ratings) else {
+        guard let PotBelly = location(detail1: "Potbelly Sandwich Shop", detail2: "Potbelly", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "Potbelly"), timeSinceLastPost: self.PotbellyTime!, phoneNumber: "3012090635", displayedAddress: "7422 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 209-0635", llLocation: self.PotBellyCircle!, qLocation: self.PotBellyLine!, ratings: PotbellyDataPiece) else {
             fatalError("Unable to instantiate location2")
         }
         locationList = [Chipotle, Bentleys, CornerStone, TerrapiansTurf, PotBelly]
@@ -791,7 +1097,62 @@ func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
     self.tableView.reloadData()
     tableView.reloadData()
 }
+    
+    private func stringFromTimeInterval(interval: TimeInterval) -> String {
+        let interval = Int(interval)
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        let hours = (interval / 3600)
+        
+        if seconds < 60 && minutes == 0 && hours == 0 {
+            return String("1 minute")
+        }
+        if seconds > 60 || hours == 0{
+            return String(format: "%2d", minutes) + " mins ago"
+        }
+        if minutes > 60  || hours == 1{
+            return String(format: "%2d", hours) + " hour ago"
+        }
+        if minutes > 60  || hours > 1{
+            return String(format: "%2d", hours) + " hours ago"
+        } else {
+            print("else")
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+            
+        }
+    }
 
+    private func repostToConfirmRating() {
+        
+   /*     var request = URLRequest(url: URL(string: "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/insert.php")!)
+        
+        request.httpMethod = "POST"
+        
+       // locationName.replacingOccurrences(of: " ", with: "_")
+        
+        let postString = "Location_Name=\(locationName)"+"&Line_Rating=\(lineRating)"+"&Circle_Rating=\(ratingInt)"+"&Comments=\(comments)"
+        
+        request.httpBody = postString.data(using: .utf8)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(error)")
+                return
+            }
+            
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(response)")
+            }
+            
+            let responseString = String(data: data, encoding: .utf8)
+            print("responseString = \(responseString)")
+        }
+        task.resume()
+    
+*/
+        
+    }
  
     
     

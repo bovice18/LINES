@@ -228,7 +228,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         
          request.httpMethod = "POST"
         
-        
+        locationName.replacingOccurrences(of: " ", with: "_")
         
          let postString = "Location_Name=\(locationName)"+"&Line_Rating=\(lineRating)"+"&Circle_Rating=\(ratingInt)"+"&Comments=\(comments)"
         
