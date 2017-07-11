@@ -12,80 +12,110 @@ import os.log
 
 class LocationDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
 
- //   @IBOutlet weak var graphBar1: UIView!
     @IBOutlet weak var timeSincePostLbl: UILabel!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+ 
+    @IBOutlet weak var LineImage: UIImageView!
 
-    @IBOutlet weak var detail1Lbl: UILabel!
-  
-    @IBOutlet weak var detail2Lbl: UILabel!
-    @IBOutlet weak var joinTheLineButton: UIBarButtonItem!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var adressLbl: UILabel!
-    @IBOutlet weak var phoneLbl: UILabel!
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var locatingImage: UIImageView!
-    @IBOutlet weak var MapButton: UIButton!
-    @IBOutlet weak var CallButton: UIButton!
+    @IBOutlet weak var graphTitleLbl: UILabel!
     
+    @IBOutlet weak var GraphDisplayView: UIView!
+    
+    @IBOutlet weak var FirstWhiteView: UIView!
+ 
+    @IBOutlet weak var joinTheLineButton: UIBarButtonItem!
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var adressLbl: UILabel!
+    
+    @IBOutlet weak var phoneLbl: UILabel!
+    
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+ 
     @IBOutlet weak var barDisplay1: UIView!
+    
     @IBOutlet weak var barDisplay2: UIView!
+    
     @IBOutlet weak var barDisplay3: UIView!
+    
     @IBOutlet weak var barDisplay4: UIView!
+    
     @IBOutlet weak var barDisplay5: UIView!
+    
     @IBOutlet weak var barDisplay6: UIView!
+    
     @IBOutlet weak var barDisplay7: UIView!
+    
     @IBOutlet weak var barDisplay8: UIView!
+    
     @IBOutlet weak var barDisplay9: UIView!
+    
     @IBOutlet weak var barDisplay10: UIView!
+    
     @IBOutlet weak var barDisplay11: UIView!
+    
     @IBOutlet weak var barDisplay12: UIView!
     
+    var imageNumber: Int?
     
+    var timeLblData: String?
     
-    
-    @IBOutlet weak var circleRating: TriangleRatingControl!
     var Location: location?
     
     var ratings = [rating]()
     
     var waitsAt11 = [Int]()
-      var waitsAt12 = [Int]()
-      var waitsAt1 = [Int]()
-      var waitsAt2 = [Int]()
-      var waitsAt3 = [Int]()
-      var waitsAt4 = [Int]()
-      var waitsAt5 = [Int]()
-      var waitsAt6 = [Int]()
-      var waitsAt7 = [Int]()
-      var waitsAt8 = [Int]()
-      var waitsAt9 = [Int]()
-      var waitsAt10 = [Int]()
+    
+    var waitsAt12 = [Int]()
+    
+    var waitsAt1 = [Int]()
+    
+    var waitsAt2 = [Int]()
+    
+    var waitsAt3 = [Int]()
+    
+    var waitsAt4 = [Int]()
+    
+    var waitsAt5 = [Int]()
+    
+    var waitsAt6 = [Int]()
+    
+    var waitsAt7 = [Int]()
+    
+    var waitsAt8 = [Int]()
+    
+    var waitsAt9 = [Int]()
+    
+    var waitsAt10 = [Int]()
     
     var ratingsAt11 = [rating]()
+    
     var ratingsAt12 = [rating]()
+    
     var ratingsAt1 = [rating]()
+    
     var ratingsAt2 = [rating]()
+    
     var ratingsAt3 = [rating]()
+    
     var ratingsAt4 = [rating]()
+    
     var ratingsAt5 = [rating]()
+    
     var ratingsAt6 = [rating]()
+    
     var ratingsAt7 = [rating]()
+    
     var BarDisplayData = [Int]()
     
     var BarDisplays = [BarDisplayDataPiece]()
-    
-  //  var llLocation: String?
-    
-   // var qllocation: String?
-    
-   // var postStatus = [post]()
     
     let locationManager = CLLocationManager()
     
     var directPost: Int?
     
-
+    @IBOutlet weak var coloredView: UIView!
+    
     var refreshControl: UIRefreshControl!
     
     var timer: Timer!
@@ -93,25 +123,49 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadData()
+        
+        tableView.delegate = self
+        
+        tableView.dataSource = self
+    
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        
+        blurEffectView.frame = view.bounds
+        
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        view.addSubview(blurEffectView)
+        
+        view.sendSubview(toBack: blurEffectView)
+    
+        GraphDisplayView.layer.cornerRadius = 4
+        
+        FirstWhiteView.layer.cornerRadius = 4
+        
+        tableView.layer.cornerRadius = 4
+        
+        graphTitleLbl.layer.cornerRadius = 5
+        
         if let location = Location {
-            detail1Lbl.text = location.detail1
-            print(location.detail1)
-            detail2Lbl.text = location.detail2
-            locatingImage.image = location.locationImagine
+            
             BarDisplays = location.ratings
+            
             print(location.ratings)
+            
             print(BarDisplays.count)
+            
             print(location.ratings.count)
-            print(BarDisplays.first?.postTime)
-            print(BarDisplays.first?.waitTime)
+            
+            print(BarDisplays.first?.postTime as Any)
+            
+            print(BarDisplays.first?.waitTime as Any)
+            
             print("target")
+            
             navigationItem.title = location.detail1
-            // phoneLbl.text = location.phoneNumber
-            // adressLbl.text = location.address
-            //  MapButton.setTitle(location.displayedAddress, for: .normal)
-            // CallButton.setTitle(location.displayedPhoneNumber, for: .normal)
-            circleRating.rating = location.llLocation
-            //segmentedControl.selectedSegmentIndex = location.llLocation
             
             print("entered")
         }
@@ -119,174 +173,139 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         SortingBarDisplayData()
         
         let locationTableView = LocationTableViewController()
+        
         let locationDetailView = LocationDetailViewController()
+        
         let jointheline = UIStoryboardSegue.init(identifier: "JoinTheLine", source: locationTableView, destination: locationDetailView)
         
         jointheline.destination.navigationItem.title = "name"
         
-       // UserDefaults.standard.set(true, forKey: (Location?.detail1)!)
         
-        var title = (Location?.detail1)!
-        switch title {
+        let title = (Location?.detail1)!
+        
+    switch title {
     
-        case "Chipotle Mexican Grill":
+        case "Dock Street Bar & Grill":
+            
             UserDefaults.standard.set(1, forKey: "title")
+            
             UserDefaults.standard.synchronize()
-        case "R J Bentley's Restaurant":
+        
+        case "Acme Bar & Grill":
+            
             UserDefaults.standard.set(2, forKey: "title")
+            
             UserDefaults.standard.synchronize()
-        case "Potbelly Sandwich Shop":
-                UserDefaults.standard.set(5, forKey: "title")
-                UserDefaults.standard.synchronize()
-        case "Terrapin Turf":
-            UserDefaults.standard.set(4, forKey: "title")
-            UserDefaults.standard.synchronize()
-        case "Cornerstone Grill & Loft":
+        
+        case "Pusser's Caribbean Grille":
+            
             UserDefaults.standard.set(3, forKey: "title")
+            
             UserDefaults.standard.synchronize()
+        
+        case "Armadillos Restaurant":
+            
+            UserDefaults.standard.set(4, forKey: "title")
+            
+            UserDefaults.standard.synchronize()
+        
+        case "McGarvey's":
+            
+            UserDefaults.standard.set(5, forKey: "title")
+            
+            UserDefaults.standard.synchronize()
+        
+        case "The Federal House":
+            
+            UserDefaults.standard.set(6, forKey: "title")
+            
+            UserDefaults.standard.synchronize()
+        
         default:
+            
             UserDefaults.standard.set(0, forKey: "title")
+            
             UserDefaults.standard.synchronize()
+        
         }
-        //UserDefaults.standard.set(<#T##value: Int##Int#>, forKey: <#T##String#>)
-       // UserDefaults.standard.synchronize()
         
         if directPost == 1 {
+            
             performSegue(withIdentifier: "Post", sender: viewDidAppear(true))
             
         }
-        
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        
+
         barDisplay1.layer.cornerRadius = 4
         
-        barDisplay1.layer.borderColor = UIColor.gray.cgColor
-       // barDisplay1.heightAnchor.constraint(equalToConstant: 20).isActive = true
-      //    barDisplay2.heightAnchor.constraint(equalToConstant: 5).isActive = true
-         /// barDisplay3.heightAnchor.constraint(equalToConstant: 5).isActive = true
-         // barDisplay4.heightAnchor.constraint(equalToConstant: 5).isActive = true
-         // barDisplay5.heightAnchor.constraint(equalToConstant: 5).isActive = true
-         // barDisplay6.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        //  barDisplay7.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        //  barDisplay8.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        //  barDisplay9.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        //  barDisplay10.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        //  barDisplay11.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        //  barDisplay12.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        
         SortingBarDisplayData()
-        loadBarDisplay()
         
-      //  barDisplay2.heightAnchor.constraint(equalToConstant: 13)
-
-      //  barDisplay3.heightAnchor.constraint(equalToConstant: 11)
-        //barDisplay4.heightAnchor.constraint(equalToConstant: 7)
-
-        barDisplay1.layer.borderWidth = 1
+        loadBarDisplay()
+    
         barDisplay2.layer.cornerRadius = 4
+        
         barDisplay3.layer.cornerRadius = 4
+        
         barDisplay4.layer.cornerRadius = 4
+        
         barDisplay5.layer.cornerRadius = 4
+        
         barDisplay6.layer.cornerRadius = 4
+        
         barDisplay7.layer.cornerRadius = 4
+        
         barDisplay8.layer.cornerRadius = 4
+        
         barDisplay9.layer.cornerRadius = 4
+        
         barDisplay10.layer.cornerRadius = 4
-        barDisplay11.layer.cornerRadius = 4
-        barDisplay12.layer.cornerRadius = 4
-        
-      //  graphBar1.layer.cornerRadius = 4
-        //graphBar1.frame.height == 10
-      /*
-        self.progressViewer1.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer1.transform = progressViewer1.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer2.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer2.transform = progressViewer2.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer3.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer3.transform = progressViewer3.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer4.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer4.transform = progressViewer4.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer5.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer5.transform = progressViewer5.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer6.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer6.transform = progressViewer6.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer7.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer7.transform = progressViewer7.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer8.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer8.transform = progressViewer8.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer9.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer9.transform = progressViewer9.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer10.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer10.transform = progressViewer10.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer11.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer11.transform = progressViewer11.transform.scaledBy(x: 3, y: 12)
-        
-        self.progressViewer12.transform = CGAffineTransform(rotationAngle: (CGFloat(-90) / CGFloat(180.0) * CGFloat(M_PI)))
-        progressViewer12.transform = progressViewer12.transform.scaledBy(x: 3, y: 12)
-        
- */
-        loadData()
-        mostRecentTime()
-        updateCircleRating()
-        loadBarDisplay()
-        
-      // if let savedRatings = loadRatings() {
-       //     ratings += savedRatings
-        //}
 
+        mostRecentTime()
+        
+        updateCircleRating()
+        
+        loadBarDisplay()
+    
         refreshControl = UIRefreshControl()
+        
         tableView.addSubview(refreshControl!)
         
-        /*
-                //GRAPH setup- not connected to info yet
-                let value1 = 0.7
-                let value2 = 0.2
-                let value3 = 0.4
-                let value4 = 0.6
-                let value5 = 0.7
-                let value6 = 0.1
-                let value7 = 0.9
-                let value8 = 0.7
-                let value9 = 0.5
-                let value10 = 0.5
-                let value11 = 0.4
-                let value12 = 0.8
-        
-                self.progressViewer1.progress = Float(value1)
-                self.progressViewer2.progress = Float(value2)
-                self.progressViewer3.progress = Float(value3)
-                self.progressViewer4.progress = Float(value4)
-                self.progressViewer5.progress = Float(value5)
-                self.progressViewer6.progress = Float(value6)
-                self.progressViewer7.progress = Float(value7)
-                self.progressViewer8.progress = Float(value8)
-                self.progressViewer9.progress = Float(value9)
-                self.progressViewer10.progress = Float(value10)
-                self.progressViewer11.progress = Float(value11)
-                self.progressViewer12.progress = Float(value12)
-        
+  /*      switch imageNumber {
+            
+        case 1?:
+            
+            LineImage.image = UIImage(named: "0-5")
+            
+        case 2?:
+            
+            LineImage.image = UIImage(named: "5-10")
+            
+        case 3?:
+            
+            LineImage.image = UIImage(named: "10-20")
+            
+        case 4?:
+            
+            LineImage.image = UIImage(named: "20+")
+            
+        default:
+            print("no circle rating found")
+        }
         */
-     
         
     // Do any additional setup after loading the view.
     
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        tableView.reloadData()
+        
         mostRecentTime()
-        updateCircleRating()
+        
+       // updateCircleRating()
+        
+       // ClearingTable()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -307,191 +326,94 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // Table view ells are reused and should be dequeued using a cell identifier.
+        
         let cellIdentifier = "RatingTableViewCell"
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RatingTableViewCell
         
         // Fetches the appropriate day for the data source laout
         let rating = ratings[indexPath.row]
         
-       // cell.timeLbl.text = rating.time
-        
         let dateFormatter = DateFormatter()
+        
         dateFormatter.timeStyle = .short
         
-        let date1 = dateFormatter.string(from: rating.timeIntervalSinceNow as! Date)
-        
-       // let date = dateFormatter(
+        let date1 = dateFormatter.string(from: rating.timeIntervalSinceNow! as Date)
         
         cell.timeLbl.text = date1
         
-      //  let time = rating.timeIntervalSinceNow
-      //  let dateFormatter = DateFormatter()
-        
-        cell.circleControl.rating = rating.circleRating
-    
-        /*
-        //Determining the line status and adding a color to go along with it: red- very Slow, slow/fast - white, very fast - green
-        if rating.lineRating == 0 {
-            cell.infoLbl.text = "5 minutes"
+            switch rating.circleRating {
+                
+        case 1:
+            
+            cell.LineImage.image = UIImage(named: "0-5")
+                
+        case 2:
+            
+            cell.LineImage.image = UIImage(named: "5-10")
+                
+        case 3:
+            
+            cell.LineImage.image = UIImage(named: "10-20")
+                
+        case 4:
+            
+            cell.LineImage.image = UIImage(named: "20+")
+                
+        default:
+            
+            print("no circle rating found")
         }
-        if rating.lineRating == 1 {
-            cell.infoLbl.text = "10 minutes"
-        }
-        if rating.lineRating == 2 {
-            cell.infoLbl.text = "15 minutes"
-        }
-        if rating.lineRating == 3 {
-            cell.infoLbl.text = "20 minutes"
-        }
- */
-        cell.commentLbl.text = "comments: " + rating.comments
-        
-     
-        
         return cell
     }
 
-    
-
     // MARK: - Navigation
     @IBAction func unwindToRatingList(sender: UIStoryboardSegue) {
+    
         if let sourceViewController = sender.source as? RatingViewController, let rating = sourceViewController.Rating {
-            
-            // Add a new rating.
-          //   let newIndexPath = IndexPath(row: ratings.count, section: 0)
-            
-           // ratings.insert(rating, at: ratings.count-ratings.count)
-            
-            //Insert into the table
-           // tableView.insertRows(at: [newIndexPath], with: .automatic)
             
             //Reloads table data so it is ordered from most recent at the top
             tableView.reloadData()
             
             let dateFormatter = DateFormatter()
+            
             dateFormatter.dateFormat = "Hh:mm"
             
-            
             dateFormatter.dateFormat = "HH"
-            let dateString = dateFormatter.string(from: rating.timeIntervalSinceNow as! Date)
+            
+            let dateString = dateFormatter.string(from: rating.timeIntervalSinceNow! as Date)
+            
             print(dateString)
             
-            navigationItem.title = "Thank You!"
-            
-            Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(LocationDetailViewController.changeTitleBack), userInfo: nil, repeats: false)
-            
-            // Graph code 
-            /*
-            if dateString == "11" {
-                ratingsAt11.append(rating)
-                print(ratingsAt11)
-                
-                var dividedNumber11 =  [Int]()
-                
-                for rating in ratingsAt11 {
-                        //print(rating.slider)
-                        //let divdedNumber = rating.slider / ratingsAt11.count
-                    var dividedNumbers = [divdedNumber]
-                    dividedNumbers.append(divdedNumber)
-                    dividedNumber11.append(divdedNumber)
-                    print(dividedNumbers)
-                    print(divdedNumber)
-                    //dividedNumbers.re
-                    print(divdedNumber * ratingsAt11.count)
-                    
-                    //print([divdedNumber])
-                }
-
-                if dateString == "12" {
-                    ratingsAt12.append(rating)
-                    print(ratingsAt12)
-                    
-                    }
-                if dateString == "13" {
-                    ratingsAt1.append(rating)
-                    print(ratingsAt1)
-                    }
-
-                if dateString == "14" {
-                    ratingsAt2.append(rating)
-                    print(ratingsAt2)
-                    }
-
-                if dateString == "15" {
-                    ratingsAt3.append(rating)
-                    print(ratingsAt3)
-                    }
-
-                if dateString == "16" {
-                    ratingsAt4.append(rating)
-                    print(ratingsAt4)
-                    }
-                    
-                if dateString == "17" {
-                    ratingsAt5.append(rating)
-                    print(ratingsAt5)
-                    }
-                if dateString == "18" {
-                    ratingsAt5.append(rating)
-                    print(ratingsAt5)
-                }
-                if dateString == "19" {
-                    ratingsAt5.append(rating)
-                    print(ratingsAt5)
-                } if dateString == "20" {
-                    ratingsAt5.append(rating)
-                    print(ratingsAt5)
-                }
-                if dateString == "21" {
-                    ratingsAt5.append(rating)
-                    print(ratingsAt5)
-                }
-                if dateString == "22" {
-                    ratingsAt5.append(rating)
-                    print(ratingsAt5)
-                }
-                if dateString == "23" {
-                    ratingsAt5.append(rating)
-                    print(ratingsAt5)
-                }
-            print(dividedNumber11)
-            let sumOfRatingAt11 = dividedNumber11.reduce(0, { x, y in x + y})
-            print(sumOfRatingAt11)
-            let indexPath1 = IndexPath(row: 0, section: 1)
-            let indexPath1 = NSIndexPath(index: 0)
-            let rating1At11 = ratingsAt11[indexPath1.row]
-            let first = rating1At11.lineRating
-            let lineRatings = []
-            let value1 = 1.0
-            self.progressViewer1.progress = Float(value1)
-            }
-            print(ratingsAt11)
-*/
             UserDefaults.standard.set(true, forKey: "switchState")
+            
             UserDefaults.standard.synchronize()
+            
             Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(LocationDetailViewController.resetPost), userInfo: nil, repeats: false)
+            
             print("timer started")
             
-        //This following was orginally how a new rating was added to the array of ratings and then displayed in table.
-            /*
-            ratings.append(rating)
-            tableView.insertRows(at: [newIndexPath], with: .top)
-            */
             saveRatings()
         }
         
         mostRecentTime()
+        
         updateCircleRating()
+        
         saveRatings()
     }
     
     func resetPost() {
+        
         UserDefaults.standard.set(false, forKey: "switchState")
+        
         UserDefaults.standard.synchronize()
+        
         print("timer stopped")
     }
     
     func changeTitleBack() {
+        
          navigationItem.title = Location?.detail1
     }
 
@@ -506,36 +428,47 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                 os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
                 return
             }
-     
-            let detail1 = detail1Lbl.text ?? ""
-            let detail2 = detail2Lbl.text ?? ""
-            let locationImage1 = locatingImage.image
+            let detail1 = Location?.detail1
+        
+            let detail2 = Location?.detail2
+        
+            let locationImage1 = Location?.locationImagine
+        
             let ratingList = ratings as NSArray
+        
             let timeSinceLastPost = Location?.timeSinceLastPost
+        
             let phoneNumber = Location?.phoneNumber
+        
             let displayedAddress = Location?.displayedPhoneNumber
+        
             let displayedPhoneNumber = Location?.displayedAddress
-            let llLocation = circleRating.rating
-            let qLocation = segmentedControl.selectedSegmentIndex
+        
+            let llLocation = Location?.llLocation
+        
             let ratings1 = Location?.ratings
         
         // Set the reting to be passed to LocationTableViewController after the unwind segue.
-        Location = location(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImage1!, timeSinceLastPost: timeSinceLastPost!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation, qLocation: qLocation, ratings: ratings1!)
-        loadData()
-        saveRatings()
-        mostRecentTime()
-        updateCircleRating()
-        print(ratingList)
-        print("sent info back to start")
+            Location = location(detail1: detail1!, detail2: detail2!, ratingList: ratingList, locationImagine: locationImage1!, timeSinceLastPost: timeSinceLastPost!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation!, ratings: ratings1!)
+        
+            loadData()
+        
+            saveRatings()
+        
+            mostRecentTime()
+        
+            updateCircleRating()
+        
+            print(ratingList)
+        
+            print("sent info back to start")
     }
 
-    private func loadSample() {
-    }
-    
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     
     private func saveRatings() {
+        
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(ratings, toFile: rating.ArchiveURL.path)
         if isSuccessfulSave {
             os_log("Rating successfully saved.", log: OSLog.default, type: .debug)
@@ -555,85 +488,143 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         let minutes = (interval / 60) % 60
         let hours = (interval / 3600)
     
+    if seconds < 0 {
+        return String("1m")
+    }
     if seconds < 60 && minutes == 0 && hours == 0 {
-        return String("1 minute")
+        return String("1m")
     }
     if seconds > 60 || hours == 0{
-        return String(format: "%2d", minutes) + " mins ago"
+        return String(format: "%2d", minutes) + "m"
     }
     if minutes > 60  || hours == 1{
-        return String(format: "%2d", hours) + " hour ago"
+        return String(format: "%2d", hours) + "h"
     }
     if minutes > 60  || hours > 1{
-        return String(format: "%2d", hours) + " hours ago"
+        return String(format: "%2d", hours) + "h"
     } else {
         print("else")
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-    
     }
+}
+    
+    private func stringSecondaryFromTimeInterval(interval: TimeInterval) -> Int {
+        let interval = Int(interval)
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        let hours = (interval / 3600)
+        
+        if seconds < 0 {
+            return Int(-hours)
+        }
+        if seconds < 60 && minutes == 0 && hours == 0 {
+            return Int(-hours)
+        }
+        if seconds > 60 || hours == 0{
+            return Int(-hours)
+        }
+        if minutes > 60  || hours == 1{
+            return Int(-hours)
+        }
+        if minutes > 60  || hours > 1{
+            return Int(-hours)
+        } else {
+            print("else")
+           return Int(-hours)
+        }
     }
     
     private func updateCircleRating() {
         
-         if ratings.count >= 1{
+    if ratings.count >= 1 {
+        
         let indexPath1 = NSIndexPath(row: 0, section: 0)
+            
         let cellIdentifier = "RatingTableViewCell"
-        //let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath1 as IndexPath) as? RatingTableViewCell
-        let mostRecentRating = ratings[indexPath1.row]
+        
+            let mostRecentRating = ratings[indexPath1.row]
 
-        circleRating.rating = mostRecentRating.circleRating
-        segmentedControl.selectedSegmentIndex = mostRecentRating.lineRating!
+        switch mostRecentRating.circleRating {
+                
+            case 1:
+                
+                LineImage.image = UIImage(named: "0-5")
+            
+            case 2:
+                
+                LineImage.image = UIImage(named: "5-10")
+            
+            case 3:
+                
+                LineImage.image = UIImage(named: "10-20")
+            
+            case 4:
+                
+                LineImage.image = UIImage(named: "20+")
+            
+            default:
+                print("no circle rating found")
+            }
+        }
+    else {
+        
+        switch imageNumber {
+            
+        case 1?:
+            
+            LineImage.image = UIImage(named: "0-5")
+            
+        case 2?:
+            
+            LineImage.image = UIImage(named: "5-10")
+            
+        case 3?:
+            
+            LineImage.image = UIImage(named: "10-20")
+            
+        case 4?:
+            
+            LineImage.image = UIImage(named: "20+")
+            
+        default:
+            print("no circle rating found")
+        }
+
         }
     }
 
     func mostRecentTime() {
         
         if ratings.count >= 1{
+            
             let indexPath1 = NSIndexPath(row: 0, section: 0)
+            
             let cellIdentifier = "RatingTableViewCell"
-           // let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath1 as IndexPath) as? RatingTableViewCell
+            
             let mostRecentRating = ratings[indexPath1.row]
-            //let mintuesOfLine = mostRecentRating.lineRating
-            let timenow = NSDate()
-            let dateFormatter = DateFormatter()
+          
             let PostedDate = mostRecentRating.timeIntervalSinceNow
-          //  let minutes = dateFormatter
-           // dateFormatter.dateFormat = "mm"
+        
             let intervalSincePost = PostedDate?.timeIntervalSinceNow
+            
             let postedDate = stringFromTimeInterval(interval: intervalSincePost! * -1)
             
             timeSincePostLbl.text = postedDate
-            
-            /*
-            if mostRecentRating.lineRating == 0 {
-                let LineMinutesString = "5"
-                detail2Lbl.text = postedDate + " ago: " + LineMinutesString + " minutes"
-            }
-            
-            if mostRecentRating.lineRating == 1 {
-                let LineMinutesString = "10"
-                detail2Lbl.text = postedDate + " ago: " + LineMinutesString + " minutes"
-            }
-            
-            if mostRecentRating.lineRating == 2 {
-                let LineMinutesString = "15"
-                detail2Lbl.text = postedDate + " ago: " + LineMinutesString + " minutes"
-            }
-            
-            if mostRecentRating.lineRating == 3 {
-                let LineMinutesString = "20"
-                detail2Lbl.text = postedDate + " ago: " + LineMinutesString + " minutes"
-            }
- */
+        }
+        else {
+            timeSincePostLbl.text = timeLblData
         }
     }
     
     private func RefresherRequestForData1() {
+        
         timer =  Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(endOfWork), userInfo: nil, repeats: false)
+        
         print("time set")
     }
     
     func endOfWork() {
+        
         refreshControl!.endRefreshing()
         
         timer.invalidate()
@@ -642,6 +633,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     }
     
      func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
         if refreshControl!.isRefreshing {
             RefresherRequestForData1()
             print("refresherRequest")
@@ -650,30 +642,30 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     func loadData() {
     
-    let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getData.php"
+        let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getData.php"
     
-    // Add one parameter
-    let urlWithParams = scriptURL
+        // Add one parameter
+        let urlWithParams = scriptURL
     
-    let myUrl = NSURL(string: urlWithParams);
+        let myUrl = NSURL(string: urlWithParams);
     
-    let request = NSMutableURLRequest(url: myUrl as! URL);
+        let request = NSMutableURLRequest(url: myUrl! as URL);
     
-    request.httpMethod = "GET"
-    
-    let task = URLSession.shared.dataTask(with: request as URLRequest) {
-        data, response, error in
+        request.httpMethod = "GET"
         
-        // Check for error
-        if error != nil
-        {
-            print("error=\(error)")
-            return
-        }
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
         
-        // Print out response string
-        let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-        print("responseString = \(responseString)")
+            // Check for error
+            if error != nil
+            {
+                print("error=\(String(describing: error))")
+                return
+            }
+        
+            // Print out response string
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(String(describing: responseString))")
         
         let json = try? JSONSerialization.jsonObject(with: data!, options: [])
         
@@ -683,17 +675,11 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                 print(number)
             }
             
-            for (key, value) in dictionary {
-                print("anything")
-                // access all key / value pairs in dictionary
-            }
-            
             if let nestedDictionary = dictionary[""] as? [String: Any] {
                 print(nestedDictionary)
                 print("anything")
                 // access nested dictionary values by key
             }
-            
         }
         
         if let array = json as? [Any] {
@@ -704,59 +690,49 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                 if let dictionary = firstObject as? [String: Any] {
                     
                     var time1 = NSDate()
-                    var comments1: String
+             
                     var locationName1: String
-                    var ratingId1: String
+            
                     var circleRating1: Int
                     
-                    
                     if let ratingId = dictionary["ratingId"] as? String {
+                        
                         // access individual value in dictionary
                         print(ratingId)
-                        ratingId1 = ratingId
-                        
-                    if let comments = dictionary["comments"] as? String {
-                        // access individual value in dictionary
-                        print(comments)
-                        comments1 = comments
                         
                     if let circleRating = dictionary["circleRating"] as? String {
+                            
                         // access individual value in dictionary
                         print(circleRating)
+                            
                         circleRating1 = Int(circleRating)!
                        
-                    
                     if let locationName = dictionary["locationName"] as? String {
+                        
                         // access individual value in dictionary
                         print(locationName)
+                        
                         locationName1 = locationName
                     
                     if let timeDate = dictionary["timeDate"] as? NSDate {
                         // access individual value in dictionary
                         print(timeDate)
+                        
                         time1 = timeDate
-                        }
-                        //time1 =
-                    
-                        let rating1 = rating(locationName: locationName1, time: locationName1, lineRating: circleRating1, circleRating: circleRating1, comments: comments1, timeIntervalSinceNow: time1)
                         
-                        if locationName1 == "Bentley's" {
-                         //   self.ratings.append(rating1!)
-                         //   self.tableView.reloadData()
+                        }
+                        
+                        if locationName1 == "Acme" {
+                            
                             print(self.ratings)
+                            
                             print("working")
-
-                        }
-                        
-                    }
-                        }
                         }
                     }
                 }
-                
-                // access individual object in array
-
             }
+        }
+    }
             
             if let firstObject = array.last {
                 print("firstObject")
@@ -767,174 +743,407 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                     if let ratingId = dictionary["ratingId"] as? String {
                         // access individual value in dictionary
                         print(ratingId)
+                        
                     }
-                    if let comments = dictionary["comments"] as? String {
-                        // access individual value in dictionary
-                        print(comments)
-                    }
+                   
                     if let locationName = dictionary["locationName"] as? String {
                         // access individual value in dictionary
                         print(locationName)
+                        
                     }
                     if let timeDate = dictionary["timeDate"] as? String {
                         // access individual value in dictionary
                         print(timeDate)
+                        
                     }
                 }
-                
             }
             
             for object in array {
                 
                 if let dictionary = object as? [String: Any] {
                     
-                        var time1: Date
-                        var comments1: String
-                        var locationName1: String
-                        var lineRating1: Int
-                        var circleRating1: Int
+                    var time1: Date
+                    
+                    var locationName1: String
+                    
+                    var circleRating1: Int
+                    
                         
-                        
-                       // if let ratingId = dictionary["ratingId"] as? String {
-                            // access individual value in dictionary
-                          //  print(ratingId)
-                         //   ratingId1 = ratingId
-                          //
-                            
-                        if let comments = dictionary["comments"] as? String {
-                            // access individual value in dictionary
-                            print(comments)
-                            comments1 = comments
-                            
-                            
-                        if let lineRating = dictionary["lineRating"] as? String {
-                            // access individual value in dictionary
-                            print(comments)
-                            lineRating1 = Int(lineRating)!
-
-                                
                         if let circleRating = dictionary["circleRating"] as? String {
+                        
                             // access individual value in dictionary
                             print(circleRating)
+                            
                             circleRating1 = Int(circleRating)!
                                     
-                                    
                         if let locationName = dictionary["locationName"] as? String {
+                    
                             // access individual value in dictionary
                             print(locationName)
+                            
                             locationName1 = locationName
                                         
                         if let timeDate = dictionary["timeDate"] as? String {
+                            
                             // access individual value in dictionary
                             print(timeDate)
+                            
                             let dateFormatter = DateFormatter()
+                            
                             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            
                             let date1 = dateFormatter.date(from: timeDate)!
+                            
                             time1 = date1
+                
+                    let rating1 = rating(locationName: locationName1, time: timeDate, circleRating: circleRating1, timeIntervalSinceNow: time1 as NSDate?)
                             
-                            // dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-                            // let date = dateFormatter.date(from:timeDate)
+                            let Filter = self.navigationItem.title!
+                            
+                        switch Filter {
+                            
+                            case "Acme Bar & Grill":
+                                
+                                if locationName1 == "Acme" {
+                                    
+                                    self.imageNumber = rating1?.circleRating
+                                    
+                                    self.updateCircleRating()
+                                
+                                    let time = rating1?.timeIntervalSinceNow
+                                    
+                                    let timeInterval = time?.timeIntervalSinceNow
+                                    
+                                    let stringTime = self.stringSecondaryFromTimeInterval(interval: timeInterval!)
+                            
+                                    print(stringTime)
+                                    
+                                    print("stringtime")
+                                
+                                    if stringTime <= 2 {
+                                        self.ratings.append(rating1!)
+                                        
+                                        print("inside constraint")
+                                    }
+                                    
+                                    let PostedDate = rating1?.timeIntervalSinceNow
+                                    
+                                    let intervalSincePost = PostedDate?.timeIntervalSinceNow
+                                    
+                                    let postedDate = self.stringFromTimeInterval(interval: intervalSincePost! * -1)
+                                    
+                                    self.timeLblData = postedDate
+                                    
+                                    self.mostRecentTime()
 
-                        
-                    let rating1 = rating(locationName: locationName1, time: timeDate, lineRating: lineRating1, circleRating: circleRating1, comments: comments1, timeIntervalSinceNow: time1 as NSDate?)
-                            
-                            var Filter = self.detail1Lbl.text!
-                            switch Filter {
-                            case "R J Bentley's Restaurant":
-                                if locationName1 == "Bentley's" {
-                                    self.ratings.append(rating1!)
+                                    //self.ratings.append(rating1!)
+                                    
                                     self.ratings.reverse()
+                                    
                                     self.tableView.reloadData()
                                 }
-                            case "Chipotle Mexican Grill":
-                                if locationName1 == "Chipotle" {
+                            
+                            case "Armadillos Restaurant":
+                                
+                                if locationName1 == "Armadillos" {
                                     
-                                   // self.BarDisplayData.removeAll()
-                                /*   self.BarDisplayData.append(lineRating1)
+                                    self.imageNumber = rating1?.circleRating
                                     
-                                    let sum = self.BarDisplayData.reduce(0, { x, y in x + y})
-                                    print("sum")
-                                    print(sum)
-
-                                    let exact = sum / self.BarDisplayData.count
-                                    print(self.BarDisplayData)
+                                    self.updateCircleRating()
                                     
-                                    print("division")
-                                    print(exact)
+                                    let time = rating1?.timeIntervalSinceNow
                                     
-                                    switch exact {
-                                    case 1:
-                                       let size = 10 * self.BarDisplayData.count
-                                         self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
-                                         print("case1")
-                                    case 2:
-                                        let size = 10 * self.BarDisplayData.count
-                                         self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
-                                         print("case2")
-                                    case 3:
-                                        let size = 89
-                                        self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
-                                         print("case3")
-                                    case 4:
-                                        let size = 10 * 6
-                                         self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
-                                        print("case4")
-                                    default:
-                                        let size = 10 * 6
-                                         self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(size)).isActive = true
-                                        print("defaulting")
-                                    }
-                                    */
+                                    let timeInterval = time?.timeIntervalSinceNow
                                     
-                                 /* let sumOfRatingAt11 = BarDisplayData.reduce(0, { x, y in x + y})
+                                    let stringTime = self.stringSecondaryFromTimeInterval(interval: timeInterval!)
                                     
-                                    let value2 = sumOfRatingAt11 / BarDisplayData.count
-
-                                    for value in self.BarDisplayData {
-                                       // let first = value / BarDisplayData.count
+                                    print(stringTime)
+                                    
+                                    print("stringtime")
+                                    
+                                    if stringTime <= 2 {
+                                        self.ratings.append(rating1!)
                                         
+                                        print("inside constraint")
                                     }
-                                    */
                                     
-                                    print(self.BarDisplayData)
-                                    //let constant = self.BarDisplayData.count
-                                    //self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(constant)).isActive = true
-                                    self.ratings.append(rating1!)
+                                    let PostedDate = rating1?.timeIntervalSinceNow
+                                    
+                                    let intervalSincePost = PostedDate?.timeIntervalSinceNow
+                                    
+                                    let postedDate = self.stringFromTimeInterval(interval: intervalSincePost! * -1)
+                                    
+                                    self.timeLblData = postedDate
+                                    
+                                    self.mostRecentTime()
+                                    
+                                    //self.ratings.append(rating1!)
+        
                                     self.ratings.reverse()
+                                    
                                     self.tableView.reloadData()
                                 }
                                 
-                            case "Cornerstone Grill & Loft":
-                                if locationName1 == "Cornerstone" {
-                                    self.ratings.append(rating1!)
+                            case "Pusser's Caribbean Grille":
+                                
+                                if locationName1 == "Pussers" {
+                                    
+                                    self.imageNumber = rating1?.circleRating
+                                    
+                                    self.updateCircleRating()
+                                    
+                                    let time = rating1?.timeIntervalSinceNow
+                                    
+                                    let timeInterval = time?.timeIntervalSinceNow
+                                    
+                                    let stringTime = self.stringSecondaryFromTimeInterval(interval: timeInterval!)
+                                    
+                                    print(stringTime)
+                                    
+                                    print("stringtime")
+                                    
+                                    if stringTime <= 2 {
+                                        self.ratings.append(rating1!)
+                                        
+                                        print("inside constraint")
+                                    }
+                                    
+                                    let PostedDate = rating1?.timeIntervalSinceNow
+                                    
+                                    let intervalSincePost = PostedDate?.timeIntervalSinceNow
+                                    
+                                    let postedDate = self.stringFromTimeInterval(interval: intervalSincePost! * -1)
+                                    
+                                    self.timeLblData = postedDate
+                                    
+                                    self.mostRecentTime()
+                                    
+                                    //self.ratings.append(rating1!)
+                                   
                                     self.ratings.reverse()
+                                    
                                     self.tableView.reloadData()
                                 }
-                            case "Terrapin Turf":
-                                    if locationName1 == "Terrapin Turf" {
-                                        self.ratings.append(rating1!)
+                            case "Moe's Southwest Grill":
+                                
+                                    if locationName1 == "Moes" {
+                                        
+                                        let time = rating1?.timeIntervalSinceNow
+                                        
+                                        let timeInterval = time?.timeIntervalSinceNow
+                                        
+                                        let stringTime = self.stringSecondaryFromTimeInterval(interval: timeInterval!)
+                                        
+                                        print(stringTime)
+                                        
+                                        print("stringtime")
+                                        
+                                        if stringTime <= 2 {
+                                            self.ratings.append(rating1!)
+                                            
+                                            print("inside constraint")
+                                        }
+                                        
+                                        //self.ratings.append(rating1!)
+                                        
                                         self.ratings.reverse()
+                                        
                                         self.tableView.reloadData()
                                     }
-                            case "Potbelly Sandwich Shop":
-                                        if locationName1 == "Potbelly" {
+                            
+                            case "McGarvey's":
+                                
+                                    if locationName1 == "McGarveys" {
+                                    
+                                        self.imageNumber = rating1?.circleRating
+                                        
+                                        self.updateCircleRating()
+                                    
+                                        let time = rating1?.timeIntervalSinceNow
+                                        
+                                        let timeInterval = time?.timeIntervalSinceNow
+                                        
+                                        let stringTime = self.stringSecondaryFromTimeInterval(interval: timeInterval!)
+                                        
+                                        print(stringTime)
+                                        
+                                        print("stringtime")
+                                        
+                                        if stringTime <= 2 {
                                             self.ratings.append(rating1!)
-                                            self.ratings.reverse()
-                                            self.tableView.reloadData()
+                                            
+                                            print("inside constraint")
                                         }
-                            default:
-                                self.ratings.reverse()
-                                 self.tableView.reloadData()
-                              
-
-                            }
+                                        
+                                        //self.ratings.append(rating1!)
+                                    
+                                        self.ratings.reverse()
+                                    
+                                        self.tableView.reloadData()
                                     }
+                            
+                            case "The Federal House":
+                                
+                                    if locationName1 == "Federal House" {
+                                        
+                                        self.imageNumber = rating1?.circleRating
+                                        
+                                        self.updateCircleRating()
+                                    
+                                        let time = rating1?.timeIntervalSinceNow
+                                        
+                                        let timeInterval = time?.timeIntervalSinceNow
+                                        
+                                        let stringTime = self.stringSecondaryFromTimeInterval(interval: timeInterval!)
+                                        
+                                        print(stringTime)
+                                        
+                                        print("stringtime")
+                                        
+                                        if stringTime <= 2 {
+                                            self.ratings.append(rating1!)
+                                            
+                                            print("inside constraint")
+                                        }
+                                        
+                                        let PostedDate = rating1?.timeIntervalSinceNow
+                                        
+                                        let intervalSincePost = PostedDate?.timeIntervalSinceNow
+                                        
+                                        let postedDate = self.stringFromTimeInterval(interval: intervalSincePost! * -1)
+                                        
+                                        self.timeLblData = postedDate
+                                        
+                                        self.mostRecentTime()
+                                        
+                                        //self.ratings.append(rating1!)
+                                    
+                                        self.ratings.reverse()
+                                    
+                                        self.tableView.reloadData()
+                                    }
+                            
+                            case "Annapolis Ice Cream Co":
+                                
+                                if locationName1 == "Annapolis Ice Cream Co" {
+                                    
+                                    self.ratings.append(rating1!)
+                                    
+                                    self.ratings.reverse()
+                                    
+                                    self.tableView.reloadData()
+                                    
                                 }
+                            
+                            case "Joss Cafe & Sushi Bar":
+                                
+                                if locationName1 == "Joss" {
+                                    
+                                    self.ratings.append(rating1!)
+                                    
+                                    self.ratings.reverse()
+                                    
+                                    self.tableView.reloadData()
+                                }
+                            
+                            case "City Dock Cafe":
+                                
+                                if locationName1 == "City Dock Cafe" {
+                                    
+                                    self.ratings.append(rating1!)
+                                    
+                                    self.ratings.reverse()
+                                    
+                                    self.tableView.reloadData()
+                                    
+                                }
+                            case "Iron Rooster":
+                                
+                                if locationName1 == "Iron Rooset" {
+                                    
+                                    self.ratings.append(rating1!)
+                                    
+                                    self.ratings.reverse()
+                                    
+                                    self.tableView.reloadData()
+                                }
+                            
+                            case "Dock Street Bar & Grill":
+                                
+                                if locationName1 == "Dock Street" {
+                                    
+                                    self.imageNumber = rating1?.circleRating
+                                    
+                                    self.updateCircleRating()
+                                    
+                                    let time = rating1?.timeIntervalSinceNow
+                                    
+                                    let timeInterval = time?.timeIntervalSinceNow
+                                    
+                                    let stringTime = self.stringSecondaryFromTimeInterval(interval: timeInterval!)
+                                    
+                                    let PostedDate = rating1?.timeIntervalSinceNow
+                                    
+                                    let intervalSincePost = PostedDate?.timeIntervalSinceNow
+                                    
+                                    let postedDate = self.stringFromTimeInterval(interval: intervalSincePost! * -1)
+                                    
+                                    self.timeLblData = postedDate
+                                    
+                                    self.mostRecentTime()
+                                    
+                                    print(stringTime)
+                                    
+                                    print("stringtime")
+                                    
+                                    if stringTime <= 2 {
+                                        self.ratings.append(rating1!)
+                                        
+                                        print("inside constraint")
+                                    }
+                                    
+                                    //self.ratings.append(rating1!)
+                                    
+                                    self.ratings.reverse()
+                                    
+                                    self.tableView.reloadData()
+                                }
+                            
+                            case "Storm Bros.":
+                                
+                                if locationName1 == "Storm Bros" {
+                                    
+                                    self.ratings.append(rating1!)
+                                    
+                                    self.ratings.reverse()
+                                    
+                                    self.tableView.reloadData()
+                                    
+                                }
+                            
+                            case "Starbucks":
+                                
+                                if locationName1 == "Starbucks" {
+                                    
+                                    self.ratings.append(rating1!)
+                                    
+                                    self.ratings.reverse()
+                                    
+                                    self.tableView.reloadData()
+                                }
+                                
+                            default:
+                                
+                                self.ratings.reverse()
+                                
+                                self.tableView.reloadData()
                             }
                         }
                     }
-                    }
-            
+                }
+            }
+                
                 print("object")
                 print(object)
                 // access all objects in array
@@ -961,12 +1170,15 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         } catch let error as NSError {
             print(error.localizedDescription)
         }
-        
     }
     
     task.resume()
+        tableView.reloadData()
+        
         mostRecentTime()
+        
         print(BarDisplayData)
+        
         print("bardisplay")
 }
 
@@ -976,203 +1188,338 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let time = value.postTime
             
             switch time {
+                
             case "01":
+                
                 print("A line at 1")
+                
                 waitsAt1.append(value.waitTime)
+                
             case "02":
+                
                 print("A line at 2")
                 
             case "03":
+                
                 print("A line at 3")
                 
             case "04":
+                
                 print("A line at 4")
                 
             case "05":
+                
                 print("A line at 5")
                 
             case "06":
+                
                 print("A line at 6")
+                
             case "07":
+                
                 print("A line at 7")
+                
             case "08":
+                
                 print("A line at 8")
+                
             case "09":
+                
                 print("A line at 9")
+                
             case "10":
+                
                 print("A line at 10")
+                
             case "11":
+                
                 print("A line at 11")
-                waitsAt11.append(value.waitTime)
+                
             case "12":
+                
                 print("A line at 12")
-                waitsAt12.append(value.waitTime)
+                
             case "13":
+                
                 print("A line at 13")
-                waitsAt1.append(value.waitTime)
+                
             case "14":
+                
                 print("A line at 14")
-                waitsAt2.append(value.waitTime)
+                
             case "15":
                 print("A line at 15")
+                
                 waitsAt3.append(value.waitTime)
+                
             case "16":
+                
                 print("A line at 16")
+                
                 waitsAt4.append(value.waitTime)
+                
             case "17":
+                
                 print("A line at 17")
+                
                 waitsAt5.append(value.waitTime)
+                
             case "18":
+                
                 print("A line at 18")
+                
                 waitsAt6.append(value.waitTime)
+                
             case "19":
+                
                 print("A line at 19")
+                
                 waitsAt7.append(value.waitTime)
+                
             case "20":
+                
                 print("A line at 20")
+                
                 waitsAt8.append(value.waitTime)
+                
             case "21":
+                
                 print("A line at 21")
+                
                 waitsAt9.append(value.waitTime)
+                
             case "22":
+                
                 print("A line at 22")
+                
                 waitsAt10.append(value.waitTime)
+                
             case "23":
+                
                 print("A line at 23")
+                
+                waitsAt11.append(value.waitTime)
+                
             case "24":
+                
                 print("A line at 24")
+                
+                 waitsAt12.append(value.waitTime)
+                
             default:
+                
                 print("sorting error")
             }
-            
         }
         loadBarDisplay()
     }
     
     func loadBarDisplay() {
         
-        let array = [waitsAt1,waitsAt2,waitsAt3]
-        
         let sumAt11 = waitsAt11.reduce(0, { x, y in x + y})
         
         if sumAt11 > 0 {
-            let sizeAt11 = sumAt11 / waitsAt11.count * 20
-            self.barDisplay11.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt11)).isActive = true
-
+            
+            let sizeAt11 = sumAt11 / waitsAt11.count * 20 + 20
+            
+            self.barDisplay3.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt11)).isActive = true
+        }
+            
+        else {
+            
+            let sizeAt12 = 20
+            
+            self.barDisplay3.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
         }
         
         let sumAt12 = waitsAt12.reduce(0, { x, y in x + y})
+        
         if sumAt12 > 0 {
-            let sizeAt12 = sumAt12 / waitsAt12.count * 20
-            self.barDisplay12.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+            
+            let sizeAt12 = sumAt12 / waitsAt12.count * 20 + 20
+            
+          self.barDisplay2.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+            
+        }
+            
+        else {
+            
+            let sizeAt12 = 20
+            
+            self.barDisplay2.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
         }
         
         let sumAt1 = waitsAt1.reduce(0, { x, y in x + y})
+        
         if sumAt12 > 0 {
-            let sizeAt1 = sumAt1 / waitsAt1.count * 20
+            
+            let sizeAt1 = sumAt1 / waitsAt1.count * 20 + 20
+            
             self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt1)).isActive = true
         }
-     
-        
-        let sumAt2 = waitsAt2.reduce(0, { x, y in x + y})
-        
-        if sumAt2 > 0 {
-            let sizeAt2 = sumAt2 / waitsAt2.count * 20
-            self.barDisplay2.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt2)).isActive = true
+        else {
+            
+            let sizeAt1 = 20
+            
+            self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt1)).isActive = true
         }
-      //  let sizeAt2 = sumAt2 / waitsAt2.count * 20
         
         let sumAt3 = waitsAt3.reduce(0, { x, y in x + y})
+        
         if sumAt3 > 0 {
-            let sizeAt3 = sumAt3 / waitsAt3.count * 20
-            self.barDisplay3.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt3)).isActive = true
+            
+            let sizeAt3 = sumAt3 / waitsAt3.count * 20 + 20
+            
+            self.barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt3)).isActive = true
+        }
+            
+        else {
+            
+            let sizeAt3 = 20
+            
+            self.barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt3)).isActive = true
         }
         
         let sumAt4 = waitsAt4.reduce(0, { x, y in x + y})
+        
         if sumAt4 > 0 {
-            let sizeAt4 = sumAt4 / waitsAt4.count * 20
-            self.barDisplay4.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt4)).isActive = true
+            
+            let sizeAt4 = sumAt4 / waitsAt4.count * 20 + 20
+            
+            self.barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt4)).isActive = true
+        }
+            
+        else {
+            
+            let sizeAt4 = 20
+            
+            self.barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt4)).isActive = true
         }
         
         let sumAt5 = waitsAt5.reduce(0, { x, y in x + y})
         
         if sumAt5 > 0 {
-            let sizeAt5 = sumAt5 / waitsAt5.count * 20
-            self.barDisplay5.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt5)).isActive = true
+            
+            let sizeAt5 = sumAt5 / waitsAt5.count * 20 + 20
+            
+            self.barDisplay9.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt5)).isActive = true
         }
-       
+            
+        else {
+            
+            let sizeAt5 = 20
+            
+            self.barDisplay9.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt5)).isActive = true
+        }
         
         let sumAt6 = waitsAt6.reduce(0, { x, y in x + y})
+        
         if sumAt6 > 0 {
-             let sizeAt6 = sumAt6 / waitsAt6.count * 20
-            self.barDisplay6.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt6)).isActive = true
+            
+             let sizeAt6 = sumAt6 / waitsAt6.count * 20 + 20
+            
+            self.barDisplay8.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt6)).isActive = true
         }
-       
+            
+        else {
+            
+            let sizeAt6 = 20
+            
+            self.barDisplay8.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt6)).isActive = true
+        }
+        
         
         let sumAt7 = waitsAt7.reduce(0, { x, y in x + y})
+        
         if sumAt7 > 0 {
-            let sizeAt7 = sumAt7 / waitsAt7.count * 20
+            
+            let sizeAt7 = sumAt7 / waitsAt7.count * 20 + 20
+            
             self.barDisplay7.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt7)).isActive = true
         }
-     
+            
+        else {
+            
+            let sizeAt7 = 20
+            
+            self.barDisplay7.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt7)).isActive = true
+        }
         
         let sumAt8 = waitsAt8.reduce(0, { x, y in x + y})
+        
         if sumAt8 > 0 {
-            let sizeAt8 = sumAt8 / waitsAt8.count * 20
-            self.barDisplay8.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt8)).isActive = true
+            
+            let sizeAt8 = sumAt8 / waitsAt8.count * 20 + 20
+            
+            self.barDisplay6.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt8)).isActive = true
         }
-  
+            
+        else {
+            
+            let sizeAt8 = 20
+            
+            self.barDisplay6.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt8)).isActive = true
+        }
         
         let sumAt9 = waitsAt9.reduce(0, { x, y in x + y})
+        
         if sumAt9 > 0 {
-            let sizeAt9 = sumAt9 / waitsAt9.count * 20
-            self.barDisplay9.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt9)).isActive = true
+            
+            let sizeAt9 = sumAt9 / waitsAt9.count * 20 + 20
+            
+            self.barDisplay5.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt9)).isActive = true
         }
-       // let sizeAt9 = sumAt9 / waitsAt9.count * 20
-        
+            
+        else {
+            
+            let sizeAt9 = 20
+            
+            self.barDisplay5.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt9)).isActive = true
+        }
+      
         let sumAt10 = waitsAt10.reduce(0, { x, y in x + y})
+        
         if sumAt10 > 0 {
-            let sizeAt10 = sumAt10 / waitsAt10.count * 20
-            self.barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt10)).isActive = true
+            
+            let sizeAt10 = sumAt10 / waitsAt10.count * 20 + 20
+            
+           self.barDisplay4.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt10)).isActive = true
+            
+        }else {
+            
+            let sizeAt10 = 20
+            
+            self.barDisplay4.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt10)).isActive = true
         }
-        //let sizeAt10 = sumAt10 / waitsAt10.count * 20
-        
-        
-        
-        print(waitsAt1.count)
-        print(sumAt1)
-     //   print(sizeAt1)
-        print("math")
-        
-        
-       // self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt1)).isActive = true
-      //  self.barDisplay2.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt2)).isActive = true
-     //   self.barDisplay3.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt3)).isActive = true
-      //  self.barDisplay4.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt4)).isActive = true
-       // self.barDisplay5.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt5)).isActive = true
-       // self.barDisplay6.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt6)).isActive = true
-       // self.barDisplay7.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt7)).isActive = true
-       // self.barDisplay8.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt8)).isActive = true
-      //  self.barDisplay9.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt9)).isActive = true
-    //    self.barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt10)).isActive = true
-     //   self.barDisplay12.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
-       
     }
 
-
-    /*
-    @IBAction func CallButton(_ sender: UIButton) {
- 
-        var url:NSURL = NSURL(string: "tel://" + (Location?.phoneNumber)!)!
-        UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+    func ClearingTable() {
+    
+        for rating in ratings {
+        
+            let indexPath = ratings.index(of: rating)
+    
+            let time = rating.timeIntervalSinceNow
+    
+            let timeInterval = time?.timeIntervalSinceNow
+        
+            let stringTime = stringSecondaryFromTimeInterval(interval: timeInterval!)
+        
+                print(stringTime)
+                print("stringtime")
+         //   ratings.removeAll()
+            if stringTime <= 2 {
+                ratings.append(rating)
+            
+                print("inside constraint")
+            }
+            else {
+                print("not inside")
+        }
+        
+        }
+        tableView.reloadData()
     }
-    @IBAction func mapAdress(_ sender: UIButton) {
- 
-        var address:NSURL = NSURL(string: "http://maps.apple.com/z=21&?ll=" + (Location?.llLocation)! + "&z=21&?q=" + (Location?.qLocation)! + "&z=21")!
-        UIApplication.shared.open(address as URL, options: [:], completionHandler: nil)
-    }
-    */
-
 }
 
 

@@ -10,142 +10,364 @@ import UIKit
 import CoreLocation
 import os.log
 
-class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationManagerDelegate {
 
+    @IBOutlet weak var darkBlueView: UIView!
+    
+    var LineLength: Int?
+
+    @IBOutlet weak var longSaveButton: UIButton!
+    
     @IBOutlet weak var sliderLbl: UILabel!
     
     @IBOutlet weak var commentsPickerView: UIPickerView!
     
-    @IBOutlet weak var timeLbl: UILabel!
+    @IBOutlet weak var ArrowImage: UIImageView!
+
+    @IBOutlet weak var timeButton3: UIButton!
     
-    @IBOutlet weak var circleRating: TriangleRatingControl!
+    @IBOutlet weak var timeButton4: UIButton!
+    
+    @IBOutlet weak var timeButton2: UIButton!
+    
+    @IBOutlet weak var timeButton1: UIButton!
+    
+    @IBOutlet weak var lineRating4Lbl: UILabel!
+    
+    @IBOutlet weak var lineRating3Lbl: UILabel!
+    
+    @IBOutlet weak var lineRating1Lbl: UILabel!
+    
+    @IBOutlet weak var lineRatingLbl2: UILabel!
+    
+    @IBOutlet weak var lineRating4: UIView!
+    
+    @IBOutlet weak var lineRating3: UIView!
+    
+    @IBOutlet weak var lineRating2: UIView!
+    
+    @IBOutlet weak var lineRating1: UIView!
+    
+    @IBOutlet weak var timeLbl: UILabel!
     
     @IBOutlet weak var segementedLineLBL: UILabel!
     
     @IBOutlet weak var segementLineController: UISegmentedControl!
     
     var sliderValue = Int()
+    
+    var LocationName: String?
+    
+    @IBAction func timeButton1Pressed(_ sender: Any) {
+        
+        self.navigationItem.title = "Extremely Quick"
+        
+        timeButton1.backgroundColor = UIColor.clear
+        
+        timeButton2.backgroundColor = UIColor.clear
+        
+        timeButton3.backgroundColor = UIColor.clear
+        
+        timeButton4.backgroundColor = UIColor.clear
+        
+        timeButton1.isEnabled = true
+        
+        timeButton2.isHighlighted = true
+        
+        timeButton3.isHighlighted = true
+        
+        timeButton4.isHighlighted = true
 
-    @IBAction func slider(_ sender: UISlider)
-    {
-        sliderLbl.text = String(Int(sender.value)) + " minutes"
-        sliderValue = Int(sender.value)
-
-        let triangle = TriangleRatingControl()
-        print("***\(triangle.rating)")
-        if triangle.rating == 1 {
-            segementLineController.selectedSegmentIndex = 2
-            print("***\(triangle.rating)")
-        }
+        LineLength = 1
+        
+        ArrowImage.image = UIImage(named: "0-5")
+        
+        saveButton.isEnabled = true
+        
+        longSaveButton.isEnabled = true
+        
     }
     
+    @IBAction func timeButton2Pressed(_ sender: Any) {
+        
+        timeButton1.backgroundColor = UIColor.clear
+        
+        timeButton2.backgroundColor = UIColor.clear
+        
+        timeButton3.backgroundColor = UIColor.clear
+        
+        timeButton4.backgroundColor = UIColor.clear
+      
+        timeButton1.isHighlighted = true
+        
+        timeButton2.isEnabled = true
+        
+        timeButton3.isHighlighted = true
+        
+        timeButton4.isHighlighted = true
+
+        ArrowImage.image = UIImage(named: "5-10")
+        
+        LineLength = 2
+        
+        saveButton.isEnabled = true
+        
+        longSaveButton.isEnabled = true
+        
+        self.navigationItem.title = "Fast"
+      
+    }
+    
+    @IBAction func timeButton3Pressed(_ sender: Any) {
+      
+        self.navigationItem.title = "Slow"
+       
+        timeButton1.isHighlighted = true
+        
+        timeButton2.isHighlighted = true
+        
+        timeButton3.isEnabled = true
+        
+        timeButton4.isHighlighted = true
+
+        timeButton1.tintColor = UIColor.black
+        
+        timeButton1.backgroundColor = UIColor.clear
+        
+        timeButton2.backgroundColor = UIColor.clear
+        
+        timeButton3.backgroundColor = UIColor.clear
+        
+        timeButton4.backgroundColor = UIColor.clear
+        
+        ArrowImage.image = UIImage(named: "10-20")
+           LineLength = 3
+        
+        saveButton.isEnabled = true
+        
+        longSaveButton.isEnabled = true
+        
+    }
+    
+    @IBAction func timeButton4Pressed(_ sender: Any) {
+        
+         self.navigationItem.title = "Barely Moving"
+        
+        timeButton1.backgroundColor = UIColor.clear
+        
+        timeButton2.backgroundColor = UIColor.clear
+        
+        timeButton3.backgroundColor = UIColor.clear
+        
+        timeButton4.backgroundColor = UIColor.clear
+        
+        timeButton1.isHighlighted = true
+        
+        timeButton2.isHighlighted = true
+        
+        timeButton3.isHighlighted = true
+        
+        timeButton4.isEnabled = true
+    
+        ArrowImage.image = UIImage(named: "20+")
+        
+        LineLength = 4
+        
+        saveButton.isEnabled = true
+        
+        longSaveButton.isEnabled = true
+        
+    }
+
     let locationManager = CLLocationManager()
+    
     let circleRegion = CLCircularRegion()
-    @IBOutlet weak var textField: UITextField!
+    
+
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    
     var Rating: rating?
+    
     var center: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 37.787359, longitude: -122.408227) }
     
     var identifier: String {
         return "San Fran"
     }
     
-    let pickerData = ["not moving", "quick","long","slow","worth it", "short", "not worth it", "no line", "no wait", "out of the door"]
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        commentsPickerView.dataSource = self
-        commentsPickerView.delegate = self
-        
-        view.tintColor = UIColor.lightGray
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
     
-        /*let source1 =
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
         
-        let something = source1?.navigationItem.title
-        let source = parent?.navigationItem.title
+        blurEffectView.frame = darkBlueView.bounds
         
-        navigationItem.title = source
-        */
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        if let rating = Rating {
-            navigationItem.title = rating.locationName
-            print("rating11")
+        darkBlueView.addSubview(blurEffectView)
+        
+        darkBlueView.sendSubview(toBack: blurEffectView)
+ 
+        timeButton1.titleLabel?.textColor = UIColor.black
+        
+        timeButton1.setTitleColor(.black, for: .normal)
+        
+        timeButton2.setTitleColor(.black, for: .normal)
+        
+        timeButton3.setTitleColor(.black, for: .normal)
+        
+        timeButton4.setTitleColor(.black, for: .normal)
+        
+        timeButton1.layer.borderWidth = 1
+        
+        timeButton1.layer.borderColor = UIColor.black.cgColor
+        
+        timeButton1.layer.cornerRadius = 4
+        
+        timeButton2.layer.borderWidth = 1
+        
+        timeButton2.layer.borderColor = UIColor.black.cgColor
+        
+        timeButton2.layer.cornerRadius = 4
+        
+        timeButton3.layer.cornerRadius = 4
+        
+        timeButton3.layer.borderWidth = 1
+        
+        timeButton3.layer.borderColor = UIColor.black.cgColor
+        
+        timeButton4.layer.cornerRadius = 4
+        
+        timeButton4.layer.borderWidth = 1
+        
+        timeButton4.layer.borderColor = UIColor.black.cgColor
+        
+        lineRating2.layer.cornerRadius = 4
+        
+        lineRating2.layer.borderWidth = 1
+        
+        lineRating2.layer.borderColor = UIColor.black.cgColor
+        
+        lineRating3.layer.cornerRadius = 4
+        
+        lineRating3.layer.borderWidth = 1
+        
+        lineRating3.layer.borderColor = UIColor.black.cgColor
+        
+        lineRating4.layer.cornerRadius = 4
+        
+        lineRating4.layer.borderWidth = 1
+        
+        lineRating4.layer.borderColor = UIColor.black.cgColor
+        
+        self.lineRating1.backgroundColor = UIColor.clear
+        
+        self.lineRating2.backgroundColor = UIColor.clear
+        
+        self.lineRating3.backgroundColor = UIColor.clear
+        
+        self.lineRating4.backgroundColor = UIColor.clear
+            
+        saveButton.isEnabled = false
+        
+        longSaveButton.isEnabled = false
+        
+        longSaveButton.layer.cornerRadius = 4
+        
+        longSaveButton.layer.shadowOpacity = 0.2
+        
+        darkBlueView.layer.cornerRadius = 4
+        
+        darkBlueView.layer.shadowOpacity = 0.2
+        
+    if let rating = Rating {
+        
+        navigationItem.title = rating.locationName
+        
+        print("rating11")
+        
         }
         
         var title = String()
         
         var TitleID = UserDefaults.standard.integer(forKey: "title")
         
-        switch TitleID {
+    switch TitleID {
+        
         case 1:
-            navigationItem.title = "Chipotle"
+            
+            navigationItem.title = "Dock Street"
+            
+            LocationName = "Dock Street"
+        
         case 2:
-            navigationItem.title = "Bentley's"
+            
+            navigationItem.title = "Acme"
+            
+            LocationName = "Acme"
+        
         case 3:
-            navigationItem.title = "Cornerstone"
+            
+            navigationItem.title = "Pusser's"
+            
+            LocationName = "Pussers"
+        
         case 4:
-            navigationItem.title = "Terrapin Turf"
+            
+            navigationItem.title = "Armadillos"
+            
+            LocationName = "Armadillos"
+        
         case 5:
-            navigationItem.title = "Potbelly"
+            
+            navigationItem.title = "McGarveys"
+            
+            LocationName = "McGarveys"
+        
+        case 6:
+            
+            navigationItem.title = "Federal House"
+            
+            LocationName = "Federal House"
+            
         default:
+            
             navigationItem.title = "What's the Line Like?"
         }
     
-        // if UserDefaults.standard.bool(forKey: "Chipotle Mexican Grill") == true {
-        //    navigationItem.title = "Chipotle Mexican Grill"
-        //    UserDefaults.standard.set(false, forKey: "Chipotle Mexican Grill")
-          //  UserDefaults.standard.synchronize()
-      //  }
-    
         var region1 = CLCircularRegion(center: center, radius: 1000, identifier: identifier)
  
-       
         self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.startUpdatingLocation()
         
-        textField.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        self.locationManager.requestAlwaysAuthorization()
+        
+        self.locationManager.startUpdatingLocation()
         
         timeLbl.text = DateFormatter.localizedString(from: NSDate() as Date, dateStyle:
             DateFormatter.Style.none, timeStyle: DateFormatter.Style.short)
  
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(RatingViewController.dismissKeyboard))
-        
-        view.addGestureRecognizer(tap)
-        
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        if sliderValue == 0 {
-            sliderLbl.text = "20 minutes"
-            return sliderValue = 20
-        }
     }
  
     override func viewDidAppear(_ animated: Bool) {
         var region1 = CLCircularRegion(center: center, radius: 1000, identifier: identifier)
 
-        if region1.contains((locationManager.location?.coordinate)!) == true {
-            
-            self.saveButton.isEnabled = !UserDefaults.standard.bool(forKey: "switchState")
-
             print(locationManager.location?.coordinate as Any)
             print("contains")
             
             if UserDefaults.standard.bool(forKey: "switchState") == true {
+                
                 Timer.scheduledTimer(timeInterval: 45, target: self, selector: #selector(RatingViewController.resetPost1), userInfo: nil, repeats: false)
+                
                 print("second back up timer complete")
             }
-        }
         
-        if region1.contains((locationManager.location?.coordinate)!) == false {
-            print("does not contain")
-            saveButton.isEnabled = false
-        }
+    locationManager.stopUpdatingLocation()
         
-        locationManager.stopUpdatingLocation()
         print("location updating stopped")
     }
     override func didReceiveMemoryWarning() {
@@ -153,30 +375,12 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         // Dispose of any resources that can be recreated.
     }
     
-    //PickerView Data Sources/Delegates
-        //MARK: Picker View Data Sources
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            return 1
-        }
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            return pickerData.count
-        }
-        func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-            return 200.0
-        }
-    
-        //MARK: Picker View Delegates
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            return pickerData[row]
-        }
-        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        }
-
-    
-    
     func resetPost1() {
+        
         UserDefaults.standard.set(false, forKey: "switchState")
+        
         UserDefaults.standard.synchronize()
+        
         print("timer stopped")
     }
     
@@ -189,32 +393,97 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         super.prepare(for: segue, sender: sender)
+
+        var tagPressed: Int
         
         // Configure the destination view controller only when the save button is pressed.
-        guard let button = sender as? UIBarButtonItem, button === saveButton else {
-            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
-            return
+        if let button = sender as? UIBarButtonItem, button === saveButton {
+            let time = timeLbl.text
+            let ratingInt = LineLength!
+          
+            let timeIntervalSinceNow1 = NSDate()
+            let timeNow = timeIntervalSinceNow1
+            let locationName = LocationName!
+            
+            if let destinationView = segue.destination as? LocationDetailViewController {
+                print("id working")
+                // } else {
+                print("id wrong location")
+                //  }
+            }
+            else {
+                print("id not working")
+            }
+            
+            // print("missed")
+            
+            Rating = rating(locationName: locationName, time: time!, circleRating: ratingInt, timeIntervalSinceNow: timeNow)
+            
+            var request = URLRequest(url: URL(string: "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/insert.php")!)
+            
+            request.httpMethod = "POST"
+            
+            locationName.replacingOccurrences(of: " ", with: "_")
+            
+            let postString = "Location_Name=\(locationName)"+"&Circle_Rating=\(ratingInt)"
+            
+            request.httpBody = postString.data(using: .utf8)
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                    print("error=\(error)")
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(response)")
+                }
+                
+                let responseString = String(data: data, encoding: .utf8)
+                print("responseString = \(responseString)")
+            }
+            task.resume()
+            
+            
+            // print(Rating?.locationName as Any)
+            //  print(Rating)
+            // print("missed")
+            
+            print(Rating?.timeIntervalSinceNow as Any)
         }
         
+        if let button1 = sender as? UIButton, button1 === longSaveButton {
+        
+        print("first try failed")
+        
+        
+        // guard let button1 = sender as? UIButton, button1 === longSaveButton else {
+           // os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+        //    return print("failed 2 try")
+        //}
+        
+        print("all tries passed")
+    
         let lineRating = segementLineController.selectedSegmentIndex
         let time = timeLbl.text
-        let ratingInt = circleRating.rating
+        let ratingInt = LineLength!
       //  let indexRow = commentsPickerView.selectedRow(inComponent: 1)
       //  let indexset = IndexPath(row: indexRow, section: 0)
-        let comments = pickerData[commentsPickerView.selectedRow(inComponent: 0)]
+     //   let comments = pickerData[commentsPickerView.selectedRow(inComponent: 0)]
         let timeIntervalSinceNow1 = NSDate()
         let timeNow = timeIntervalSinceNow1
-        let locationName = navigationItem.title!
+        let locationName = LocationName!
         
-        if let destinationView = segue.destination as? LocationDetailViewController {
-           let locationName = destinationView.detail1Lbl.text
-            if destinationView.detail1Lbl.text == "Chipotle Mexican Grill" {
+        if segue.destination is LocationDetailViewController {
+          // let locationName = destinationView.detail1Lbl.text
+          //  if destinationView.detail1Lbl.text == "Chipotle Mexican Grill" {
               //  navigationItem.title = "Chipotle Mexican Grill"
                 //let locationIdentifier = 1
                 print("id working")
-            } else {
+           // } else {
                 print("id wrong location")
-            }
+          //  }
         }
         else {
             print("id not working")
@@ -222,7 +491,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
 
      // print("missed")
     
-        Rating = rating(locationName: locationName, time: time!, lineRating: lineRating, circleRating: ratingInt, comments: comments, timeIntervalSinceNow: timeNow)
+        Rating = rating(locationName: locationName, time: time!, circleRating: ratingInt, timeIntervalSinceNow: timeNow)
         
          var request = URLRequest(url: URL(string: "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/insert.php")!)
         
@@ -230,32 +499,36 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         
         locationName.replacingOccurrences(of: " ", with: "_")
         
-         let postString = "Location_Name=\(locationName)"+"&Line_Rating=\(lineRating)"+"&Circle_Rating=\(ratingInt)"+"&Comments=\(comments)"
+         let postString = "Location_Name=\(locationName)"+"&Circle_Rating=\(ratingInt)"
         
          request.httpBody = postString.data(using: .utf8)
         
          let task = URLSession.shared.dataTask(with: request) { data, response, error in
          guard let data = data, error == nil else {                                                 // check for fundamental networking error
-         print("error=\(error)")
+         print("error=\(String(describing: error))")
          return
          }
          
          if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
             print("statusCode should be 200, but is \(httpStatus.statusCode)")
-            print("response = \(response)")
+            print("response = \(String(describing: response))")
          }
          
          let responseString = String(data: data, encoding: .utf8)
-            print("responseString = \(responseString)")
+            print("responseString = \(String(describing: responseString))")
          }
          task.resume()
  
-        
+       // self.performSegue(withIdentifier: "Confirmation1", sender: longSaveButton)
        // print(Rating?.locationName as Any)
       //  print(Rating)
        // print("missed")
         
-        print(Rating?.timeIntervalSinceNow)
+        print(Rating?.timeIntervalSinceNow as Any)
+    }
+        else {
+            print("all tries failed")
+        }
     }
     
     // Mark: UITextFieldDelegate
@@ -276,28 +549,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     func textFieldDidBeginEditing(_ textField: UITextField) {
         saveButton.isEnabled = false
     }
-    
-    @IBAction func segmentedController(_ sender: UISegmentedControl) {
-        print(segementLineController.selectedSegmentIndex)
-        
-        if segementLineController.selectedSegmentIndex == 0 {
-           // view.tintColor = #colorLiteral(red: 0.002271278063, green: 0.5700045824, blue: 0, alpha: 1)
-           // navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.002271278063, green: 0.5700045824, blue: 0, alpha: 1)
-        }
-        if segementLineController.selectedSegmentIndex == 1 {
-           // view.tintColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-           // navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        }
-        if segementLineController.selectedSegmentIndex == 2 {
-           // view.tintColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-           // navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-        }
-        if segementLineController.selectedSegmentIndex == 3 {
-          //  view.tintColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
-            //navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
-        }
-    }
-
+ 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("failed")
     }
@@ -308,24 +560,32 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         let Userslocation = locations.last
+        
         var center: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 37.787359, longitude: -122.408227) }
+        
         var identifier: String {
+            
             return "San Fran"
         }
         var region1 = CLCircularRegion(center: center, radius: 1000, identifier: identifier)
+        
         print("location found")
     }
-    
-    private func disablePost2() {
-        if circleRating.rating == 0 {
-            saveButton.isEnabled = false
-        }
-    }
+
  
     @IBAction func cancel(_ sender: UIBarButtonItem) {
             dismiss(animated: true, completion: nil)
         }
 
+        
+    }
+    
+    
+    
 
-}
+        
+
+
+

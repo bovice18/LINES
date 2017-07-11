@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import linetest1_2
+@testable import LINESTests
 
 class linetest1_2Tests: XCTestCase {
     

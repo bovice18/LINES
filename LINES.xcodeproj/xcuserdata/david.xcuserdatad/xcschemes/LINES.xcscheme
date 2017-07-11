@@ -15,8 +15,36 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "63E84C041E3BFEAF0024DEA9"
-               BuildableName = "LINES.app"
+               BuildableName = "WhatsMyWait.app"
                BlueprintName = "LINES"
+               ReferencedContainer = "container:LINES.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "63E84C181E3BFEAF0024DEA9"
+               BuildableName = "LINESTests.xctest"
+               BlueprintName = "LINESTests"
+               ReferencedContainer = "container:LINES.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "63E84C231E3BFEAF0024DEA9"
+               BuildableName = "LINESUITests.xctest"
+               BlueprintName = "LINESUITests"
                ReferencedContainer = "container:LINES.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -53,7 +81,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "63E84C041E3BFEAF0024DEA9"
-            BuildableName = "LINES.app"
+            BuildableName = "WhatsMyWait.app"
             BlueprintName = "LINES"
             ReferencedContainer = "container:LINES.xcodeproj">
          </BuildableReference>
@@ -62,7 +90,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -76,7 +104,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "63E84C041E3BFEAF0024DEA9"
-            BuildableName = "LINES.app"
+            BuildableName = "WhatsMyWait.app"
             BlueprintName = "LINES"
             ReferencedContainer = "container:LINES.xcodeproj">
          </BuildableReference>
@@ -99,14 +127,14 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "63E84C041E3BFEAF0024DEA9"
-            BuildableName = "LINES.app"
+            BuildableName = "WhatsMyWait.app"
             BlueprintName = "LINES"
             ReferencedContainer = "container:LINES.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
