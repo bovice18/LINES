@@ -11,6 +11,8 @@
 		630BB7D51EF715B300B1CE4A /* mapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630BB7D41EF715B300B1CE4A /* mapViewController.swift */; };
 		630BB7D71EF7163800B1CE4A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630BB7D61EF7163800B1CE4A /* MapKit.framework */; };
 		63412A481E3C34CD00E59C0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63412A451E3C340200E59C0E /* Main.storyboard */; };
+		6347978C1F1C3A1B004B5820 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6347978B1F1C3A1B004B5820 /* LoadingViewController.swift */; };
+		6347978E1F1DA283004B5820 /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6347978D1F1DA283004B5820 /* Special.swift */; };
 		63E49BA11E3C41AD00C4B5BE /* Rating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E49BA01E3C41AD00C4B5BE /* Rating.swift */; };
 		63E49BA31E3C42FD00C4B5BE /* RatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E49BA21E3C42FD00C4B5BE /* RatingTableViewCell.swift */; };
 		63E84C091E3BFEAF0024DEA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E84C081E3BFEAF0024DEA9 /* AppDelegate.swift */; };
@@ -23,6 +25,7 @@
 		63E84C391E3BFF770024DEA9 /* LocationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E84C381E3BFF770024DEA9 /* LocationDetailViewController.swift */; };
 		63E84C3D1E3BFF9F0024DEA9 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E84C3C1E3BFF9F0024DEA9 /* LocationTableViewCell.swift */; };
 		63E84C3F1E3BFFAD0024DEA9 /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E84C3E1E3BFFAD0024DEA9 /* LocationTableViewController.swift */; };
+		63FC889B1F18E43E00BA39AE /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FC889A1F18E43E00BA39AE /* ConfirmationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,8 @@
 		630BB7D41EF715B300B1CE4A /* mapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapViewController.swift; sourceTree = "<group>"; };
 		630BB7D61EF7163800B1CE4A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		63412A461E3C340200E59C0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = linetest1.2/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
+		6347978B1F1C3A1B004B5820 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		6347978D1F1DA283004B5820 /* Special.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Special.swift; sourceTree = "<group>"; };
 		63E49BA01E3C41AD00C4B5BE /* Rating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rating.swift; sourceTree = "<group>"; };
 		63E49BA21E3C42FD00C4B5BE /* RatingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingTableViewCell.swift; sourceTree = "<group>"; };
 		63E84C051E3BFEAF0024DEA9 /* WhatsMyWait.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhatsMyWait.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +70,7 @@
 		63E84C381E3BFF770024DEA9 /* LocationDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDetailViewController.swift; sourceTree = "<group>"; };
 		63E84C3C1E3BFF9F0024DEA9 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		63E84C3E1E3BFFAD0024DEA9 /* LocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
+		63FC889A1F18E43E00BA39AE /* ConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConfirmationViewController.swift; path = ../ConfirmationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,10 +131,13 @@
 		63E84C071E3BFEAF0024DEA9 /* LINES */ = {
 			isa = PBXGroup;
 			children = (
+				63FC889A1F18E43E00BA39AE /* ConfirmationViewController.swift */,
 				63E84C081E3BFEAF0024DEA9 /* AppDelegate.swift */,
 				63E84C0A1E3BFEAF0024DEA9 /* ViewController.swift */,
 				63E84C361E3BFF5D0024DEA9 /* LocationDetail.swift */,
 				63412A451E3C340200E59C0E /* Main.storyboard */,
+				6347978D1F1DA283004B5820 /* Special.swift */,
+				6347978B1F1C3A1B004B5820 /* LoadingViewController.swift */,
 				630BB7D41EF715B300B1CE4A /* mapViewController.swift */,
 				630388301EC5EC250082C598 /* BarDisplayDataPiece.swift */,
 				63E49BA21E3C42FD00C4B5BE /* RatingTableViewCell.swift */,
@@ -319,12 +328,15 @@
 				63E84C3D1E3BFF9F0024DEA9 /* LocationTableViewCell.swift in Sources */,
 				63E84C391E3BFF770024DEA9 /* LocationDetailViewController.swift in Sources */,
 				63E84C371E3BFF5D0024DEA9 /* LocationDetail.swift in Sources */,
+				63FC889B1F18E43E00BA39AE /* ConfirmationViewController.swift in Sources */,
 				63E84C0B1E3BFEAF0024DEA9 /* ViewController.swift in Sources */,
 				63E49BA31E3C42FD00C4B5BE /* RatingTableViewCell.swift in Sources */,
 				63E84C091E3BFEAF0024DEA9 /* AppDelegate.swift in Sources */,
+				6347978E1F1DA283004B5820 /* Special.swift in Sources */,
 				63E84C3F1E3BFFAD0024DEA9 /* LocationTableViewController.swift in Sources */,
 				63E49BA11E3C41AD00C4B5BE /* Rating.swift in Sources */,
 				630BB7D51EF715B300B1CE4A /* mapViewController.swift in Sources */,
+				6347978C1F1C3A1B004B5820 /* LoadingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

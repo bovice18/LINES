@@ -23,10 +23,10 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     @IBOutlet weak var commentsPickerView: UIPickerView!
     
     @IBOutlet weak var ArrowImage: UIImageView!
-
-    @IBOutlet weak var timeButton3: UIButton!
     
     @IBOutlet weak var timeButton4: UIButton!
+    
+    @IBOutlet weak var timeButton3: UIButton!
     
     @IBOutlet weak var timeButton2: UIButton!
     
@@ -58,11 +58,142 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     
     var LocationName: String?
     
+    func buttonIndicator(value: Int) {
+        
+        switch value {
+        case 1:
+            timeButton1.isEnabled = true
+            
+            timeButton2.isHighlighted = true
+            
+            timeButton3.isHighlighted = true
+            
+            timeButton4.isHighlighted = true
+
+            self.navigationItem.title = "Extremely Quick"
+
+        case 2:
+            
+            timeButton1.isHighlighted = true
+            
+            timeButton2.isEnabled = true
+            
+            timeButton3.isHighlighted = true
+            
+            timeButton4.isHighlighted = true
+            
+            self.navigationItem.title = "Fast"
+
+        case 3:
+            timeButton1.isHighlighted = true
+            
+            timeButton2.isHighlighted = true
+            
+            timeButton3.isEnabled = true
+            
+            timeButton4.isHighlighted = true
+            
+            self.navigationItem.title = "Slow"
+            
+        case 4:
+            timeButton1.isHighlighted = true
+            
+            timeButton2.isHighlighted = true
+            
+            timeButton3.isHighlighted = true
+            
+            timeButton4.isEnabled = true
+            
+            self.navigationItem.title = "Barely Moving"
+            
+        default:
+            print("indicator failed")
+        }
+        
+    }
+    
+    @IBAction func TimeButtonPressed(_ sender: UIButton) {
+    
+       let title = sender.currentTitle!
+        
+        switch title {
+        case "0-5m":
+            LineLength = 1
+            
+            ArrowImage.image = UIImage(named: "0-5")
+            buttonIndicator(value: 1)
+            
+        case "5-10m":
+            LineLength = 2
+            
+            buttonIndicator(value: 2)
+            
+            ArrowImage.image = UIImage(named: "5-10")
+            
+        case "10-20m":
+            LineLength = 3
+            
+            buttonIndicator(value: 3)
+            
+            ArrowImage.image = UIImage(named: "10-20")
+            
+        case "20m +":
+            LineLength = 4
+            
+            buttonIndicator(value: 4)
+
+             ArrowImage.image = UIImage(named: "20+")
+            
+        default:
+            return print("buttons failed. Error")
+        }
+        
+    //let region1 = CLCircularRegion(center: center, radius: 100000, identifier: identifier)
+        
+  //  if region1.contains((locationManager.location?.coordinate)!) == true {
+
+        saveButton.isEnabled = true
+        
+        longSaveButton.isEnabled = true
+    /*}
+    else {
+        
+        self.navigationController?.isToolbarHidden = false
+        
+        self.navigationController?.toolbar.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        var items = [UIBarButtonItem]()
+        //items.append(
+        //    UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        // )
+        
+        
+        items.append(
+            
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        )
+        items.append(
+            UIBarButtonItem(title: "Must be in Annapolis to post", style: .plain, target: self, action: nil)
+            //UIBarButtonItem(barButtonSystemItem: .add, target: self, action: "Updated Just Now:")
+        )
+        items.append(
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        )
+        
+        self.navigationController?.toolbar.items = items
+        
+        }
+ */
+        
+    }
+   /*
+    
     @IBAction func timeButton1Pressed(_ sender: Any) {
         
         self.navigationItem.title = "Extremely Quick"
         
         timeButton1.backgroundColor = UIColor.clear
+        
+        
         
         timeButton2.backgroundColor = UIColor.clear
         
@@ -178,6 +309,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         longSaveButton.isEnabled = true
         
     }
+ */
 
     let locationManager = CLLocationManager()
     
@@ -188,7 +320,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     
     var Rating: rating?
     
-    var center: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 37.787359, longitude: -122.408227) }
+    var center: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 37.332331410000002, longitude: -122.0312186) }
     
     var identifier: String {
         return "San Fran"
@@ -354,17 +486,17 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     }
  
     override func viewDidAppear(_ animated: Bool) {
+        
         var region1 = CLCircularRegion(center: center, radius: 1000, identifier: identifier)
 
             print(locationManager.location?.coordinate as Any)
             print("contains")
             
-            if UserDefaults.standard.bool(forKey: "switchState") == true {
+          //  if UserDefaults.standard.bool(forKey: "switchState") == true {
+            //    Timer.scheduledTimer(timeInterval: 45, target: self, selector: #selector(RatingViewController.resetPost1), userInfo: nil, repeats: false)
                 
-                Timer.scheduledTimer(timeInterval: 45, target: self, selector: #selector(RatingViewController.resetPost1), userInfo: nil, repeats: false)
-                
-                print("second back up timer complete")
-            }
+           //     print("second back up timer complete")
+          //  }
         
     locationManager.stopUpdatingLocation()
         

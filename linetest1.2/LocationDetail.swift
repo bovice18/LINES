@@ -16,7 +16,7 @@ class location {
     
     var detail2: String
     
-    var ratingList: NSArray
+    var special = [Special]()
     
     var locationImagine: UIImage
     
@@ -43,7 +43,7 @@ class location {
         
         static let detail2 = "detail2"
         
-        static let ratingList = "ratingList"
+        static let special = "special"
         
         static let locationImagine = "locationImagine"
         
@@ -62,12 +62,12 @@ class location {
     
     //MARK: Initialization
 
-    init?(detail1: String, detail2: String, ratingList: NSArray, locationImagine: UIImage, timeSinceLastPost: String, phoneNumber: String, displayedAddress: String, displayedPhoneNumber: String, llLocation: Int, ratings: [BarDisplayDataPiece]) {
+    init?(detail1: String, detail2: String, special: [Special], locationImagine: UIImage, timeSinceLastPost: String, phoneNumber: String, displayedAddress: String, displayedPhoneNumber: String, llLocation: Int, ratings: [BarDisplayDataPiece]) {
     
     //Initialize stored properties
     self.detail1 = detail1
     self.detail2 = detail2
-    self.ratingList = ratingList
+    self.special = special
     self.locationImagine = locationImagine
     self.timeSinceLastPost = timeSinceLastPost
     self.phoneNumber = phoneNumber
@@ -81,7 +81,7 @@ class location {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(detail1, forKey: PropertyKey.detail1)
         aCoder.encode(detail2, forKey: PropertyKey.detail2)
-        aCoder.encode(ratingList, forKey: PropertyKey.ratingList)
+        aCoder.encode(special, forKey: PropertyKey.special)
         aCoder.encode(locationImagine, forKey: PropertyKey.locationImagine)
         aCoder.encode(timeSinceLastPost, forKey: PropertyKey.timeSinceLastPost)
         aCoder.encode(phoneNumber, forKey: PropertyKey.phoneNumber)
@@ -95,7 +95,7 @@ class location {
     required convenience init?(coder aDecoder: NSCoder) {
         let detail1 = aDecoder.decodeObject(forKey: PropertyKey.detail1) as! String
         let detail2 = aDecoder.decodeObject(forKey: PropertyKey.detail2) as! String
-        let ratingList = aDecoder.decodeObject(forKey: PropertyKey.ratingList) as! NSArray
+        let special = aDecoder.decodeObject(forKey: PropertyKey.special) as! [Special]
         let locationImagine = aDecoder.decodeObject(forKey: PropertyKey.locationImagine) as! UIImage
         let timeSinceLastPost = aDecoder.decodeObject(forKey: PropertyKey.timeSinceLastPost) as! String
         let phoneNumber = aDecoder.decodeObject(forKey: PropertyKey.phoneNumber) as! String
@@ -104,6 +104,6 @@ class location {
         let llLocation = aDecoder.decodeObject(forKey: PropertyKey.llLocation) as? Int
         let ratings = aDecoder.decodeObject(forKey: PropertyKey.ratings) as! [BarDisplayDataPiece]
         
-        self.init(detail1: detail1, detail2: detail2, ratingList: ratingList, locationImagine: locationImagine, timeSinceLastPost: timeSinceLastPost, phoneNumber: phoneNumber, displayedAddress: displayedAddress, displayedPhoneNumber: displayedPhoneNumber, llLocation: llLocation!, ratings: ratings)
+        self.init(detail1: detail1, detail2: detail2, special: special, locationImagine: locationImagine, timeSinceLastPost: timeSinceLastPost, phoneNumber: phoneNumber, displayedAddress: displayedAddress, displayedPhoneNumber: displayedPhoneNumber, llLocation: llLocation!, ratings: ratings)
     }
 }

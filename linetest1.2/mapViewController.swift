@@ -10,24 +10,24 @@ import UIKit
 import MapKit
 
 class mapViewController: UIViewController, MKMapViewDelegate {
-
-    @IBOutlet weak var refreshButton: UIBarButtonItem!
-   
     
-     @IBOutlet weak var mapView: MKMapView!
-      
+    @IBOutlet weak var refreshButton: UIBarButtonItem!
+    
+    
+    @IBOutlet weak var mapView: MKMapView!
+    
     var DillosCircle: Int?
-
+    
     var McGraveysCircle: Int?
-  
+    
     var PussersCircle: Int?
-
+    
     var AcmeCircle: Int?
-  
+    
     var MoesCircle: Int?
     
     var FedHouseCircle: Int?
-
+    
     var JossCircle: Int?
     
     var AnnapolisIce: Int?
@@ -44,171 +44,325 @@ class mapViewController: UIViewController, MKMapViewDelegate {
     
     let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getData.php"
     
-    private func loadData1() {
-        
-        var task: URLSessionDataTask
+    func NewLoadData() {
+        let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getDataNew.php"
         
         // Add one parameter
         let urlWithParams = scriptURL
         
         let myUrl = NSURL(string: urlWithParams);
         
-        let request = NSMutableURLRequest(url: myUrl! as URL);
+        let request = NSMutableURLRequest(url: myUrl as! URL);
         
         request.httpMethod = "GET"
         
-        print("load1.5")
-        // ChipotleCircle = 3
-        
-        task = URLSession.shared.dataTask(with: request as URLRequest) {
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
             data, response, error in
             
             // Check for error
             if error != nil
             {
-                print("error=\(String(describing: error))")
+                print("error=\(error)")
                 return
             }
             
             // Print out response string
             let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            print("responseString = \(String(describing: responseString))")
+            print("responseString = \(responseString)")
             
-            print("working")
             let json = try? JSONSerialization.jsonObject(with: data!, options: [])
             
-            guard let array = json as? [Any] else {
-                print("error")
-                return
-            }
             
-        for firstobject in array {
+            if let dictionary = json as? [String: Any] {
                 
-                guard let dictionary = firstobject as? [String: Any] else {
+                if let nestedDictionary = dictionary["Acme"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
                     
-                    print("error")
-                    return
-                }
-            
-                guard let circleRating = dictionary["circleRating"] as? String,
-                    let Time = dictionary["timeDate"] as? String,
-                    let location = dictionary["locationName"] as? String
-                    else {
-                        print("error")
-                        return
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.AcmeCircle = Int(recent)!
+                    }
+                    
                 }
                 
-                let dateFormatter = DateFormatter()
-            
-                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            
-                let date1 = dateFormatter.date(from: Time)!
-                
-                let TimeNow = date1.timeIntervalSinceNow
-            
-                dateFormatter.dateFormat = "HH"
-            
-                let dateString = dateFormatter.string(from: date1 )
-            
-                print(dateString)
-                
-                let dataPiece = BarDisplayDataPiece(waitTime: 0, postTime: "")
-            
-                print("after")
-            
-                let name = location
-            
-            switch name {
-                
-                case "Armadillos":
+                if let nestedDictionary = dictionary["McGarveys"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
                     
-                    print("")
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.McGraveysCircle = Int(recent)!
+                    }
                     
-                    self.DillosCircle = Int(circleRating)!
-                    
-                    print("here is chipoptle")
-                    
-                    print(self.DillosCircle as Any)
-                    
-                case "McGarveys":
-           
-                    self.McGraveysCircle = Int(circleRating)!
-                
-                case "Pussers":
-                
-                    self.PussersCircle = Int(circleRating)!
-                
-                case "Acme":
-                    self.AcmeCircle = Int(circleRating)!
-              
-                case "Federal House":
-                    self.FedHouseCircle = Int(circleRating)!
-                    
-                case "Joss":
-                    self.JossCircle = Int(circleRating)!
-                    
-                case "City Dock Cafe":
-                    self.CityDockCircle = Int(circleRating)!
-                    
-                case "Iron Rooster":
-                    self.IronRooserCircle = Int(circleRating)!
-                    
-                case "Storm Bros":
-                    self.StormBrosCircle = Int(circleRating)!
-                    
-                case "Starbucks":
-                    self.StarbucksCircle = Int(circleRating)!
-                    
-                case "Annapolis Ice Cream Co":
-                    self.AnnapolisIce = Int(circleRating)!
-                    
-                case "Dock Street":
-                    self.DockStreetCircle = Int(circleRating)!
-                    
-                default:
-                    print("error")
                 }
-            
+                
+                
+                if let nestedDictionary = dictionary["Armadillos"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
+                    
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.DillosCircle = Int(recent)!
+                    }
+                    
+                }
+                
+                
+                if let nestedDictionary = dictionary["Dock Street"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
+                    
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.DockStreetCircle = Int(recent)!
+                    }
+                }
+                
+                
+                if let nestedDictionary = dictionary["Pussers"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
+                    
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.PussersCircle = Int(recent)!
+                    }
+                    
+                }
+                
+                
+                if let nestedDictionary = dictionary["Federal House"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
+                    
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.FedHouseCircle = Int(recent)!
+                    }
+                }
+                //  self.sampleLocations()
+                //  DispatchQueue.main.async() { self.tableView.reloadData() }
+                
+                DispatchQueue.main.async() {
+                self.addingSubtitle()
+                
+                self.addingSubtitle2()
+                
+                self.addingSubtitle3()
+                
+                self.addingSubtitle4()
+                
+                self.addingSubtitle5()
+                
+                self.addingSubtitle7()
+                }
+                //self.tableView.reloadData()
             }
             
-            guard array.last != nil else {
-                print("error1")
-                return
+            // Convert server json response to NSDictionary
+            do {
+                //   if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
+                
+                // Print out dictionary
+                // print(convertedJsonIntoDict)
+                
+                // Get value by key
+                //  let firstNameValue = convertedJsonIntoDict["locationName"] as? String
+                //   print(firstNameValue!)
+                
+                // }
+            } catch let error as NSError {
+                print(error.localizedDescription)
             }
             
-            self.addingSubtitle()
-            
-            self.addingSubtitle2()
-            
-            self.addingSubtitle3()
-            
-            self.addingSubtitle4()
-            
-            self.addingSubtitle5()
-           
-            self.addingSubtitle7()
         }
-        
+        // self.sampleLocations()
+        //  self.tableView.reloadData()
         task.resume()
+        // self.sampleLocations()
+        //  self.tableView.reloadData()
     }
-
+    
+    
+    /*   private func loadData1() {
+     
+     var task: URLSessionDataTask
+     
+     // Add one parameter
+     let urlWithParams = scriptURL
+     
+     let myUrl = NSURL(string: urlWithParams);
+     
+     let request = NSMutableURLRequest(url: myUrl! as URL);
+     
+     request.httpMethod = "GET"
+     
+     print("load1.5")
+     // ChipotleCircle = 3
+     
+     task = URLSession.shared.dataTask(with: request as URLRequest) {
+     data, response, error in
+     
+     // Check for error
+     if error != nil
+     {
+     print("error=\(String(describing: error))")
+     return
+     }
+     
+     // Print out response string
+     let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+     print("responseString = \(String(describing: responseString))")
+     
+     print("working")
+     let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+     
+     guard let array = json as? [Any] else {
+     print("error")
+     return
+     }
+     
+     for firstobject in array {
+     
+     guard let dictionary = firstobject as? [String: Any] else {
+     
+     print("error")
+     return
+     }
+     
+     guard let circleRating = dictionary["circleRating"] as? String,
+     let Time = dictionary["timeDate"] as? String,
+     let location = dictionary["locationName"] as? String
+     else {
+     print("error")
+     return
+     }
+     
+     let dateFormatter = DateFormatter()
+     
+     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+     
+     let date1 = dateFormatter.date(from: Time)!
+     
+     let TimeNow = date1.timeIntervalSinceNow
+     
+     dateFormatter.dateFormat = "HH"
+     
+     let dateString = dateFormatter.string(from: date1 )
+     
+     print(dateString)
+     
+     let dataPiece = BarDisplayDataPiece(waitTime: 0, postTime: "")
+     
+     print("after")
+     
+     let name = location
+     
+     switch name {
+     
+     case "Armadillos":
+     
+     print("")
+     
+     self.DillosCircle = Int(circleRating)!
+     
+     print("here is chipoptle")
+     
+     print(self.DillosCircle as Any)
+     
+     case "McGarveys":
+     
+     self.McGraveysCircle = Int(circleRating)!
+     
+     case "Pussers":
+     
+     self.PussersCircle = Int(circleRating)!
+     
+     case "Acme":
+     self.AcmeCircle = Int(circleRating)!
+     
+     case "Federal House":
+     self.FedHouseCircle = Int(circleRating)!
+     
+     case "Joss":
+     self.JossCircle = Int(circleRating)!
+     
+     case "City Dock Cafe":
+     self.CityDockCircle = Int(circleRating)!
+     
+     case "Iron Rooster":
+     self.IronRooserCircle = Int(circleRating)!
+     
+     case "Storm Bros":
+     self.StormBrosCircle = Int(circleRating)!
+     
+     case "Starbucks":
+     self.StarbucksCircle = Int(circleRating)!
+     
+     case "Annapolis Ice Cream Co":
+     self.AnnapolisIce = Int(circleRating)!
+     
+     case "Dock Street":
+     self.DockStreetCircle = Int(circleRating)!
+     
+     default:
+     print("error")
+     }
+     
+     }
+     
+     guard array.last != nil else {
+     print("error1")
+     return
+     }
+     
+     self.addingSubtitle()
+     
+     self.addingSubtitle2()
+     
+     self.addingSubtitle3()
+     
+     self.addingSubtitle4()
+     
+     self.addingSubtitle5()
+     
+     self.addingSubtitle7()
+     }
+     
+     task.resume()
+     }
+     */
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        loadData1()
+        
+        NewLoadData()
         
         mapView.delegate = self
         
         var annanpolis: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978445, longitude: -76.492183) }
         
-        var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(annanpolis, 1000, 1000) }
+        var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(annanpolis, 2000, 2000) }
         
         mapView.setRegion(region, animated: true)
-    
+        
         // Do any additional setup after loading the view.
     }
- 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -233,27 +387,32 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         
         let number = AcmeCircle
         
-    switch number {
+        switch number {
+            
+        case 0?:
+            
+            annotation1.subtitle = "no recent posts"
+            
         case 1?:
             
             annotation1.subtitle = "Line: 0-5m"
-        
+            
         case 2?:
             
             annotation1.subtitle = "Line: 5-10m"
-        
+            
         case 3?:
             
             annotation1.subtitle = "Line: 10-20m"
-        
+            
         case 4?:
             
             annotation1.subtitle = "Line: + 20m"
-        
+            
         case 5?:
             
             annotation1.subtitle = "Line: 20m"
-        
+            
         default:
             
             print(self.AcmeCircle as Any)
@@ -261,7 +420,7 @@ class mapViewController: UIViewController, MKMapViewDelegate {
             print("failed..error")
             
         }
-
+        
         let annotationView = MKPinAnnotationView()
         
         annotationView.pinTintColor = UIColor.purple
@@ -269,7 +428,7 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         mapView.removeAnnotation(annotation1)
         
         mapView.addAnnotation(annotation1)
-    
+        
     }
     
     func addingSubtitle2(){
@@ -289,27 +448,31 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         print(McGraveysCircle as Any)
         
         let number = McGraveysCircle
-    switch number {
+        switch number {
+        case 0?:
+            
+            annotation4.subtitle = "no recent posts"
+            
         case 1?:
             
             annotation4.subtitle = "Line: 0-5m"
-        
+            
         case 2?:
             
             annotation4.subtitle = "Line: 5-10m"
-        
+            
         case 3?:
             
             annotation4.subtitle = "Line: 10-20m"
-        
+            
         case 4?:
             
             annotation4.subtitle = "Line: + 20m"
-        
+            
         case 5?:
             
             annotation4.subtitle = "Line: 20m"
-        
+            
         default:
             
             print(self.McGraveysCircle as Any)
@@ -332,29 +495,32 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         annotation3.title = "Pusser's Caribbean Grille"
         
         let number = PussersCircle
-      
-    switch number {
         
+        switch number {
+        case 0?:
+            
+            annotation3.subtitle = "no recent posts"
+            
         case 1?:
             
             annotation3.subtitle = "Line: 0-5m"
-        
+            
         case 2?:
             
             annotation3.subtitle = "Line: 5-10m"
-        
+            
         case 3?:
             
             annotation3.subtitle = "Line: 10-20m"
-        
+            
         case 4?:
             
             annotation3.subtitle = "Line: + 20m"
-        
+            
         case 5?:
             
             annotation3.subtitle = "Line: 20m"
-        
+            
         default:
             
             print(self.PussersCircle)
@@ -373,32 +539,36 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         var armadillos: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9779735, longitude: -76.48648589999999) }
         
         annotation2.coordinate = armadillos
-    
-        annotation2.title = "Armadillos Restaurant"
-
-        let number = DillosCircle
-    switch number {
         
+        annotation2.title = "Armadillos Restaurant"
+        
+        let number = DillosCircle
+        switch number {
+        case 0?:
+            
+            annotation2.subtitle = "no recent posts"
+            
+            
         case 1?:
             
             annotation2.subtitle = "Line: 0-5m"
-        
+            
         case 2?:
             
             annotation2.subtitle = "Line: 5-10m"
-        
+            
         case 3?:
             
             annotation2.subtitle = "Line: 10-20m"
-        
+            
         case 4?:
             
             annotation2.subtitle = "Line: + 20m"
-        
+            
         case 5?:
             
             annotation2.subtitle = "Line: 20m"
-        
+            
         default:
             
             print(self.DillosCircle as Any)
@@ -429,28 +599,31 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         mapView.removeAnnotation(annotation1)
         
         let number = FedHouseCircle
-    switch number {
-        
+        switch number {
+        case 0?:
+            
+            annotation1.subtitle = "no recent posts"
+            
         case 1?:
             
             annotation1.subtitle = "Line: 0-5m"
-        
+            
         case 2?:
             
             annotation1.subtitle = "Line: 5-10m"
-        
+            
         case 3?:
             
             annotation1.subtitle = "Line: 10-20m"
-        
+            
         case 4?:
             
             annotation1.subtitle = "Line: + 20m"
-        
+            
         case 5?:
             
             annotation1.subtitle = "Line: 20m"
-        
+            
         default:
             
             print(self.FedHouseCircle as Any)
@@ -483,28 +656,31 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         mapView.removeAnnotation(annotation1)
         
         let number = DockStreetCircle
-    switch number {
-        
+        switch number {
+        case 0?:
+            
+            annotation1.subtitle = "no recent posts"
+            
         case 1?:
             
             annotation1.subtitle = "Line: 0-5m"
-        
+            
         case 2?:
             
             annotation1.subtitle = "Line: 5-10m"
-        
+            
         case 3?:
             
             annotation1.subtitle = "Line: 10-20m"
-        
+            
         case 4?:
             
             annotation1.subtitle = "Line: + 20m"
-        
+            
         case 5?:
             
             annotation1.subtitle = "Line: 20m"
-        
+            
         default:
             
             print(self.DockStreetCircle as Any)
@@ -526,7 +702,7 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         annotation1.coordinate = acme
         
         annotation1.title = "Iron Rooster"
-       
+        
         print("closers")
         
         print("no error")
@@ -536,28 +712,31 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         mapView.removeAnnotation(annotation1)
         
         let number = IronRooserCircle
-    switch number {
-        
+        switch number {
+        case 0?:
+            
+            annotation1.subtitle = "no recent posts"
+            
         case 1?:
             
             annotation1.subtitle = "Line: 0-5m"
-        
+            
         case 2?:
             
             annotation1.subtitle = "Line: 5-10m"
-        
+            
         case 3?:
             
             annotation1.subtitle = "Line: 10-20m"
-        
+            
         case 4?:
             
             annotation1.subtitle = "Line: + 20m"
-        
+            
         case 5?:
             
             annotation1.subtitle = "Line: 20m"
-        
+            
         default:
             
             print(self.IronRooserCircle as Any)
@@ -565,7 +744,7 @@ class mapViewController: UIViewController, MKMapViewDelegate {
             print("failed..error")
             
         }
-       
+        
         mapView.removeAnnotation(annotation1)
         
         mapView.addAnnotation(annotation1)
@@ -580,7 +759,7 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         annotation1.coordinate = acme
         
         annotation1.title = "City Dock Cafe"
-
+        
         print("closers")
         
         print("no error")
@@ -591,28 +770,31 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         
         let number = CityDockCircle
         
-    switch number {
-        
+        switch number {
+        case 0?:
+            
+            annotation1.subtitle = "no recent posts"
+            
         case 1?:
             
             annotation1.subtitle = "Line: 0-5m"
-        
+            
         case 2?:
             
             annotation1.subtitle = "Line: 5-10m"
-        
+            
         case 3?:
             
             annotation1.subtitle = "Line: 10-20m"
-        
+            
         case 4?:
             
             annotation1.subtitle = "Line: + 20m"
-        
+            
         case 5?:
             
             annotation1.subtitle = "Line: 20m"
-        
+            
         default:
             
             print(self.CityDockCircle as Any)
@@ -644,6 +826,9 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         
         let number = JossCircle
         switch number {
+        case 0?:
+            
+            annotation1.subtitle = "no recent posts"
         case 1?:
             annotation1.subtitle = "Line: 0-5m"
         case 2?:
@@ -756,13 +941,13 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         mapView.removeAnnotation(annotation1)
         mapView.addAnnotation(annotation1)
     }
-
     
     
     
     
     
-
+    
+    
     @IBAction func reloadButtonPressed(_ sender: Any) {
         
         self.loadView()
@@ -770,7 +955,7 @@ class mapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-     
+        
         
         let identifier = "pinAnnotation"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
@@ -787,17 +972,17 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         return annotationView
     }
     
-
-
-
+    
+    
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

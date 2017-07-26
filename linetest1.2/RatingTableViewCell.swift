@@ -16,6 +16,8 @@ class RatingTableViewCell: UITableViewCell {
     
     @IBOutlet weak var sliderLbl: UILabel!
     
+    @IBOutlet weak var detailsLabel: UILabel!
+    
     @IBOutlet weak var commentLbl: UILabel!
     
     @IBOutlet weak var LineImage: UIImageView!
