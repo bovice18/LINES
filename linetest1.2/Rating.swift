@@ -13,11 +13,11 @@ class rating: NSObject, NSCoding {
     
     //MARK: Properties
     var locationName: String
-   
+    
     var circleRating: Int
     
     var time: String
-
+    
     var timeIntervalSinceNow: NSDate?
     
     //MARK: Archiving Paths
@@ -35,30 +35,30 @@ class rating: NSObject, NSCoding {
         static let timeIntervalSinceNow = "timeIntervalSinceNow"
     }
     
-  
+    
     init?(locationName: String, time: String, circleRating: Int, timeIntervalSinceNow: NSDate?) {
         
         // The rating must be between 0 and 5 inclusively
         guard (circleRating >= 0) && (circleRating <= 5) else {
             return nil
         }
-     
+        
         self.locationName = locationName
         
         self.time = time
-    
+        
         self.circleRating = circleRating
         
         self.timeIntervalSinceNow = timeIntervalSinceNow
     }
-
+    
     //MARK: NSCoding:
     func encode(with aCoder: NSCoder) {
-     
+        
         aCoder.encode(locationName, forKey: PropertyKey.locationName)
         
         aCoder.encode(time, forKey: PropertyKey.time)
-   
+        
         aCoder.encode(timeIntervalSinceNow, forKey: PropertyKey.timeIntervalSinceNow)
         
         aCoder.encode(circleRating, forKey: PropertyKey.circleRating)
@@ -69,9 +69,9 @@ class rating: NSObject, NSCoding {
         let locationName = aDecoder.decodeObject(forKey: PropertyKey.locationName) as! String
         
         let time = aDecoder.decodeObject(forKey: PropertyKey.time) as! String
-    
+        
         let circleRating = aDecoder.decodeInteger(forKey:  PropertyKey.circleRating)
-  
+        
         let timeIntervalSinceNow = aDecoder.decodeObject(forKey: PropertyKey.timeIntervalSinceNow) as? NSDate
         
         self.init(locationName: locationName, time: time, circleRating: circleRating, timeIntervalSinceNow: timeIntervalSinceNow)

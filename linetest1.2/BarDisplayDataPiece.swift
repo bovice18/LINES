@@ -9,7 +9,7 @@
 import Foundation
 
 class BarDisplayDataPiece: NSObject {
-
+    
     //MARK: Properties
     var waitTime: Int
     var postTime: String
@@ -34,7 +34,7 @@ class BarDisplayDataPiece: NSObject {
         aCoder.encode(waitTime, forKey: PropertyKey.waitTime)
         
         aCoder.encode(postTime, forKey: PropertyKey.postTime)
-}
+    }
     required convenience init?(coder aDecoder: NSCoder) {
         let waitTime = aDecoder.decodeObject(forKey: PropertyKey.waitTime) as! Int
         
@@ -42,7 +42,7 @@ class BarDisplayDataPiece: NSObject {
         
         self.init(waitTime: waitTime, postTime: postTime)
     }
-
+    
 }
 
 

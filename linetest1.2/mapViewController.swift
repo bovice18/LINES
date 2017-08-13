@@ -158,17 +158,29 @@ class mapViewController: UIViewController, MKMapViewDelegate {
                 //  DispatchQueue.main.async() { self.tableView.reloadData() }
                 
                 DispatchQueue.main.async() {
-                self.addingSubtitle()
-                
-                self.addingSubtitle2()
-                
-                self.addingSubtitle3()
-                
-                self.addingSubtitle4()
-                
-                self.addingSubtitle5()
-                
-                self.addingSubtitle7()
+                    
+                    
+                    switch UserDefaults.standard.integer(forKey: "locationSelected") {
+                    case 0:
+                        print("Annapolis")
+                        self.addingSubtitle()
+                        
+                        self.addingSubtitle2()
+                        
+                        self.addingSubtitle3()
+                        
+                        self.addingSubtitle4()
+                        
+                        self.addingSubtitle5()
+                        
+                        self.addingSubtitle7()
+                    case 1:
+                        print("College Park")
+                        self.addingSubtitleBentleys()
+                    default:
+                        print("no location selected")
+                    }
+             
                 }
                 //self.tableView.reloadData()
             }
@@ -190,162 +202,12 @@ class mapViewController: UIViewController, MKMapViewDelegate {
             }
             
         }
-        // self.sampleLocations()
-        //  self.tableView.reloadData()
         task.resume()
-        // self.sampleLocations()
-        //  self.tableView.reloadData()
+     
     }
     
     
-    /*   private func loadData1() {
-     
-     var task: URLSessionDataTask
-     
-     // Add one parameter
-     let urlWithParams = scriptURL
-     
-     let myUrl = NSURL(string: urlWithParams);
-     
-     let request = NSMutableURLRequest(url: myUrl! as URL);
-     
-     request.httpMethod = "GET"
-     
-     print("load1.5")
-     // ChipotleCircle = 3
-     
-     task = URLSession.shared.dataTask(with: request as URLRequest) {
-     data, response, error in
-     
-     // Check for error
-     if error != nil
-     {
-     print("error=\(String(describing: error))")
-     return
-     }
-     
-     // Print out response string
-     let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-     print("responseString = \(String(describing: responseString))")
-     
-     print("working")
-     let json = try? JSONSerialization.jsonObject(with: data!, options: [])
-     
-     guard let array = json as? [Any] else {
-     print("error")
-     return
-     }
-     
-     for firstobject in array {
-     
-     guard let dictionary = firstobject as? [String: Any] else {
-     
-     print("error")
-     return
-     }
-     
-     guard let circleRating = dictionary["circleRating"] as? String,
-     let Time = dictionary["timeDate"] as? String,
-     let location = dictionary["locationName"] as? String
-     else {
-     print("error")
-     return
-     }
-     
-     let dateFormatter = DateFormatter()
-     
-     dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-     
-     let date1 = dateFormatter.date(from: Time)!
-     
-     let TimeNow = date1.timeIntervalSinceNow
-     
-     dateFormatter.dateFormat = "HH"
-     
-     let dateString = dateFormatter.string(from: date1 )
-     
-     print(dateString)
-     
-     let dataPiece = BarDisplayDataPiece(waitTime: 0, postTime: "")
-     
-     print("after")
-     
-     let name = location
-     
-     switch name {
-     
-     case "Armadillos":
-     
-     print("")
-     
-     self.DillosCircle = Int(circleRating)!
-     
-     print("here is chipoptle")
-     
-     print(self.DillosCircle as Any)
-     
-     case "McGarveys":
-     
-     self.McGraveysCircle = Int(circleRating)!
-     
-     case "Pussers":
-     
-     self.PussersCircle = Int(circleRating)!
-     
-     case "Acme":
-     self.AcmeCircle = Int(circleRating)!
-     
-     case "Federal House":
-     self.FedHouseCircle = Int(circleRating)!
-     
-     case "Joss":
-     self.JossCircle = Int(circleRating)!
-     
-     case "City Dock Cafe":
-     self.CityDockCircle = Int(circleRating)!
-     
-     case "Iron Rooster":
-     self.IronRooserCircle = Int(circleRating)!
-     
-     case "Storm Bros":
-     self.StormBrosCircle = Int(circleRating)!
-     
-     case "Starbucks":
-     self.StarbucksCircle = Int(circleRating)!
-     
-     case "Annapolis Ice Cream Co":
-     self.AnnapolisIce = Int(circleRating)!
-     
-     case "Dock Street":
-     self.DockStreetCircle = Int(circleRating)!
-     
-     default:
-     print("error")
-     }
-     
-     }
-     
-     guard array.last != nil else {
-     print("error1")
-     return
-     }
-     
-     self.addingSubtitle()
-     
-     self.addingSubtitle2()
-     
-     self.addingSubtitle3()
-     
-     self.addingSubtitle4()
-     
-     self.addingSubtitle5()
-     
-     self.addingSubtitle7()
-     }
-     
-     task.resume()
-     }
-     */
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -353,13 +215,36 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         NewLoadData()
         
         mapView.delegate = self
+     
         
-        var annanpolis: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978445, longitude: -76.492183) }
+        switch UserDefaults.standard.integer(forKey: "locationSelected") {
+        case 0:
+            print("Annapolis")
+            
+            var annanpolis: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978445, longitude: -76.492183) }
+            
+            var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(annanpolis, 2000, 2000) }
+            
+            mapView.setRegion(region, animated: true)
+            
+        case 1:
+            print("College Park")
+            var CollegePark: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.980481, longitude: -76.937557) }
+            
+            var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(CollegePark, 2000, 2000) }
+            
+            mapView.setRegion(region, animated: true)
+            
+        default:
+            print("no location selected")
+        }
+        
+       /* var annanpolis: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978445, longitude: -76.492183) }
         
         var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(annanpolis, 2000, 2000) }
         
         mapView.setRegion(region, animated: true)
-        
+        */
         // Do any additional setup after loading the view.
     }
     
@@ -693,15 +578,15 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(annotation1)
     }
     
-    func addingSubtitle8(){
+    func addingSubtitleBentleys(){
         
         var annotation1 = MKPointAnnotation()
         
-        var acme: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978333, longitude: -76.487309) }
+        var acme: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.980481, longitude: -76.937557) }
         
         annotation1.coordinate = acme
         
-        annotation1.title = "Iron Rooster"
+        annotation1.title = "RJ Bentley's Restaurant"
         
         print("closers")
         

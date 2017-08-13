@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let idenfier = "Main"
-            let vc = storyboard.instantiateViewController(withIdentifier: idenfier) as! UITabBarController
+            let vc = storyboard.instantiateViewController(withIdentifier: idenfier) as! UINavigationController
             self.window?.rootViewController = vc
             // App already launched
             
@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let vc = storyboard.instantiateViewController(withIdentifier: idenfier) as! UIViewController
             self.window?.rootViewController = vc
         }
+ 
         return true
     }
 

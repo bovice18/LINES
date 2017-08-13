@@ -31,31 +31,21 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     var ChipotleCircle = Int()
     
-    // var ChipotleLine: Int?
-    
     var ChipotleTime = String()
     
     var McGarveysCircle = Int()
-    
-    // var PotBellyLine: Int?
     
     var McGraveysTime = String()
     
     var PussersCircle = Int()
     
-    // var CornerstoneLine: Int?
-    
     var PussersTime = String()
     
     var AcmeCircle = Int()
     
-    //var BentlysLine: Int?
-    
     var AcmeTime = String()
     
     var MoesCircle = Int()
-    
-    // var TerrapinTurfLine = Int()
     
     var MoesTime = String()
     
@@ -139,16 +129,14 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     var aSpecial2 = Special(name: "TUESDAY", details: "$3 Select Vodka Shots - $3 Domestic Beers ", Image: #imageLiteral(resourceName: "acme1"))
     var aSpecial3 = Special(name: "WEDNESDAY", details: "$4 Vodka Drinks (ladies only) - $3 Domestic Bottles", Image: #imageLiteral(resourceName: "acme1"))
     var aSpecial4 = Special(name: "THURSDAY", details: "$4 Vodka Drinks (ladies only) - $3 Domestic Bottles", Image: #imageLiteral(resourceName: "acme1"))
-  //  var aSpecial5 = Special(name: "Monday Night", details: "Bud Light: $1", Image: #imageLiteral(resourceName: "acme1"))
-  //  var aSpecial6 = Special(name: "Monday Night", details: "Bud Light: $1", Image: #imageLiteral(resourceName: "acme1"))
-    
+  
     
     
     let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getData.php"
     
     func NewLoadData() {
         
-         UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getDataNew.php"
         
@@ -208,8 +196,6 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                         } else {
                             self.AcmeTime = lastupdated
                         }
-                       /// self.tableView.reloadData()
-                       // self.viewDidAppear(true)
                     }
                 }
                 
@@ -368,37 +354,45 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                         }
                     }
                 }
-                self.sampleLocations()
+                switch self.navigationItem.title! {
+                case "Annapolis, MD":
+                    print("Annapolis")
+                    self.sampleLocations()
+                case "College Park, MD":
+                    print("College Park, MD")
+                    self.sampleLocationsCP()
+                default:
+                    print("No location selected")
+                }
+                
+                
+               // self.sampleLocations()
                 DispatchQueue.main.async() { self.tableView.reloadData() }
-                //self.endLoading()
                 
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-
-                //self.tableView.reloadData()
-            }
+                
+        }
             
             // Convert server json response to NSDictionary
             do {
-             //   if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
-                    
-                    // Print out dictionary
-                   // print(convertedJsonIntoDict)
-                    
-                    // Get value by key
-                  //  let firstNameValue = convertedJsonIntoDict["locationName"] as? String
-                    //   print(firstNameValue!)
-                    
-               // }
+                //   if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
+                
+                // Print out dictionary
+                // print(convertedJsonIntoDict)
+                
+                // Get value by key
+                //  let firstNameValue = convertedJsonIntoDict["locationName"] as? String
+                //   print(firstNameValue!)
+                
+                // }
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
             
         }
-       // self.sampleLocations()
-      //  self.tableView.reloadData()
+    
         task.resume()
-       // self.sampleLocations()
-      //  self.tableView.reloadData()
+      
     }
     
     
@@ -555,25 +549,6 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                     
                     print(self.PussersDataPiece.count)
                     
-                    /*   case "Moes":
-                     
-                     self.MoesCircle = Int(circleRating)!
-                     
-                     self.MoesTime = TimeSincePost
-                     
-                     dataPiece?.waitTime = Int(circleRating)!
-                     
-                     dataPiece?.postTime = dateString
-                     
-                     self.MoesDataPiece.append(dataPiece!)
-                     
-                     print(self.MoesDataPiece)
-                     
-                     print("array")
-                     
-                     print(self.MoesDataPiece.count)
-                     */
-                    
                 case "Armadillos":
                     
                     self.RedBeanCirle = Int(circleRating)!
@@ -591,62 +566,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                     print("array")
                     
                     print(self.RedBeanDataPiece.count)
-                    
-                    /*
-                     
-                     case "Annapolis Ice Cream Co":
-                     
-                     self.AnnapolisIceCircle = Int(circleRating)!
-                     
-                     self.AnnapolisIceTime = TimeSincePost
-                     
-                     dataPiece?.waitTime = Int(circleRating)!
-                     
-                     dataPiece?.postTime = dateString
-                     
-                     self.AnnapolisIceDataPiece.append(dataPiece!)
-                     
-                     print(self.AnnapolisIceDataPiece)
-                     
-                     print("array")
-                     
-                     print(self.AnnapolisIceDataPiece.count)
-                     
-                     case "Joss":
-                     
-                     self.JossCircle = Int(circleRating)!
-                     
-                     self.JossTime = TimeSincePost
-                     
-                     dataPiece?.waitTime = Int(circleRating)!
-                     
-                     dataPiece?.postTime = dateString
-                     
-                     self.JossDataPiece.append(dataPiece!)
-                     
-                     print(self.JossDataPiece)
-                     
-                     print("array")
-                     
-                     print(self.JossDataPiece.count)
-                     
-                     case "Iron Rooster":
-                     
-                     self.IronCircle = Int(circleRating)!
-                     
-                     self.IronTime = TimeSincePost
-                     
-                     dataPiece?.waitTime = Int(circleRating)!
-                     
-                     dataPiece?.postTime = dateString
-                     
-                     self.IronRoosterDataPiece.append(dataPiece!)
-                     
-                     print(self.IronRoosterDataPiece)
-                     
-                     print("array")
-                     
-                     print(self.IronRoosterDataPiece.count) */
+      
                     
                 case "Dock Street":
                     
@@ -666,63 +586,6 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                     
                     print(self.DockStreetDataPiece.count)
                     
-                    /*
-                     
-                     case "City Dock Cafe":
-                     
-                     self.CityDockCircle = Int(circleRating)!
-                     
-                     self.CityDockTime = TimeSincePost
-                     
-                     dataPiece?.waitTime = Int(circleRating)!
-                     
-                     dataPiece?.postTime = dateString
-                     
-                     self.CityDockCafeDataPiece.append(dataPiece!)
-                     
-                     print(self.CityDockCafeDataPiece)
-                     
-                     print("array")
-                     
-                     print(self.CityDockCafeDataPiece.count)
-                     
-                     case "Storm Bros":
-                     
-                     self.StormBrosCircle = Int(circleRating)!
-                     
-                     self.StormBrosTime = TimeSincePost
-                     
-                     dataPiece?.waitTime = Int(circleRating)!
-                     
-                     dataPiece?.postTime = dateString
-                     
-                     self.StormBrosDataPiece.append(dataPiece!)
-                     
-                     print(self.CityDockCafeDataPiece)
-                     
-                     print("array")
-                     
-                     print(self.CityDockCafeDataPiece.count)
-                     
-                     case "Starbucks":
-                     
-                     self.StarbucksCircle = Int(circleRating)!
-                     
-                     self.StarbucksTime = TimeSincePost
-                     
-                     dataPiece?.waitTime = Int(circleRating)!
-                     
-                     dataPiece?.postTime = dateString
-                     
-                     self.StarbucksDataPiece.append(dataPiece!)
-                     
-                     print(self.StarbucksDataPiece)
-                     
-                     print("array")
-                     
-                     print(self.StarbucksDataPiece.count)
-                     */
-                    
                 default:
                     
                     print("error")
@@ -738,7 +601,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                 return
             }
             
-        //    self.sampleLocations()
+            //    self.sampleLocations()
             self.tableView.reloadData()
             //    self.tableView.reloadData()
         }
@@ -748,11 +611,22 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        switch UserDefaults.standard.integer(forKey: "locationSelected") {
+        case 0:
+            print("Annapolis")
+            navigationItem.title = "Annapolis, MD"
+        case 1:
+            print("College Park")
+            navigationItem.title = "College Park, MD"
+        default:
+            print("no location selected")
+        }
+        
         LocationSelected()
         
-       // let tap = UITapGestureRecognizer(target: self, action: Selector(("handleTap:")))
-      //  tap.delegate = (self as! UIGestureRecognizerDelegate)
-       // tableView.addGestureRecognizer(tap)
+        // let tap = UITapGestureRecognizer(target: self, action: Selector(("handleTap:")))
+        //  tap.delegate = (self as! UIGestureRecognizerDelegate)
+        // tableView.addGestureRecognizer(tap)
         
         refreshControl = UIRefreshControl()
         
@@ -787,7 +661,17 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         //locations.count
         
-        sampleLocations()
+        switch navigationItem.title! {
+        case "Annapolis, MD":
+            print("Annapolis")
+            self.sampleLocations()
+        case "College Park, MD":
+            print("College Park, MD")
+            self.sampleLocationsCP()
+        default:
+            print("No location selected")
+        }
+        
         handleTap()
         tableView.reloadData()
         // sampleLocations()
@@ -1008,6 +892,9 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         case "Back":
             print("back was pressed")
             
+        case "Map":
+            print("Map")
+            
         default:
             fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
@@ -1017,19 +904,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     
-    func loadAcme() {
-        
-      //  guard let Acme = location(detail1: "Acme Bar & Grill", detail2: "Acme", ratingList: ratings as NSArray, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: self.AcmeTime, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: self.AcmeCircle, ratings: AcmeDataPiece) else {
-           // fatalError("Unable to instantiate location2")
-        //}
-        //locations += [Acme]
-      //  tableView.reloadData()
-    }
     func sampleLocations() {
-        
-        //currently loads blank arrays into the LocaitonDetailViewController table view when a location is selceted.  Thinking we would say ratingList: name of databased containing the ratings to be entered into the table.  Until we change the the rating list from an empty array every time the app is restarted it will continue to load with no ratings.
-        
-        // loadData1()
         
         guard let Acme = location(detail1: "Acme Bar & Grill", detail2: "Acme", special: AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: self.AcmeTime, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: self.AcmeCircle, ratings: AcmeDataPiece) else {
             fatalError("Unable to instantiate location2")
@@ -1063,8 +938,27 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         tableView.reloadData()
         
-           }
+    }
     
+    
+    func sampleLocationsCP() {
+        
+        guard let Bentleys = location(detail1: "RJ Bentley's Restaurant", detail2: "Bentleys", special: AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: self.AcmeTime, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: self.AcmeCircle, ratings: AcmeDataPiece) else {
+            fatalError("Unable to instantiate location2")
+        }
+   
+        locationList = [Bentleys]
+        
+        locations.removeAll()
+        
+        locations += [Bentleys]
+        
+        locations.sort  { $0.detail1 < $1.detail1 }
+        
+        tableView.reloadData()
+        
+    }
+
     func endLoading() {
         
         self.ActivityIndicator.stopAnimating()
@@ -1075,35 +969,11 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     @objc private func progressloading() {
-      //  loadData1()
+        //  loadData1()
     }
     
     //MARK: Actions
     @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
-        
-      /*  if let sourceViewController = sender.source as? LoadingViewController, let Location = sourceViewController.location1 {
-            locations.append(Location)
-        }
-        if let sourceViewController = sender.source as? LoadingViewController, let Location = sourceViewController.location2 {
-               locations.append(Location)
-        }
-        if let sourceViewController = sender.source as? LoadingViewController, let Location = sourceViewController.location3 {
-               locations.append(Location)
-        }
-        if let sourceViewController = sender.source as? LoadingViewController, let Location = sourceViewController.location4 {
-               locations.append(Location)
-        }
-        if let sourceViewController = sender.source as? LoadingViewController, let Location = sourceViewController.location5 {
-               locations.append(Location)
-        }
-        if let sourceViewController = sender.source as? LoadingViewController, let Location = sourceViewController.location6 {
-               locations.append(Location)
-        }
-        */
-        
-        // locations.removeAll()
-        
-        // viewDidLoad()
         
         NewLoadData()
         
@@ -1136,8 +1006,6 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         self.ActivityView.isHidden = true
         
-        // self.ActivityView.removeFromSuperview()
-        
         NewLoadData()
         
         timer =  Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(endOfWork), userInfo: nil, repeats: false)
@@ -1157,9 +1025,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         if refreshControl!.isRefreshing {
             
             RefresherRequestForData()
-            
-            // reloadInputViews()
-            
+        
             print("refresherRequest")
         }
     }
@@ -1193,12 +1059,5 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     private func LocationSelected() {
         
-   //UserDefaults.standard.set(false, forKey: "Annapolis")
-        
-   //UserDefaults.standard.synchronize()
-        
-        
-    //UserDefaults.standard.set(1, forKey: "Annapolis")
-   // UserDefaults.standard.synchronize()
     }
 }

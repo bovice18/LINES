@@ -12,28 +12,11 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @IBOutlet weak var tableview: UITableView!
     
+    var locations = ["Annapolis, MD", "College Park, MD"]
+    
        override func viewDidLoad() {
         super.viewDidLoad()
-        
-      //  UserDefaults.standard.set(1, forKey: "annapolis")
-       // UserDefaults.standard.synchronize()
-        
-      //  var id = UserDefaults.standard.object(forKey: "annapolis") as! Int
-        
-      //  var TitleID = UserDefaults.standard.integer(forKey: "annapolis")
-        
-   //   switch id {
-       // case 1:
-          // performSegue(withIdentifier: "Skip", sender: viewDidLoad())
-       // print("segue")
-       // default:
-        //   print("not selected yet")
-      // }
-        
-      //  performSegue(withIdentifier: "Skip", sender: viewDidLoad())
-        
-     //   SkippingLocation()
-        
+
         tableview.delegate = self
         
         tableview.dataSource = self
@@ -60,7 +43,7 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableview: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return locations.count
         
     }
     
@@ -70,9 +53,13 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let cellIdentifier = "locationSelect"
         
-        let cell = tableview.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! UITableViewCell
+        let cell = tableview.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! LocationSelectionTableViewCell
         
        // cell.textLabel = "Annapolis"
+        
+        let location = locations[indexPath.row]
+        
+        cell.locationLabel.text = location
         
         
         
@@ -81,25 +68,18 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
        return cell
     }
+   
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
-    func SkippingLocation() {
+        NSLog("You selected cell number: \(indexPath.row)!")
         
-        //UserDefaults.standard.integer(forKey: "Ann")
+       // self.performSegueWithIdentifier("yourIdentifier", sender: self)
         
-     //   UserDefaults.standard
-        UserDefaults.standard.set(1, forKey: "annapolis")
+        UserDefaults.standard.set(indexPath.row, forKey: "locationSelected")
         UserDefaults.standard.synchronize()
         
-    var TitleID = UserDefaults.standard.integer(forKey: "Annapolis")
-        
-        switch TitleID {
-        case 1:
-            performSegue(withIdentifier: "Skip", sender: viewDidLoad())
-        default:
-            print("not selected yet")
-        }
-
     }
+
 
     
     // MARK: - Navigation
@@ -109,6 +89,7 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         super.prepare(for: segue, sender: sender)
 
+        
         
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
