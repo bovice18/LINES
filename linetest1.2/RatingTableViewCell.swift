@@ -11,10 +11,16 @@ import UIKit
 class RatingTableViewCell: UITableViewCell {
 
     @IBOutlet weak var infoLbl: UILabel!
+    
     @IBOutlet weak var timeLbl: UILabel!
+    
     @IBOutlet weak var sliderLbl: UILabel!
+    
+    @IBOutlet weak var detailsLabel: UILabel!
+    
     @IBOutlet weak var commentLbl: UILabel!
-    @IBOutlet weak var circleControl: TriangleRatingControl!
+    
+    @IBOutlet weak var LineImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

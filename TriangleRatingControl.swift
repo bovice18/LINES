@@ -44,22 +44,27 @@ import os.log
         }
     }
   
+    
     //MARK: Button Action
     func ratingButtonTapped(button: UIButton) {
             guard let index = ratingButtons.index(of: button) else {
             fatalError("The button, \(button), is not in the ratingButtons array: \(ratingButtons)")
         }
+    
         // Calculate the rating of the selected button
         let selectedRating = index + 1
         
         if selectedRating == rating {
             // If the selected star represents the current rating, reset the rating to 0.
-            rating = 0
+          //  rating = 0
         } else {
             // Otherwise set the rating to the selected star
             rating = selectedRating
         }
+        
     }
+    
+
     
     //MARK: Private Methods
     private func setupButtons() {
@@ -112,7 +117,7 @@ import os.log
             }
             
         // Add constraints
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.translatesAutoresizingMaskIntoConstraints = true
         button.heightAnchor.constraint(equalToConstant: starSize.height).isActive = true
         button.widthAnchor.constraint(equalToConstant: starSize.width).isActive = true
         
