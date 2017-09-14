@@ -5,16 +5,21 @@
 <form action="insert.php" method="post">
 Location: 
 <select name="Location_Name">
+  <option value="Acme">Acme</option>
+  <option value="Dock Street">Dock Street</option>
+  <option value="McGarveys">McGarveys</option>
+  <option value="Pussers">Pussers</option>
+  <option value="Iron Rooster">Iron Rooster</option>
+  <option value="Joss">Joss</option>
   <option value="Chipotle">Chipotle</option>
-  <option value="Bentley''s">Bentley's</option>
-  <option value="Terrapin Turf">Terrapin Turf</option>
-  <option value="Potbelly">Potbelly</option>
-  <option value="Cornerstone">Cornerstone</option>
+  <option value="Moes">Moes</option>
+  <option value="Starbucks">Starbucks</option>
+  <option value="City Dock Cafe">City Dock Cafe</option>
+  <option value="Red Bean">Red Bean</option>
+  <option value="Annapolis Ice Cream Co">Annapolis Ice Cream Co</option>
+  <option value="Storm Bros">Storm Bros</option>
 </select><br><br>
-Line Rating: <input type="number" name="Line_Rating" maxlength="11" size="2" /><br><br>
 Circle Rating: <input type="number" name="Circle_Rating" maxlength="11" size="2" /><br><br>
-Comments: <input type="text" name="Comments" maxlength="45" size="45" /><br><br>
-
 <input type="submit" />
 </form>
 <br><br>
@@ -22,13 +27,9 @@ Comments: <input type="text" name="Comments" maxlength="45" size="45" /><br><br>
 <table border="1" cellpadding="2" cellspacing="2">
   <tr>
     <td>Rating Id</td>
-    <td>Location Id</td>
     <td>Location Name</td>
-    <td>Line Rating</td>
     <td>Circle Rating</td>
-    <td>Comments</td>
-    <td>Time String</td>
-    <td>Time Date</td>
+    <td>Time</td>
   </tr>
 
 <?php
@@ -39,18 +40,14 @@ if (!$con)
   }
 $database = mysqli_select_db($con, DB_DATABASE);
 
-$result = mysqli_query($con, "SELECT * FROM lines_table_1"); 
+$result = mysqli_query($con, "SELECT * FROM lines_table_2"); 
 
 while($query_data = mysqli_fetch_row($result)) {
   echo "<tr>";
   echo "<td>",$query_data[0], "</td>",
        "<td>",$query_data[1], "</td>",
        "<td>",$query_data[2], "</td>",
-       "<td>",$query_data[3], "</td>",
-       "<td>",$query_data[4], "</td>",
-       "<td>",$query_data[5], "</td>",
-       "<td>",$query_data[6], "</td>",
-       "<td>",$query_data[7], "</td>";
+       "<td>",$query_data[3], "</td>";
   echo "</tr>";
 }
 ?>
