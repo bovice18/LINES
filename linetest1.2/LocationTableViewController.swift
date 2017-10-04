@@ -33,6 +33,14 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     var ChipotleTime = String()
     
+    var CornerstoneCircle = Int()
+    
+    var CornerstoneTime = String()
+    
+    var TerrapinsTurfCircle = Int()
+    
+    var TerrapinsTurfTime = String()
+    
     var McGarveysCircle = Int()
     
     var McGraveysTime = String()
@@ -40,6 +48,10 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     var PussersCircle = Int()
     
     var PussersTime = String()
+    
+    var BentleysCircle = Int()
+    
+    var BentleysTime = String()
     
     var AcmeCircle = Int()
     
@@ -131,7 +143,148 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     var aSpecial4 = Special(name: "THURSDAY", details: "$4 Vodka Drinks (ladies only) - $3 Domestic Bottles", Image: #imageLiteral(resourceName: "acme1"))
   
     
+    func NewDataLoad2() {
+        
+        
+        let currentLocation = UserDefaults.standard.value(forKey: "CurrentLocation") as! String
+        print("current location")
+        print(currentLocation)
+        
+        let newCurrentLocation = currentLocation.replacingOccurrences(of: " ", with: "_")
+        print(newCurrentLocation)
+        
+       // UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/testData.php?\(newCurrentLocation)"
+        
+        // Add one parameter
+        let urlWithParams = scriptURL
+        
+        print("URL")
+        print(urlWithParams)
+        let myUrl = NSURL(string: urlWithParams);
+     //  print(myUrl)
+        let request = NSMutableURLRequest(url: myUrl as! URL);
+        
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            // Check for error
+            if error != nil
+            {
+                print("error=\(error)")
+                return
+            }
+            
+            // Print out response string
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            
+            print("newloaddata")
+            
+            
+            if let array = json as? [Any] {
+                /*
+                if let firstObject = array.first {
+                    print("data here")
+                    print(firstObject)
+                    if let dictionary = firstObject as? [String: Any] {
+                        print("inside here")
+                        print(dictionary)
+                        if let number = dictionary["locationName"] as? String {
+                            // access individual value in dictionary
+                            print(number)
+                        }
+                        if let number = dictionary["recent"] as? String {
+                            // access individual value in dictionary
+                            print(number)
+                        }
+                        if let number = dictionary["lastUpdated"] as? String {
+                            // access individual value in dictionary
+                            print(number)
+                        }
+                        if let nestedDictionary = dictionary["estimated"] as? [String: Any] {
+                            print(nestedDictionary)
+                            print("nested here")
+                            if let number = nestedDictionary["17"] as? String {
+                                // access individual value in dictionary
+                                print(number)
+                            }
+                    }
+                    }
+                    //print(firstObject)
+                    // access individual object in array
+                */
+            for object in array {
+                    // access all objects in array
+                /*
+                guard let dictionary = firstobject as? [String: Any] else {
+                    
+                    print("error")
+                    return
+                }
+                
+                guard let circleRating = dictionary["circleRating"] as? String,
+                    let Time = dictionary["timeDate"] as? String,
+                    let location = dictionary["locationName"] as? String
+                    else {
+                        print("error")
+                        return
+                }
+ */
+
+                guard let dictionary = object as? [String: Any] else {
+                    print("error")
+                    return
+                }
+                    print("inside here")
+                    print(dictionary)
+                    
+                guard let name = dictionary["locationName"] as? String,
+                    let recent = dictionary["recent"] as? String,
+                    let lastUpdated = dictionary["lastUpdated"] as? String
+                    else {
+                        print("error")
+                        return
+                }
+                let numberRecent = Int(recent)
+                guard let Acme = location(detail1: name, detail2: name, special: self.AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: lastUpdated, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: numberRecent!, ratings: self.AcmeDataPiece) else {
+                    fatalError("Unable to instantiate location2")
+                }
+                DispatchQueue.main.async() {  self.locations.append(Acme) }
+                DispatchQueue.main.async() { self.tableView.reloadData() }
+                
+            }
+        }
+            
     
+        
+        do {
+            //   if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
+            
+            // Print out dictionary
+            // print(convertedJsonIntoDict)
+            
+            // Get value by key
+            //  let firstNameValue = convertedJsonIntoDict["locationName"] as? String
+            //   print(firstNameValue!)
+            
+            // }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
+    }
+    
+    task.resume()
+    }
+    
+    /*
+
     let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getData.php"
     
     func NewLoadData() {
@@ -165,12 +318,11 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             
             let json = try? JSONSerialization.jsonObject(with: data!, options: [])
             
-            
+            //
             if let dictionary = json as? [String: Any] {
-                
+                //
                 if let nestedDictionary = dictionary["Acme"] as? [String: Any] {
                     // access nested dictionary values by key
-                    print("Restuarant key")
                     
                     if let recent = nestedDictionary["recent"] as? String {
                         print("recent")
@@ -191,7 +343,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                             let TimeNow = date1.timeIntervalSinceNow
                             let TimeSincePost = self.stringFromTimeInterval(interval: TimeNow * -1)
                             self.AcmeTime = TimeSincePost
-                            print("Acme time is here")
+                
                             print(self.AcmeTime)
                         } else {
                             self.AcmeTime = lastupdated
@@ -354,6 +506,93 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                         }
                     }
                 }
+                if let nestedDictionary = dictionary["Bentleys"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
+                    
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.BentleysCircle = Int(recent)!
+                    }
+                    
+                    if let lastupdated = nestedDictionary["lastUpdated"] as? String {
+                        print("last updated")
+                        print(lastupdated)
+                        
+                        if lastupdated != "" {
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            let date1 = dateFormatter.date(from: lastupdated)!
+                            
+                            let TimeNow = date1.timeIntervalSinceNow
+                            let TimeSincePost = self.stringFromTimeInterval(interval: TimeNow * -1)
+                            
+                            self.BentleysTime = TimeSincePost
+                        } else {
+                            self.BentleysTime = lastupdated
+                        }
+                    }
+                }
+                if let nestedDictionary = dictionary["Terrapins Turf"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
+                    
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.TerrapinsTurfCircle = Int(recent)!
+                    }
+                    
+                    if let lastupdated = nestedDictionary["lastUpdated"] as? String {
+                        print("last updated")
+                        print(lastupdated)
+                        
+                        if lastupdated != "" {
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            let date1 = dateFormatter.date(from: lastupdated)!
+                            
+                            let TimeNow = date1.timeIntervalSinceNow
+                            let TimeSincePost = self.stringFromTimeInterval(interval: TimeNow * -1)
+                            
+                            self.TerrapinsTurfTime = TimeSincePost
+                        } else {
+                            self.TerrapinsTurfTime = lastupdated
+                        }
+                    }
+                }
+                if let nestedDictionary = dictionary["Cornerstone"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
+                    
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.CornerstoneCircle = Int(recent)!
+                    }
+                    
+                    if let lastupdated = nestedDictionary["lastUpdated"] as? String {
+                        print("last updated")
+                        print(lastupdated)
+                        
+                        if lastupdated != "" {
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                            let date1 = dateFormatter.date(from: lastupdated)!
+                            
+                            let TimeNow = date1.timeIntervalSinceNow
+                            let TimeSincePost = self.stringFromTimeInterval(interval: TimeNow * -1)
+                            
+                            self.CornerstoneTime = TimeSincePost
+                        } else {
+                            self.CornerstoneTime = lastupdated
+                        }
+                    }
+                }
                 switch self.navigationItem.title! {
                 case "Annapolis, MD":
                     print("Annapolis")
@@ -394,7 +633,8 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         task.resume()
       
     }
-    
+    */
+    /*
     
     private func loadData1() {
         
@@ -607,9 +847,14 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         }
         task.resume()
     }
-    
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
+        NewDataLoad2()
         
         switch UserDefaults.standard.integer(forKey: "locationSelected") {
         case 0:
@@ -645,7 +890,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         AcmeSpecial = [aSpecial!,aSpecial1!,aSpecial2!,aSpecial3!,aSpecial4!]
         
         //loadData1()
-        NewLoadData()
+       // NewLoadData()
         // tableView.reloadData()
         
         print(chipotleRatings)
@@ -656,6 +901,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         locationList = locations
     }
+ 
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -664,10 +910,10 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         switch navigationItem.title! {
         case "Annapolis, MD":
             print("Annapolis")
-            self.sampleLocations()
+         //   self.sampleLocations()
         case "College Park, MD":
             print("College Park, MD")
-            self.sampleLocationsCP()
+          //  self.sampleLocationsCP()
         default:
             print("No location selected")
         }
@@ -722,9 +968,9 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             
         case 0:
             
-            cell.arrowImage.image = #imageLiteral(resourceName: "0")
+            cell.minutesLabel.text = "0-5m"
             
-            cell.minutesLabel.text = "no recent posts"
+            cell.arrowImage.image = UIImage(named: "0-5")
             
         case 1:
             
@@ -856,7 +1102,12 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                 fatalError("The selected cell is not being displayed by the table")
             }
             
+            let PostViewController = RatingViewController()
+            
+            
             let selectedLocation = locations[indexPath.row]
+            
+            PostViewController.Location = selectedLocation
             
             locationDetailViewController.Location = selectedLocation
             
@@ -903,7 +1154,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         // Pass the selected object to the new view controller.
     }
     
-    
+    /*
     func sampleLocations() {
         
         guard let Acme = location(detail1: "Acme Bar & Grill", detail2: "Acme", special: AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: self.AcmeTime, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: self.AcmeCircle, ratings: AcmeDataPiece) else {
@@ -940,24 +1191,32 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
-    
+    */
+    /*
     func sampleLocationsCP() {
         
-        guard let Bentleys = location(detail1: "RJ Bentley's Restaurant", detail2: "Bentleys", special: AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: self.AcmeTime, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: self.AcmeCircle, ratings: AcmeDataPiece) else {
+        guard let Bentleys = location(detail1: "RJ Bentley's Restaurant", detail2: "Bentleys", special: AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: self.BentleysTime, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: self.BentleysCircle, ratings: AcmeDataPiece) else {
+            fatalError("Unable to instantiate location2")
+        }
+        guard let TerrapinTurf = location(detail1: "Terrapin's Turf", detail2: "Terrapins Turf", special: AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: self.TerrapinsTurfTime, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: self.TerrapinsTurfCircle, ratings: AcmeDataPiece) else {
+            fatalError("Unable to instantiate location2")
+        }
+        guard let CornerStone = location(detail1: "Cornerstone Grill & Loft", detail2: "Cornerstone", special: AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: self.CornerstoneTime, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: self.CornerstoneCircle, ratings: AcmeDataPiece) else {
             fatalError("Unable to instantiate location2")
         }
    
-        locationList = [Bentleys]
+        locationList = [Bentleys, TerrapinTurf, CornerStone]
         
         locations.removeAll()
         
-        locations += [Bentleys]
+        locations += [Bentleys, TerrapinTurf, CornerStone]
         
         locations.sort  { $0.detail1 < $1.detail1 }
         
         tableView.reloadData()
         
     }
+ */
 
     func endLoading() {
         
@@ -975,14 +1234,18 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     //MARK: Actions
     @IBAction func unwindToMealList(sender: UIStoryboardSegue) {
         
-        NewLoadData()
+       // NewLoadData()
+        
+        locations.removeAll()
+        NewDataLoad2()
         
         tableView.reloadData()
         
     }
     
     private func loadAfterunwind() {
-        loadData1()
+        //loadData1()
+        NewDataLoad2()
     }
     
     private func saveRatings() {
@@ -1006,7 +1269,8 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         self.ActivityView.isHidden = true
         
-        NewLoadData()
+       // NewLoadData()
+        NewDataLoad2()
         
         timer =  Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(endOfWork), userInfo: nil, repeats: false)
         

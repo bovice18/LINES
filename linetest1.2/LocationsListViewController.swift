@@ -11,9 +11,25 @@ import os.log
 
 class LocationsListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+    
+    var MenuShowing = false
     
     @IBOutlet weak var TableView: UITableView!
 
+    @IBAction func MenuButtonPressed(_ sender: UIBarButtonItem) {
+        
+        leadingConstraint.constant = 0
+        
+        if MenuShowing {
+            leadingConstraint.constant = -230
+        } else {
+            leadingConstraint.constant = 0
+        }
+        
+        MenuShowing = !MenuShowing
+        
+    }
 
 override func viewDidAppear(_ animated: Bool) {
     
@@ -716,10 +732,10 @@ override func viewDidAppear(_ animated: Bool) {
         func tableView(_ TableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cellIdentifier = "Location"
             
-            guard let cell = TableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? LocationTableViewCell  else {
+            guard let cell = TableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? UITableViewCell  else {
                 fatalError("The dequeued cell is not an instance of LocationTableViewCell.")
             }
-            
+            /*
             // Fetches the appropriate meal for the data source layout.
             let location = locations[indexPath.row]
             
@@ -763,7 +779,7 @@ override func viewDidAppear(_ animated: Bool) {
             default:
                 print("error")
             }
-            
+            */
             return cell
         }
         

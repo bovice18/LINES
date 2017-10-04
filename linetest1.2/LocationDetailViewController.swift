@@ -201,6 +201,16 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             case "The Federal House":
                 locationName = "Federal House"
                 
+            case "RJ Bentley's Restaurant":
+                locationName = "Bentleys"
+                
+            case "Cornerstone Grill & Loft":
+                locationName = "Cornerstone"
+                
+            case "Terrapin's Turf":
+                locationName = "Terrapins Turf"
+                
+                
             default:
                 print("unknown Name")
             }
@@ -371,6 +381,194 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         task.resume()
     }
     
+    func NewDataLoad2() {
+        
+        let currentLocation = UserDefaults.standard.value(forKey: "CurrentLocation") as! String
+        print("current location")
+        print(currentLocation)
+        
+        let newCurrentLocation = currentLocation.replacingOccurrences(of: " ", with: "_")
+        print(newCurrentLocation)
+        
+        // UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/testData.php?\(newCurrentLocation)"
+        
+        // Add one parameter
+        let urlWithParams = scriptURL
+        
+        print("URL")
+        print(urlWithParams)
+        let myUrl = NSURL(string: urlWithParams);
+        //  print(myUrl)
+        let request = NSMutableURLRequest(url: myUrl as! URL);
+        
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            // Check for error
+            if error != nil
+            {
+                print("error=\(error)")
+                return
+            }
+            
+            // Print out response string
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            
+            print("newloaddata")
+            
+            
+            if let array = json as? [Any] {
+                /*
+                 if let firstObject = array.first {
+                 print("data here")
+                 print(firstObject)
+                 if let dictionary = firstObject as? [String: Any] {
+                 print("inside here")
+                 print(dictionary)
+                 if let number = dictionary["locationName"] as? String {
+                 // access individual value in dictionary
+                 print(number)
+                 }
+                 if let number = dictionary["recent"] as? String {
+                 // access individual value in dictionary
+                 print(number)
+                 }
+                 if let number = dictionary["lastUpdated"] as? String {
+                 // access individual value in dictionary
+                 print(number)
+                 }
+                 if let nestedDictionary = dictionary["estimated"] as? [String: Any] {
+                 print(nestedDictionary)
+                 print("nested here")
+                 if let number = nestedDictionary["17"] as? String {
+                 // access individual value in dictionary
+                 print(number)
+                 }
+                 }
+                 }
+                 //print(firstObject)
+                 // access individual object in array
+                 */
+                for object in array {
+                    // access all objects in array
+                    /*
+                     guard let dictionary = firstobject as? [String: Any] else {
+                     
+                     print("error")
+                     return
+                     }
+                     
+                     guard let circleRating = dictionary["circleRating"] as? String,
+                     let Time = dictionary["timeDate"] as? String,
+                     let location = dictionary["locationName"] as? String
+                     else {
+                     print("error")
+                     return
+                     }
+                     */
+                    guard let dictionary = object as? [String: Any] else {
+                        print("error")
+                        return
+                    }
+                        print("inside here")
+                        print(dictionary)
+                    
+                        guard let nestedDictionary = dictionary["estimated"] as? [String: Any] else {
+                            print("error")
+                            return
+                        }
+                            print(nestedDictionary)
+                            print("nested here")
+                    
+                            guard let number = nestedDictionary["17"] as? String else {
+                                print("error")
+                                return
+                            }
+                            // access individual value in dictionary
+                            print(number)
+                    
+                    guard let name = dictionary["locationName"] as? String,
+                        let recent = dictionary["recent"] as? String,
+                        let lastUpdated = dictionary["lastUpdated"] as? String
+                        else {
+                            print("error")
+                            return
+                    }
+                    let numberRecent = Int(recent)
+                   // guard let Acme = location(detail1: name, detail2: name, special: self.AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: lastUpdated, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: numberRecent!, ratings: self.AcmeDataPiece) else {
+                    //    fatalError("Unable to instantiate location2")
+                   // }
+                  //  self.locations.append(Acme)
+                   // self.tableView.reloadData()
+                }
+                
+                for object in array {
+                    guard let dictionary = object as? [String: Any] else {
+                        print("error")
+                        return
+                    }
+                    print("inside here")
+                    print(dictionary)
+                    
+                    guard let nestedDictionary = dictionary["estimated"] as? [String: Any] else {
+                        print("error")
+                        return
+                    }
+                    
+                    print(nestedDictionary)
+                    print("nested here")
+                    
+                    let hourArray = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
+                    
+                    let average1 = Int()
+                    
+                    let hourArray2 = [String: Int]()
+
+            
+                    for hour in hourArray {
+                        
+                        guard let number = nestedDictionary[hour] as? String else {
+                            print("error")
+                            return
+                        }
+                    }
+                    
+              
+                    // access individual value in dictionary
+                   // print(number)
+                }
+            
+            }
+            
+            
+            
+            do {
+                //   if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
+                
+                // Print out dictionary
+                // print(convertedJsonIntoDict)
+                
+                // Get value by key
+                //  let firstNameValue = convertedJsonIntoDict["locationName"] as? String
+                //   print(firstNameValue!)
+                
+                // }
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        
+        }
+    
+        task.resume()
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -378,6 +576,8 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
          mapView.delegate = self
+        
+        mapView.layer.cornerRadius = 4
     
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -418,6 +618,8 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         graphTitleLbl.layer.cornerRadius = 5
         
         if let location = Location {
+            
+            Location?.detail1 = location.detail1
             
             BarDisplays = location.ratings
             
@@ -490,6 +692,25 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             UserDefaults.standard.set(6, forKey: "title")
             
             UserDefaults.standard.synchronize()
+            
+        case "RJ Bentley's Restaurant":
+            
+            UserDefaults.standard.set(7, forKey: "title")
+            
+            UserDefaults.standard.synchronize()
+            
+        case "Cornerstone Grill & Loft":
+            
+            UserDefaults.standard.set(8, forKey: "title")
+            
+            UserDefaults.standard.synchronize()
+            
+        case "Terrapin's Turf":
+            
+            UserDefaults.standard.set(9, forKey: "title")
+            
+            UserDefaults.standard.synchronize()
+            
             
         default:
             
@@ -673,6 +894,38 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         // This method lets you configure a view controller before it's presented.
         super.prepare(for: segue, sender: sender)
         
+        print("locationnameis")
+        print(Location?.detail1)
+        
+        let segueNames = ["Post", "Post1"]
+        
+        for name in segueNames {
+            
+            print("locationnameis3")
+            print(Location?.detail1)
+            
+            //let name2 = Location?.detail1
+            switch(segue.identifier ?? "") {
+                
+            case name:
+                print("segue")
+                
+              //  guard let PostViewController = segue.destination as? RatingViewController else {
+               //     fatalError("Unexpected destination: \(segue.destination)")
+              //  }
+                print(Location)
+              //  let PostViewController = RatingViewController()
+             //   PostViewController.Location?.detail1 = (Location?.detail1)!
+              //  PostViewController.Location = Location
+                
+                print("locationnameis2")
+                print(Location?.detail1)
+                
+            default:
+                print("error")
+            }
+        }
+
         // Configure the destination view controller only when the save button is pressed.
         guard let button = sender as? UIBarButtonItem, button === saveButton else {
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
@@ -700,7 +953,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         // Set the reting to be passed to LocationTableViewController after the unwind segue.
         Location = location(detail1: detail1!, detail2: detail2!, special: ratingList!, locationImagine: locationImage1!, timeSinceLastPost: timeSinceLastPost!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation!, ratings: ratings1!)
-        
+ 
         
         //  loadData()
         
@@ -715,6 +968,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         print(ratingList)
         
         print("sent info back to start")
+      
     }
     
     // Get the new view controller using segue.destinationViewController.
@@ -1684,7 +1938,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         var annotation4 = MKPointAnnotation()
         
-       switch self.navigationItem.title! {
+        switch self.navigationItem.title! {
         case "McGarvey's":
             var mcgraveys: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9783113, longitude: -76.48699980000004) }
             
@@ -1743,7 +1997,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             var pussers: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9757627, longitude: -76.48553370000002) }
             
             annotation4.coordinate = pussers
-        
+            
             annotation4.title = "Pusser's Caribbean Grille"
             
             var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(pussers, 1000, 1000) }
@@ -1767,6 +2021,52 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             
             mapView.addAnnotation(annotation4)
             
+        case "RJ Bentley's Restaurant":
+            
+            var FedHouse: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.980481, longitude: -76.937557) }
+            
+            annotation4.coordinate = FedHouse
+            
+            annotation4.title = "RJ Bentley's Restaurant"
+            
+            var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(FedHouse, 1000, 1000) }
+            
+            mapView.setRegion(region, animated: true)
+            
+            
+            mapView.addAnnotation(annotation4)
+            
+        case "Cornerstone Grill & Loft":
+            
+            var FedHouse: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9806637, longitude: -76.93757349999998) }
+            
+            annotation4.coordinate = FedHouse
+            
+            annotation4.title = "Cornerstone Grill & Loft"
+            
+            var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(FedHouse, 1000, 1000) }
+            
+            mapView.setRegion(region, animated: true)
+            
+            
+            mapView.addAnnotation(annotation4)
+
+        case "Terrapin's Turf":
+            
+            var FedHouse: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9811964, longitude: -76.93839919999999) }
+            
+            annotation4.coordinate = FedHouse
+            
+            annotation4.title = "Terrapin's Turf"
+            
+            var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(FedHouse, 1000, 1000) }
+            
+            mapView.setRegion(region, animated: true)
+            
+            
+            mapView.addAnnotation(annotation4)
+
+            
         default:
             print("no location")
             
@@ -1782,8 +2082,6 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
          */
     }
 
-
-    
 }
 
 

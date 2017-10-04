@@ -27,6 +27,13 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
     var aSpecial3 = Special(name: "WEDNESDAY", details: "$4 Vodka Drinks - $3 Domestic Bottles", Image: #imageLiteral(resourceName: "acme1"))
     var aSpecial4 = Special(name: "THURSDAY", details: "$4 Vodka Drinks - $3 Domestic Bottles", Image: #imageLiteral(resourceName: "acme1"))
     
+    var bSpecial = Special(name: "FRIDAY - HAPPY HOUR(4-7PM)", details: "20% beer and liquor - $3.25 Bud Light", Image: #imageLiteral(resourceName: "acme1"))
+    var bSpecial1 = Special(name: "FRIDAY - AFTER 9PM", details: "$3 Rails - $4 Fireball and Jim Beam - $4.25 Jager and Titos, $5.25 Stolu and Jack Daniels ", Image: #imageLiteral(resourceName: "acme1"))
+    
+    var tSpecial = Special(name: "TUESDAY", details: "$4 Margaritas - $3 Coronas", Image: #imageLiteral(resourceName: "acme1"))
+    var tSpecial2 = Special(name: "WEDNESDAY", details: "$5 Long Islands", Image: #imageLiteral(resourceName: "acme1"))
+    var tSpecial1 = Special(name: "SUNDAY", details: "Bottomless Mimosas", Image: #imageLiteral(resourceName: "acme1"))
+    
     
     
     
@@ -84,6 +91,20 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
             
             navigationItem.title = "The Federal House"
             
+        case 7:
+            
+            navigationItem.title = "RJ Bentley's Restaurant"
+            
+        case 8:
+            
+            navigationItem.title = "Cornerstone Grill & Loft"
+            
+        case 9:
+            
+            navigationItem.title = "Terrapin's Turf"
+            
+
+            
         default:
             
             navigationItem.title = "What's the Line Like?"
@@ -92,7 +113,20 @@ class SpecialsViewController: UIViewController, UITableViewDelegate, UITableView
         if  navigationItem.title! == "Acme Bar & Grill" {
             AllDeals  = [aSpecial!, aSpecial1!, aSpecial2!, aSpecial3!, aSpecial4!]
             tableView.reloadData()
-        } else {
+        }
+
+        if  navigationItem.title! == "RJ Bentley's Restaurant" {
+            AllDeals  = [bSpecial!, bSpecial1!]
+            tableView.reloadData()
+        }
+      if  navigationItem.title! == "Terrapin's Turf" {
+        
+            AllDeals  = [tSpecial!,tSpecial2!, tSpecial1!]
+            tableViewTitle.text = "Happy Hour Specials"
+            tableView.reloadData()
+        }
+       // if navigationItem.title! != "Acme Bar & Grill" || navigationItem.title! != "RJ Bentley's Restaurant"  
+    if navigationItem.title! != "Acme Bar & Grill" && navigationItem.title! != "RJ Bentley's Restaurant" && navigationItem.title! != "Terrapin's Turf" {
             AllDeals  = []
             AllDeals.removeAll()
             tableView.reloadData()

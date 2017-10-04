@@ -18,6 +18,12 @@ class mapViewController: UIViewController, MKMapViewDelegate {
     
     var DillosCircle: Int?
     
+    var BentleysCircle: Int?
+    
+    var TerrapinsCircle: Int?
+    
+    var CornerstoneCirle: Int?
+    
     var McGraveysCircle: Int?
     
     var PussersCircle: Int?
@@ -154,6 +160,42 @@ class mapViewController: UIViewController, MKMapViewDelegate {
                         self.FedHouseCircle = Int(recent)!
                     }
                 }
+                
+                if let nestedDictionary = dictionary["Cornerstone"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
+                    
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.CornerstoneCirle = Int(recent)!
+                    }
+                }
+                
+                if let nestedDictionary = dictionary["Bentleys"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
+                    
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.BentleysCircle = Int(recent)!
+                    }
+                }
+                
+                if let nestedDictionary = dictionary["Terrapins Turf"] as? [String: Any] {
+                    // access nested dictionary values by key
+                    print("Restuarant key")
+                    
+                    if let recent = nestedDictionary["recent"] as? String {
+                        print("recent")
+                        print(recent)
+                        
+                        self.TerrapinsCircle = Int(recent)!
+                    }
+                }
                 //  self.sampleLocations()
                 //  DispatchQueue.main.async() { self.tableView.reloadData() }
                 
@@ -177,6 +219,8 @@ class mapViewController: UIViewController, MKMapViewDelegate {
                     case 1:
                         print("College Park")
                         self.addingSubtitleBentleys()
+                        self.addingSubtitleCornerstone()
+                        self.addingSubtitleTerrapins()
                     default:
                         print("no location selected")
                     }
@@ -211,6 +255,10 @@ class mapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
         
         NewLoadData()
         
@@ -578,15 +626,16 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(annotation1)
     }
     
-    func addingSubtitleBentleys(){
+
+    func addingSubtitleTerrapins(){
         
         var annotation1 = MKPointAnnotation()
         
-        var acme: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.980481, longitude: -76.937557) }
+        var acme: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9811964, longitude: -76.93839919999999) }
         
         annotation1.coordinate = acme
         
-        annotation1.title = "RJ Bentley's Restaurant"
+        annotation1.title = "Terrapin's Turf"
         
         print("closers")
         
@@ -596,7 +645,7 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         
         mapView.removeAnnotation(annotation1)
         
-        let number = IronRooserCircle
+        let number = TerrapinsCircle
         switch number {
         case 0?:
             
@@ -635,6 +684,122 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(annotation1)
     }
     
+    func addingSubtitleBentleys(){
+        
+        var annotation1 = MKPointAnnotation()
+        
+        var acme: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.980481, longitude: -76.937557) }
+        
+        annotation1.coordinate = acme
+        
+        annotation1.title = "RJ Bentley's Restaurant"
+        
+        print("closers")
+        
+        print("no error")
+        
+        print(IronRooserCircle as Any)
+        
+        mapView.removeAnnotation(annotation1)
+        
+        let number = BentleysCircle
+        switch number {
+        case 0?:
+            
+            annotation1.subtitle = "no recent posts"
+            
+        case 1?:
+            
+            annotation1.subtitle = "Line: 0-5m"
+            
+        case 2?:
+            
+            annotation1.subtitle = "Line: 5-10m"
+            
+        case 3?:
+            
+            annotation1.subtitle = "Line: 10-20m"
+            
+        case 4?:
+            
+            annotation1.subtitle = "Line: + 20m"
+            
+        case 5?:
+            
+            annotation1.subtitle = "Line: 20m"
+            
+        default:
+            
+            print(self.IronRooserCircle as Any)
+            
+            print("failed..error")
+            
+        }
+        
+        mapView.removeAnnotation(annotation1)
+        
+        mapView.addAnnotation(annotation1)
+    }
+    
+    func addingSubtitleCornerstone(){
+        
+        var annotation1 = MKPointAnnotation()
+        
+        var acme: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9806637, longitude: -76.93757349999998) }
+
+        
+        annotation1.coordinate = acme
+        
+        annotation1.title = "Cornerstone Grill & Loft"
+        
+        print("closers")
+        
+        print("no error")
+        
+        print(IronRooserCircle as Any)
+        
+        mapView.removeAnnotation(annotation1)
+        
+        let number = CornerstoneCirle
+        switch number {
+        case 0?:
+            
+            annotation1.subtitle = "no recent posts"
+            
+        case 1?:
+            
+            annotation1.subtitle = "Line: 0-5m"
+            
+        case 2?:
+            
+            annotation1.subtitle = "Line: 5-10m"
+            
+        case 3?:
+            
+            annotation1.subtitle = "Line: 10-20m"
+            
+        case 4?:
+            
+            annotation1.subtitle = "Line: + 20m"
+            
+        case 5?:
+            
+            annotation1.subtitle = "Line: 20m"
+            
+        default:
+            
+            print(self.IronRooserCircle as Any)
+            
+            print("failed..error")
+            
+        }
+        
+        mapView.removeAnnotation(annotation1)
+        
+        mapView.addAnnotation(annotation1)
+    }
+    
+
     func addingSubtitle9(){
         
         var annotation1 = MKPointAnnotation()

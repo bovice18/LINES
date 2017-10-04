@@ -16,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+      
+    
         if (UserDefaults.standard.bool(forKey: "HasLaunchedOnce")) {
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -34,7 +35,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let vc = storyboard.instantiateViewController(withIdentifier: idenfier) as! UIViewController
             self.window?.rootViewController = vc
         }
- 
+
+        /*
+        // China based apps should specify the region
+        Configuration.setRegion(.China)
+        // If true, all requests will hit the sandbox, useful for testing
+        Configuration.setSandboxEnabled(true)
+        // If true, Native login will try and fallback to using Authorization Code Grant login (for privileged scopes). Otherwise will redirect to App store
+        Configuration.setFallbackEnabled(false)
+        // Complete other setup
+ */
         return true
     }
 

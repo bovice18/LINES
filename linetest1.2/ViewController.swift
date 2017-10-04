@@ -56,9 +56,13 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     
     var sliderValue = Int()
     
-    var LocationName: String?
+    var LocationName = String()
     
-    func buttonIndicator(value: Int) {
+    var Location: location?
+    
+  //  var LocationName: String?
+    
+ func buttonIndicator(value: Int) {
         
         switch value {
         case 1:
@@ -150,6 +154,9 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         
         let region1 = CLCircularRegion(center: center, radius: 10000, identifier: identifier)
         
+        let region2 = CLCircularRegion(center: center2, radius: 10000, identifier: identifier)
+
+        
         // region1.contains(<#T##coordinate: CLLocationCoordinate2D##CLLocationCoordinate2D#>)
         region1.notifyOnEntry = true
         print(locationManager.location?.coordinate)
@@ -166,10 +173,47 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
                 longSaveButton.isEnabled = true
             }
             
+            if LocationName == "Bentleys" || LocationName == "Terrapins Turf" || LocationName == "Cornerstone" {
+                
+                if region2.contains((locationManager.location?.coordinate)!) == true {
+                    
+                    saveButton.isEnabled = true
+                    
+                    longSaveButton.isEnabled = true
+                    
+                } else {
+                    saveButton.isEnabled = false
+                    
+                    longSaveButton.isEnabled = false
+                    
+                    self.navigationController?.isToolbarHidden = false
+                    
+                    self.navigationController?.toolbar.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                    
+                    var items = [UIBarButtonItem]()
+                    
+                    items.append(
+                        
+                        UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+                    )
+                    items.append(
+                        UIBarButtonItem(title: "Must be in College Park to post", style: .plain, target: self, action: nil)
+                    )
+                    items.append(
+                        UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+                    )
+                    
+                    self.navigationController?.toolbar.items = items
+                    
+                }
+            
+        }
         }
         if locationManager.location?.coordinate != nil {
             
             if region1.contains((locationManager.location?.coordinate)!) == false {
+                
+                if LocationName != "Bentleys" && LocationName != "Terrapins Turf" && LocationName != "Cornerstone" {
                 
                 self.navigationController?.isToolbarHidden = false
                 
@@ -189,12 +233,14 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
                 )
                 
                 self.navigationController?.toolbar.items = items
-                
+                }
             }
         }
         
         if locationManager.location?.coordinate == nil {
             
+            userNotInRegion()
+            /*
             let alertController = UIAlertController (title: "Location Services Off", message: "Turn on Location Services in Settings to post", preferredStyle: .alert)
             
             let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
@@ -233,8 +279,53 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
             
             self.navigationController?.toolbar.items = items
             
-        }
         
+        
+        */
+        }
+    }
+    
+    func userNotInRegion() {
+        
+        let alertController = UIAlertController (title: "Location Services Off", message: "Turn on Location Services in Settings to post", preferredStyle: .alert)
+        
+        let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
+            guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+                return
+            }
+            
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                    print("Settings opened: \(success)") // Prints true
+                })
+            }
+        }
+        alertController.addAction(settingsAction)
+        let cancelAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+        
+        
+        self.navigationController?.isToolbarHidden = false
+        
+        self.navigationController?.toolbar.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        var items = [UIBarButtonItem]()
+        
+        items.append(
+            
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        )
+        items.append(
+            UIBarButtonItem(title: "Must have Location Services turned on", style: .plain, target: self, action: nil)
+        )
+        items.append(
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        )
+        
+        self.navigationController?.toolbar.items = items
+        
+
         
     }
     @IBAction func timeButton1Pressed(_ sender: Any) {
@@ -372,12 +463,19 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     
     var center: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978443, longitude:  -76.492180) }
     
+    var center2: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.980481, longitude: -76.937557) }
+
+    
     var identifier: String {
         return "San Fran"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
         
@@ -471,7 +569,20 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
             
         }
         
-        var title = String()
+        if let location = Location {
+            
+            
+            navigationItem.title = location.detail1
+            navigationItem.title = Location?.detail1
+            print("nameright now is ")
+            print(LocationName)
+        }
+        
+        navigationItem.title = LocationName
+        print("nameright now is ")
+        print(LocationName)
+        
+       /* var title = String()
         
         var TitleID = UserDefaults.standard.integer(forKey: "title")
         
@@ -479,44 +590,66 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
             
         case 1:
             
-            navigationItem.title = "Dock Street"
+            navigationItem.title = "Dock Street Bar & Grill"
             
             LocationName = "Dock Street"
             
         case 2:
             
-            navigationItem.title = "Acme"
+            navigationItem.title = "Acme Bar & Grill"
             
             LocationName = "Acme"
             
         case 3:
             
-            navigationItem.title = "Pusser's"
+            navigationItem.title = "Pusser's Caribbean Grille"
             
             LocationName = "Pussers"
             
         case 4:
             
-            navigationItem.title = "Armadillos"
+            navigationItem.title = "Armadillos Restaurant"
             
             LocationName = "Armadillos"
             
         case 5:
             
-            navigationItem.title = "McGarveys"
+            navigationItem.title = "McGarvey's"
             
             LocationName = "McGarveys"
             
         case 6:
             
-            navigationItem.title = "Federal House"
+            navigationItem.title = "The Federal House"
             
             LocationName = "Federal House"
+            
+        case 7:
+            
+            navigationItem.title = "RJ Bentley's Restaurant"
+            
+            LocationName = "Bentleys"
+            
+        case 8:
+            
+            navigationItem.title = "Cornerstone Grill & Loft"
+            
+            LocationName = "Cornerstone"
+
+        case 9:
+            
+            navigationItem.title = "Terrapin's Turf"
+            
+            LocationName = "Terrapins Turf"
+
+
             
         default:
             
             navigationItem.title = "What's the Line Like?"
+             LocationName = "Acme"
         }
+ */
         
         var region1 = CLCircularRegion(center: center, radius: 1000, identifier: identifier)
         
@@ -578,7 +711,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
             
             let timeIntervalSinceNow1 = NSDate()
             let timeNow = timeIntervalSinceNow1
-            let locationName = LocationName!
+            let locationName = LocationName
             
             if let destinationView = segue.destination as? LocationDetailViewController {
                 print("id working")
@@ -635,7 +768,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
           
             let timeIntervalSinceNow1 = NSDate()
             let timeNow = timeIntervalSinceNow1
-            let locationName = LocationName!
+            let locationName = LocationName
             
             if segue.destination is LocationDetailViewController {
                               print("id working")
