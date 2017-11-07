@@ -235,7 +235,7 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 // self.sampleLocations()
                // DispatchQueue.main.async() { self.tableView.reloadData() }
                 
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+             //   UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
             
             
