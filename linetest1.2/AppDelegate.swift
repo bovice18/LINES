@@ -7,17 +7,32 @@
 //
 
 import UIKit
+//import FBSDKCoreKit
+
+//import UberRides
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+   /* @available(iOS 9, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        let handledUberURL = RidesAppDelegate.shared.application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation] as Any)
+        
+        return handledUberURL
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        let handledUberURL = RidesAppDelegate.shared.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+        
+        return handledUberURL
+    }
+ */
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
       
-    
         if (UserDefaults.standard.bool(forKey: "HasLaunchedOnce")) {
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -27,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // App already launched
             
         } else {
+            
             // This is the first launch ever
             UserDefaults.standard.set(true, forKey: "HasLaunchedOnce")
             UserDefaults.standard.synchronize()
@@ -34,8 +50,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let idenfier = "Select City"
             let vc = storyboard.instantiateViewController(withIdentifier: idenfier) as! UIViewController
             self.window?.rootViewController = vc
+            
         }
 
+     //   FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        //[[FBSDKApplicationDelegate sharedInstance] application:application
+        //    didFinishLaunchingWithOptions:launchOptions];
+      //  return YES;
+        
         /*
         // China based apps should specify the region
         Configuration.setRegion(.China)
@@ -63,13 +85,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+       
+          //  FBSDKAppEvents.activateApp()
+         // [FBSDKAppEvents activateApp];
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+  /*  func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance().application(_: application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+*/
+    
 }
 

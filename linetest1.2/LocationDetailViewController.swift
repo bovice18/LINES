@@ -10,16 +10,16 @@ import UIKit
 import CoreLocation
 import MapKit
 import os.log
+//import UberRides
 
-class LocationDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,  MKMapViewDelegate {
+class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UITableViewDataSource, */ CLLocationManagerDelegate,  MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
-    
-    
+    //Swipe left action to move to specials page
     @IBAction func SwipeLeft(_ sender: UISwipeGestureRecognizer) {
-        
         performSegue(withIdentifier: "Switch", sender: sender)
     }
+    
     
     @IBOutlet weak var timeSincePostLbl: UILabel!
     
@@ -44,45 +44,35 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             print("failed segment")
         }
     }
-    
+    //Button to post
     @IBOutlet weak var joinTheLineButton: UIBarButtonItem!
-    
+    //old table view, no longer exists need to delete
     @IBOutlet weak var tableView: UITableView!
-    
+    //old label for address,, check to see if still used
     @IBOutlet weak var adressLbl: UILabel!
-    
+    //old label for phone number,, check to see if still used
     @IBOutlet weak var phoneLbl: UILabel!
-    
+    //save button == back **check to make sure
     @IBOutlet weak var saveButton: UIBarButtonItem!
-    
-    @IBOutlet weak var barDisplay1: UIView!
-    
-    @IBOutlet weak var barDisplay2: UIView!
-    
-    @IBOutlet weak var barDisplay3: UIView!
-    
-    @IBOutlet weak var barDisplay4: UIView!
-    
-    @IBOutlet weak var barDisplay5: UIView!
-    
-    @IBOutlet weak var barDisplay6: UIView!
-    
-    @IBOutlet weak var barDisplay7: UIView!
-    
-    @IBOutlet weak var barDisplay8: UIView!
-    
-    @IBOutlet weak var barDisplay9: UIView!
-    
-    @IBOutlet weak var barDisplay10: UIView!
-    
+
+    //Estimated Wait Bar Graphs
+    @IBOutlet weak var barDisplay1: UIView!  //bar display at 1 am
+    @IBOutlet weak var barDisplay2: UIView!  //bar display at 12pm
+    @IBOutlet weak var barDisplay3: UIView!  //bar display at 11pm
+    @IBOutlet weak var barDisplay4: UIView!  //bar display at 10pm
+    @IBOutlet weak var barDisplay5: UIView!  //bar display at 9pm
+    @IBOutlet weak var barDisplay6: UIView!  //bar display at 8pm
+    @IBOutlet weak var barDisplay7: UIView!  //bar display at 7pm
+    @IBOutlet weak var barDisplay8: UIView!  //bar display at 6pm
+    @IBOutlet weak var barDisplay9: UIView!  //bar display at 5pm
+    @IBOutlet weak var barDisplay10: UIView!  //bar display at 4pm
+     //bar display not used for a time
     @IBOutlet weak var barDisplay11: UIView!
-    
+     //bar display not used for time
     @IBOutlet weak var barDisplay12: UIView!
     
     var MondayDeal: Special?
-    
     var AllDeals = [Special]()
-    
     var imageNumber: Int?
     
     var timeLblData: String?
@@ -93,64 +83,48 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     var specials = [Special]()
     
+    //Variables for different estimated waits
     var waitsAt11 = Int()
-    
     var waitsAt12 = Int()
-    
     var waitsAt1 = Int()
-    
     var waitsAt2 = Int()
-    
     var waitsAt3 = Int()
-    
     var waitsAt4 = Int()
-    
     var waitsAt5 = Int()
-    
     var waitsAt6 = Int()
-    
     var waitsAt7 = Int()
-    
     var waitsAt8 = Int()
-    
     var waitsAt9 = Int()
-    
     var waitsAt10 = Int()
     
-    var ratingsAt11 = [rating]()
-    
+    //do not know what is used for
+  /* var ratingsAt11 = [rating]()
     var ratingsAt12 = [rating]()
-    
     var ratingsAt1 = [rating]()
-    
     var ratingsAt2 = [rating]()
-    
     var ratingsAt3 = [rating]()
-    
     var ratingsAt4 = [rating]()
-    
     var ratingsAt5 = [rating]()
-    
     var ratingsAt6 = [rating]()
-    
     var ratingsAt7 = [rating]()
+   */
     
     var BarDisplayData = [Int]()
     
-    var BarDisplays = [BarDisplayDataPiece]()
+    //var BarDisplays = [BarDisplayDataPiece]()
     
     let locationManager = CLLocationManager()
     
     var directPost: Int?
     
-    let FridayDeal = Special(name: "FRIDAY", details: "Mixed Drinks", Image: #imageLiteral(resourceName: "acme2"))
+  //  let FridayDeal = Special(name: "FRIDAY", details: "Mixed Drinks", Image: #imageLiteral(resourceName: "acme2"))
     
     @IBOutlet weak var coloredView: UIView!
     
     var refreshControl: UIRefreshControl!
     
     var timer: Timer!
-    
+  /*
     func NewLoadData() {
         let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getDataNew.php"
         
@@ -380,6 +354,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
         task.resume()
     }
+    */
     
     func NewDataLoad2() {
         
@@ -392,7 +367,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         // UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/testData.php?\(newCurrentLocation)"
+        let scriptURL = "http://waitmatehq.com/testData.php?\(newCurrentLocation)"
         
         // Add one parameter
         let urlWithParams = scriptURL
@@ -456,6 +431,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                  //print(firstObject)
                  // access individual object in array
                  */
+                //INITIAL ACCESS POINT FOR DATA
                 for object in array {
                     // access all objects in array
                     /*
@@ -473,6 +449,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                      return
                      }
                      */
+                    //NOW ENTERING THE OBJECTS THAT MAKE UP THE ARRAY "{'':""}"
                     guard let dictionary = object as? [String: Any] else {
                         print("error")
                         return
@@ -480,6 +457,8 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                         print("inside here")
                         print(dictionary)
                     
+                    //*EXAMPLE*METHOD FOR GETTING THE ESTIMATED WAIT AT 17
+                    /*
                         guard let nestedDictionary = dictionary["estimated"] as? [String: Any] else {
                             print("error")
                             return
@@ -493,29 +472,56 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                             }
                             // access individual value in dictionary
                             print(number)
-                    
-                    guard let name = dictionary["locationName"] as? String,
-                        let recent = dictionary["recent"] as? String,
-                        let lastUpdated = dictionary["lastUpdated"] as? String
+                    */
+                
+                    guard let name = dictionary["locationName"] as? String, //Location name accessed
+                        let recent = dictionary["recent"] as? String, //recent post accessed as string
+                        let lastUpdated = dictionary["lastUpdated"] as? String, //recent post time accessed as string
+                         let longName = dictionary["longName"] as? String //recent post time accessed as string
                         else {
                             print("error")
                             return
                     }
+                   //if the location out of the lists of locations is equal to the navigation controller then
+              if longName == self.navigationItem.title {
+                
+                //making the recent post into an integer
                     let numberRecent = Int(recent)
+                //setting the image number as the recent post and the reloading it on the main thread
+                    self.imageNumber = numberRecent
+                
+                    DispatchQueue.main.async() { self.updateCircleRating() }
+                        print(numberRecent)
+                        print("recent number")
+                
+                    }
+                    
                    // guard let Acme = location(detail1: name, detail2: name, special: self.AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: lastUpdated, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: numberRecent!, ratings: self.AcmeDataPiece) else {
                     //    fatalError("Unable to instantiate location2")
                    // }
                   //  self.locations.append(Acme)
                    // self.tableView.reloadData()
                 }
-                
+                //ACCESSSING ALL ESTIMATED WAIT DATA
                 for object in array {
+                    
                     guard let dictionary = object as? [String: Any] else {
                         print("error")
                         return
                     }
                     print("inside here")
                     print(dictionary)
+                    
+                    guard let longName = dictionary["longName"] as? String else {
+                        print("error")
+                        return
+                    }
+                    
+                    print("inside here")
+                    print(longName)
+                    
+                    if longName == self.navigationItem.title {
+                        
                     
                     guard let nestedDictionary = dictionary["estimated"] as? [String: Any] else {
                         print("error")
@@ -527,19 +533,102 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
                     
                     let hourArray = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
                     
-                    let average1 = Int()
+                   // let average1 = Int()
                     
-                    let hourArray2 = [String: Int]()
+                   // let hourArray2 = [String: Int]()
 
             
                     for hour in hourArray {
                         
-                        guard let number = nestedDictionary[hour] as? String else {
+                       if let lastupdated = nestedDictionary[hour] as? String {
+                        
+                       /* guard let number = nestedDictionary[hour] as? String else {
                             print("error")
                             return
                         }
+                        */
+                        print(lastupdated)
+                        print(hour)
+                        
+                        switch hour {
+                        case "2":
+                            print("average at 1")
+                            print(lastupdated)
+                            self.waitsAt1 = Int(lastupdated)!
+                            DispatchQueue.main.async() {
+                                self.loadBarDisplay2() }
+                        case "14":
+                            print("average at 2")
+                            print(lastupdated)
+                            self.waitsAt2 = Int(lastupdated)!
+                            DispatchQueue.main.async() {
+                                self.loadBarDisplay2() }
+                        case "15":
+                            print("average at 3")
+                            print(lastupdated)
+                            self.waitsAt3 = Int(lastupdated)!
+                            DispatchQueue.main.async() {
+                                self.loadBarDisplay3() }
+                        case "16":
+                            print("average at 4")
+                            print(lastupdated)
+                            self.waitsAt4 = Int(lastupdated)!
+                            DispatchQueue.main.async() {
+                                self.loadBarDisplay4() }
+
+                        case "17":
+                            print("average at 5")
+                            print(lastupdated)
+                            self.waitsAt5 = Int(lastupdated)!
+                            DispatchQueue.main.async() {
+                                self.loadBarDisplay5() }
+                        case "18":
+                            print("average at 6")
+                            print(lastupdated)
+                            self.waitsAt6 = Int(lastupdated)!
+                            DispatchQueue.main.async() {
+                                self.loadBarDisplay10() }
+                        case "19":
+                            print("average at 7")
+                            print(lastupdated)
+                            self.waitsAt7 = Int(lastupdated)!
+                            DispatchQueue.main.async() {
+                                self.loadBarDisplay6() }
+                        case "20":
+                            print("average at 8")
+                            print(lastupdated)
+                            self.waitsAt8 = Int(lastupdated)!
+                            DispatchQueue.main.async() {
+                                self.loadBarDisplay7() }
+                        case "21":
+                            print("average at 9")
+                            print(lastupdated)
+                            self.waitsAt9 = Int(lastupdated)!
+                            DispatchQueue.main.async() { self.loadBarDisplay8() }
+                        case "22":
+                            print("average at 10")
+                            print(lastupdated)
+                            self.waitsAt10 = Int(lastupdated)!
+                            DispatchQueue.main.async() {
+                                self.loadBarDisplay9() }
+                        case "23":
+                            print("average at 11")
+                            print(lastupdated)
+                            self.waitsAt11 = Int(lastupdated)!
+                            DispatchQueue.main.async() {
+                                self.loadBarDisplay() }
+                        case "0":
+                            print("average at 12")
+                            print(lastupdated)
+                            self.waitsAt12 = Int(lastupdated)!
+                            DispatchQueue.main.async() {  self.loadBarDisplay1() }
+                        default:
+                            print("not a real time")
+                        }
+              DispatchQueue.main.async() { UIApplication.shared.isNetworkActivityIndicatorVisible = false }
                     }
-                    
+                        }
+                    }
               
                     // access individual value in dictionary
                    // print(number)
@@ -587,61 +676,64 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         self.mapView.showsUserLocation = true
     
+     //   animateBars()
         
+      //  AllDeals.append(FridayDeal!)
         
-        AllDeals.append(FridayDeal!)
+       // NewLoadData()
+       DispatchQueue.main.async() { self.NewDataLoad2() }
         
-        NewLoadData()
-        
+        //OLD TABLE VIEW LOADING
+        /*
         tableView.delegate = self
-        
         tableView.dataSource = self
+        */
         
+        //ADDING BLUR EFFECT
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
-        
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        
         blurEffectView.frame = view.bounds
-        
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
         view.addSubview(blurEffectView)
-        
         view.sendSubview(toBack: blurEffectView)
         
+        //ROUNDING EDGES
         GraphDisplayView.layer.cornerRadius = 4
-        
         FirstWhiteView.layer.cornerRadius = 4
-        
-        tableView.layer.cornerRadius = 4
-        
+       // tableView.layer.cornerRadius = 4
         graphTitleLbl.layer.cornerRadius = 5
         
         if let location = Location {
             
-            Location?.detail1 = location.detail1
+            Location?.locationName = location.locationName
             
-            BarDisplays = location.ratings
+            Location?.longitude = location.longitude
+            Location?.latitude = location.latitude
+           //way to load recent without connection
+            /*let recent = location.recent
+            //making the recent post into an integer
+            let numberRecent = Int(recent)
+            //setting the image number as the recent post and the reloading it on the main thread
+            self.imageNumber = numberRecent
+            */
             
-            AllDeals = location.special
+           // AllDeals = location.special //OLD WAY FOR LOADING SPECIAL
             
-            print(location.ratings)
-            
-            print(BarDisplays.count)
-            
-            print(location.ratings.count)
-            
-            print(BarDisplays.first?.postTime as Any)
-            
-            print(BarDisplays.first?.waitTime as Any)
+        //    print(location.ratings)
+          //  print(BarDisplays.count)
+          //  print(location.ratings.count)
+         // BarDisplays = location.ratings
+          //  print(BarDisplays.first?.postTime as Any)
+         //   print(BarDisplays.first?.waitTime as Any)
             
             print("target")
             
-            navigationItem.title = location.detail1
-            
+            navigationItem.title = location.locationNameLong
+
             print("entered")
         }
         
+        // NewDataLoad2()
         //   SortingBarDisplayData()
         
         let locationTableView = LocationTableViewController()
@@ -652,102 +744,58 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         jointheline.destination.navigationItem.title = "name"
         
-        
-        let title = (Location?.detail1)!
-        
+        //old code used to switch the navigation title and keep track of location
+     /*   let title = (Location?.detail1)!
         switch title {
-            
         case "Dock Street Bar & Grill":
-            
             UserDefaults.standard.set(1, forKey: "title")
-            
             UserDefaults.standard.synchronize()
-            
         case "Acme Bar & Grill":
-            
             UserDefaults.standard.set(2, forKey: "title")
-            
             UserDefaults.standard.synchronize()
-            
         case "Pusser's Caribbean Grille":
-            
             UserDefaults.standard.set(3, forKey: "title")
-            
             UserDefaults.standard.synchronize()
-            
         case "Armadillos Restaurant":
-            
             UserDefaults.standard.set(4, forKey: "title")
-            
             UserDefaults.standard.synchronize()
-            
         case "McGarvey's":
-            
             UserDefaults.standard.set(5, forKey: "title")
-            
             UserDefaults.standard.synchronize()
-            
         case "The Federal House":
-            
             UserDefaults.standard.set(6, forKey: "title")
-            
             UserDefaults.standard.synchronize()
-            
         case "RJ Bentley's Restaurant":
-            
             UserDefaults.standard.set(7, forKey: "title")
-            
             UserDefaults.standard.synchronize()
-            
         case "Cornerstone Grill & Loft":
-            
             UserDefaults.standard.set(8, forKey: "title")
-            
             UserDefaults.standard.synchronize()
-            
         case "Terrapin's Turf":
-            
             UserDefaults.standard.set(9, forKey: "title")
-            
             UserDefaults.standard.synchronize()
-            
-            
         default:
-            
             UserDefaults.standard.set(0, forKey: "title")
-            
             UserDefaults.standard.synchronize()
-            
         }
+        */
         
         if directPost == 1 {
-            
             performSegue(withIdentifier: "Post", sender: viewDidAppear(true))
-            
         }
-        
-        barDisplay1.layer.cornerRadius = 4
-        
         //    SortingBarDisplayData()
-        
         //    loadBarDisplay()
-        
+       
+        //rounding the edges of the estimated wait bar graphs
+        barDisplay1.layer.cornerRadius = 4
         barDisplay2.layer.cornerRadius = 4
-        
         barDisplay3.layer.cornerRadius = 4
-        
         barDisplay4.layer.cornerRadius = 4
-        
         barDisplay5.layer.cornerRadius = 4
-        
         barDisplay6.layer.cornerRadius = 4
-        
         barDisplay7.layer.cornerRadius = 4
-        
         barDisplay8.layer.cornerRadius = 4
-        
         barDisplay9.layer.cornerRadius = 4
-        
         barDisplay10.layer.cornerRadius = 4
         
         mostRecentTime()
@@ -758,31 +806,22 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         refreshControl = UIRefreshControl()
         
-        tableView.addSubview(refreshControl!)
+       // tableView.addSubview(refreshControl!)
         
         /*      switch imageNumber {
-         
          case 1?:
-         
          LineImage.image = UIImage(named: "0-5")
-         
          case 2?:
-         
          LineImage.image = UIImage(named: "5-10")
-         
          case 3?:
-         
          LineImage.image = UIImage(named: "10-20")
-         
          case 4?:
-         
          LineImage.image = UIImage(named: "20+")
-         
          default:
          print("no circle rating found")
          }
          */
-        
+    
         mapDetails()
         
         // Do any additional setup after loading the view.
@@ -791,8 +830,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     override func viewDidAppear(_ animated: Bool) {
         
-        tableView.reloadData()
-        
+        //tableView.reloadData()
         mostRecentTime()
         
         // updateCircleRating()
@@ -806,7 +844,8 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - Table view data source
+    // MARK: - Table view data source ----- ALL OLD TABLEVIEW IS PHASED OUT BEFORE VERISON 1.0
+    /*
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -835,6 +874,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         return cell
     }
+    */
     
     // MARK: - Navigation
     @IBAction func unwindToRatingList(sender: UIStoryboardSegue) {
@@ -883,10 +923,11 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         print("timer stopped")
     }
     
-    func changeTitleBack() {
+    /*func changeTitleBack() {
         
         navigationItem.title = Location?.detail1
     }
+    */
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -895,14 +936,14 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         super.prepare(for: segue, sender: sender)
         
         print("locationnameis")
-        print(Location?.detail1)
+        print(Location?.locationNameLong)
         
         let segueNames = ["Post", "Post1"]
         
         for name in segueNames {
             
             print("locationnameis3")
-            print(Location?.detail1)
+            print(Location?.locationNameLong)
             
             //let name2 = Location?.detail1
             switch(segue.identifier ?? "") {
@@ -919,7 +960,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
               //  PostViewController.Location = Location
                 
                 print("locationnameis2")
-                print(Location?.detail1)
+                print(Location?.locationNameLong)
                 
             default:
                 print("error")
@@ -931,33 +972,34 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
             return
         }
-        let detail1 = Location?.detail1
         
-        let detail2 = Location?.detail2
+        let locationName = Location?.locationName
         
-        let locationImage1 = Location?.locationImagine
+        let locationNameLong = Location?.locationNameLong
         
-        let ratingList = Location?.special
+        let specials = Location?.special
         
-        let timeSinceLastPost = Location?.timeSinceLastPost
+        let cityId = Location?.cityId
         
-        let phoneNumber = Location?.phoneNumber
+        let cityName = Location?.cityName
         
-        let displayedAddress = Location?.displayedPhoneNumber
+        let latitude = Location?.latitude
         
-        let displayedPhoneNumber = Location?.displayedAddress
+        let longitude = Location?.longitude
         
-        let llLocation = Location?.llLocation
+        let locationId = Location?.locationId
         
-        let ratings1 = Location?.ratings
+        let recent = Location?.recent
+        
+        let recentTime = Location?.recentTime
         
         // Set the reting to be passed to LocationTableViewController after the unwind segue.
-        Location = location(detail1: detail1!, detail2: detail2!, special: ratingList!, locationImagine: locationImage1!, timeSinceLastPost: timeSinceLastPost!, phoneNumber: phoneNumber!, displayedAddress: displayedAddress!, displayedPhoneNumber: displayedPhoneNumber!, llLocation: llLocation!, ratings: ratings1!)
+        Location = location(locationName: locationName!, locationNameLong: locationNameLong!, special: specials!, cityId: cityId!, cityName: cityName!, latitude: latitude!, longitude: longitude!, locationId: locationId!, recent: recent!, recentTime: recentTime!)
  
         
         //  loadData()
         
-        NewLoadData()
+      //  NewLoadData()
         
         saveRatings()
         
@@ -965,7 +1007,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         updateCircleRating()
         
-        print(ratingList)
+       // print(ratingList)
         
         print("sent info back to start")
       
@@ -1043,66 +1085,48 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
     
     private func updateCircleRating() {
         
-        if ratings.count >= 1 {
-            
-            let indexPath1 = NSIndexPath(row: 0, section: 0)
-            
-            let cellIdentifier = "RatingTableViewCell"
-            
-            let mostRecentRating = ratings[indexPath1.row]
-            
+        //all used when there was a table view
+      /* // if ratings.count >= 1 {
+          //  let indexPath1 = NSIndexPath(row: 0, section: 0)
+          //  let cellIdentifier = "RatingTableViewCell"
+           // let mostRecentRating = ratings[indexPath1.row]
             switch mostRecentRating.circleRating {
-                
             case 1:
-                
                 LineImage.image = UIImage(named: "0-5")
-                
             case 2:
-                
                 LineImage.image = UIImage(named: "5-10")
-                
             case 3:
-                
                 LineImage.image = UIImage(named: "10-20")
-                
             case 4:
-                
                 LineImage.image = UIImage(named: "20+")
-                
             default:
                 print("no circle rating found")
             }
         }
-        else {
-            
+       // else {
+            */
             switch imageNumber {
+            case 0?:
+                LineImage.image = UIImage(named: "0-5")
                 
             case 1?:
-                
                 LineImage.image = UIImage(named: "0-5")
-                
             case 2?:
-                
                 LineImage.image = UIImage(named: "5-10")
-                
             case 3?:
-                
                 LineImage.image = UIImage(named: "10-20")
-                
             case 4?:
-                
                 LineImage.image = UIImage(named: "20+")
-                
             default:
                 print("no circle rating found")
-            }
-            
         }
+        timeSincePostLbl.text = ""
     }
     
     func mostRecentTime() {
         
-        if ratings.count >= 1{
+        //Old code used when table view existed
+      /*  if ratings.count >= 1{
             
             let indexPath1 = NSIndexPath(row: 0, section: 0)
             
@@ -1119,8 +1143,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             timeSincePostLbl.text = postedDate
         }
         else {
-            timeSincePostLbl.text = timeLblData
-        }
+ */
+        
+          //  timeSincePostLbl.text = timeLblData
+
     }
     
     private func RefresherRequestForData1() {
@@ -1147,7 +1173,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
-    func loadData() {
+ /*   func loadData() {
         
         let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getData.php"
         
@@ -1688,6 +1714,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         
         print("bardisplay")
     }
+ */
   
     
     func loadBarDisplay() {
@@ -1740,6 +1767,11 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt1 = sumAt1 * 20 + 20
             
             self.barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt1)).isActive = true
+            
+            UIView.animate(withDuration: 1.0, animations: {
+                self.barDisplay1.layoutIfNeeded()
+            })
+            
         }
         else {
             
@@ -1759,6 +1791,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt3 = sumAt3 * 20 + 20
             
             self.barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt3)).isActive = true
+            
+            UIView.animate(withDuration: 3.0, animations: {
+                self.barDisplay10.layoutIfNeeded()
+            })
         }
             
         else {
@@ -1778,6 +1814,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt4 = sumAt4 * 20 + 20
             
             self.barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt4)).isActive = true
+            
+            UIView.animate(withDuration: 3.0, animations: {
+                self.barDisplay10.layoutIfNeeded()
+            })
         }
             
         else {
@@ -1796,6 +1836,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt5 = sumAt5 * 20 + 20
             
             self.barDisplay9.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt5)).isActive = true
+            
+            UIView.animate(withDuration: 3.0, animations: {
+                self.barDisplay9.layoutIfNeeded()
+            })
         }
             
         else {
@@ -1816,6 +1860,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt6 = sumAt6 * 20 + 20
             
             self.barDisplay8.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt6)).isActive = true
+            
+            UIView.animate(withDuration: 3.0, animations: {
+                self.barDisplay8.layoutIfNeeded()
+            })
         }
             
         else {
@@ -1823,6 +1871,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt6 = 20
             
             self.barDisplay8.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt6)).isActive = true
+            
+            UIView.animate(withDuration: 1.0, animations: {
+                self.barDisplay8.layoutIfNeeded()
+            })
         }
         
     }
@@ -1835,6 +1887,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt7 = sumAt7 * 20 + 20
             
             self.barDisplay7.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt7)).isActive = true
+            
+            UIView.animate(withDuration: 3.0, animations: {
+                self.barDisplay7.layoutIfNeeded()
+            })
         }
             
         else {
@@ -1853,6 +1909,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt8 = sumAt8 * 20 + 20
             
             self.barDisplay6.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt8)).isActive = true
+            
+            UIView.animate(withDuration: 3.0, animations: {
+                self.barDisplay6.layoutIfNeeded()
+            })
         }
             
         else {
@@ -1860,6 +1920,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt8 = 20
             
             self.barDisplay6.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt8)).isActive = true
+            
+            UIView.animate(withDuration: 4.0, animations: {
+                self.barDisplay6.layoutIfNeeded()
+            })
         }
     }
     
@@ -1873,6 +1937,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt9 = sumAt9 * 20 + 20
             
             self.barDisplay5.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt9)).isActive = true
+        
         }
             
         else {
@@ -1880,6 +1945,10 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt9 = 20
             
             self.barDisplay5.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt9)).isActive = true
+            
+            UIView.animate(withDuration: 3.0, animations: {
+                self.barDisplay5.layoutIfNeeded()
+            })
         }
     }
     
@@ -1893,6 +1962,7 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
             let sizeAt10 = sumAt10 * 20 + 20
             
             self.barDisplay4.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt10)).isActive = true
+        
             
         }else {
             
@@ -1902,186 +1972,153 @@ class LocationDetailViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
-    func ClearingTable() {
-        
+    //OLD CODE USED FOR CLEARING THE TABLE THAT NO LONGER EXISTS
+  /*  func ClearingTable() {
         for rating in ratings {
-            
             let indexPath = ratings.index(of: rating)
-            
             let time = rating.timeIntervalSinceNow
-            
             let timeInterval = time?.timeIntervalSinceNow
-            
             let stringTime = stringSecondaryFromTimeInterval(interval: timeInterval!)
-            
             print(stringTime)
             print("stringtime")
-            
-            
             if stringTime <= 2 {
                 ratings.append(rating)
-                
                 print("inside constraint")
             }
             else {
                 print("not inside")
             }
-            
         }
         tableView.reloadData()
     }
+ */
     
-    
-    //Map Annotations
-    
+    //MAP ANNOTATIONS
     func mapDetails(){
+        var locationAnnotation = MKPointAnnotation()
         
-        var annotation4 = MKPointAnnotation()
+        let latitude = Location?.latitude
+        let longitude = Location?.longitude
+        var coorindates: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!) }
+        locationAnnotation.coordinate = coorindates
+        locationAnnotation.title = Location?.locationNameLong
+        var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(coorindates, 1000, 1000) }
+        mapView.setRegion(region, animated: true)
+        mapView.addAnnotation(locationAnnotation)
         
-        switch self.navigationItem.title! {
+       // var annotation4 = MKPointAnnotation()
+    //the previous way annotations were added to the map 10/16/17 CODING OUT BECAUSE OF NEWEST LOAD METHOD ---- ALL DATA FROM BEAU'S SIDE
+      /*  switch self.navigationItem.title! {
         case "McGarvey's":
             var mcgraveys: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9783113, longitude: -76.48699980000004) }
-            
             annotation4.coordinate = mcgraveys
-            
             annotation4.title = "McGarvey's Saloon & Oyster Bar"
-            
             var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(mcgraveys, 1000, 1000) }
-            
             mapView.setRegion(region, animated: true)
-            
             mapView.addAnnotation(annotation4)
-            
         case "Acme Bar & Grill":
             var acme: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.977616, longitude: -76.489920) }
             annotation4.coordinate = acme
-            
             annotation4.title = "Acme Bar & Grill"
-            
             var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(acme, 1000, 1000) }
-            
             mapView.setRegion(region, animated: true)
-            
             mapView.addAnnotation(annotation4)
-            
         case "Armadillos Restaurant":
             var armadillos: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9779735, longitude: -76.48648589999999) }
-            
             annotation4.coordinate = armadillos
-            
             annotation4.title = "Armadillos Restaurant"
-            
             var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(armadillos, 1000, 1000) }
-            
             mapView.setRegion(region, animated: true)
-            
-            
             mapView.addAnnotation(annotation4)
-            
         case "Dock Street Bar & Grill":
             var dockStreet: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978029, longitude: -76.486557) }
-            
             annotation4.coordinate = dockStreet
-            
             annotation4.title = "Dock Street Bar & Grill"
-            
             var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(dockStreet, 1000, 1000) }
-            
             mapView.setRegion(region, animated: true)
-            
-            
             mapView.addAnnotation(annotation4)
-            
         case "Pusser's Caribbean Grille":
-            
             var pussers: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9757627, longitude: -76.48553370000002) }
-            
             annotation4.coordinate = pussers
-            
             annotation4.title = "Pusser's Caribbean Grille"
-            
             var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(pussers, 1000, 1000) }
-            
             mapView.setRegion(region, animated: true)
-            
-            
             mapView.addAnnotation(annotation4)
-            
         case "The Federal House":
             var FedHouse: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978121, longitude: -76.487504) }
-            
             annotation4.coordinate = FedHouse
-            
             annotation4.title = "The Federal House"
-            
             var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(FedHouse, 1000, 1000) }
-            
             mapView.setRegion(region, animated: true)
-            
-            
             mapView.addAnnotation(annotation4)
-            
         case "RJ Bentley's Restaurant":
-            
             var FedHouse: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.980481, longitude: -76.937557) }
-            
             annotation4.coordinate = FedHouse
-            
             annotation4.title = "RJ Bentley's Restaurant"
-            
             var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(FedHouse, 1000, 1000) }
-            
             mapView.setRegion(region, animated: true)
-            
-            
             mapView.addAnnotation(annotation4)
-            
         case "Cornerstone Grill & Loft":
-            
             var FedHouse: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9806637, longitude: -76.93757349999998) }
-            
             annotation4.coordinate = FedHouse
-            
             annotation4.title = "Cornerstone Grill & Loft"
-            
             var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(FedHouse, 1000, 1000) }
-            
             mapView.setRegion(region, animated: true)
-            
-            
             mapView.addAnnotation(annotation4)
-
         case "Terrapin's Turf":
-            
             var FedHouse: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9811964, longitude: -76.93839919999999) }
-            
             annotation4.coordinate = FedHouse
-            
             annotation4.title = "Terrapin's Turf"
-            
             var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(FedHouse, 1000, 1000) }
-            
             mapView.setRegion(region, animated: true)
-            
-            
             mapView.addAnnotation(annotation4)
-
-            
         default:
             print("no location")
-            
-        }
-        
+         }
+        */
+        //Has been coded out forever
         /*var mcgraveys: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.9783113, longitude: -76.48699980000004) }
-         
          annotation4.coordinate = mcgraveys
-         
          annotation4.title = "McGarvey's Saloon & Oyster Bar"
-         
          mapView.addAnnotation(annotation4)
          */
     }
-
+    
+    private func animateBars() {
+        
+        //ATTEMPTING TO ANIMATE THE LOAD FOR THE BAR GRAPH DISPLAY BARS
+  /*      let sizeAt12 = 100
+        
+      //  barDisplay1.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+        
+        UIView.animate(withDuration: 1.0, animations: {
+            self.barDisplay1.layoutIfNeeded()
+        })
+        
+      //  barDisplay2.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+        UIView.animate(withDuration: 1.0, animations: {
+            self.barDisplay2.layoutIfNeeded()
+        })
+        
+     //   barDisplay3.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+        
+        UIView.animate(withDuration: 1.0, animations: {
+            self.barDisplay3.layoutIfNeeded()
+        })
+    
+      //  barDisplay4.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+      //  barDisplay5.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+      //  barDisplay6.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+      //  barDisplay7.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+      //  barDisplay8.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+      //  barDisplay9.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+      //  barDisplay10.heightAnchor.constraint(equalToConstant: CGFloat(sizeAt12)).isActive = true
+ 
+        NewDataLoad2()
+        */
+    }
+ 
+        
 }
 
 

@@ -9,6 +9,7 @@
 
 import UIKit
 import os.log
+import CoreLocation
 
 class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
@@ -93,7 +94,6 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     var StarbucksTime = String()
     
-    
     var chipotleRatings = [rating]()
     
     var potbellyRatings = [rating]()
@@ -104,6 +104,8 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     var terripansRatings = [rating]()
     
+    
+    /*
     var ChipotleDataPiece = [BarDisplayDataPiece]()
     
     var AcmeDataPiece = [BarDisplayDataPiece]()
@@ -129,6 +131,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     var StormBrosDataPiece = [BarDisplayDataPiece]()
     
     var RedBeanDataPiece = [BarDisplayDataPiece]()
+    */
     
     var locationList: [location] = [location]()
     
@@ -136,12 +139,13 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     var AcmeSpecial = [Special]()
     
-    var aSpecial = Special(name: "MONDAY", details: "$3 Domestic Bottles - $3 Craft Beers", Image: #imageLiteral(resourceName: "acme1"))
+    //OLD WAY FOR GETTING SPECIALS
+  /*  var aSpecial = Special(name: "MONDAY", details: "$3 Domestic Bottles - $3 Craft Beers", Image: #imageLiteral(resourceName: "acme1"))
     var aSpecial1 = Special(name: "SUNDAY", details: "$10 Select Bottles of Wine - $3 Select Vodka Drinks - $3 Craft Beers", Image: #imageLiteral(resourceName: "acme1"))
     var aSpecial2 = Special(name: "TUESDAY", details: "$3 Select Vodka Shots - $3 Domestic Beers ", Image: #imageLiteral(resourceName: "acme1"))
     var aSpecial3 = Special(name: "WEDNESDAY", details: "$4 Vodka Drinks (ladies only) - $3 Domestic Bottles", Image: #imageLiteral(resourceName: "acme1"))
     var aSpecial4 = Special(name: "THURSDAY", details: "$4 Vodka Drinks (ladies only) - $3 Domestic Bottles", Image: #imageLiteral(resourceName: "acme1"))
-  
+  */
     
     func NewDataLoad2() {
         
@@ -155,7 +159,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
        // UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/testData.php?\(newCurrentLocation)"
+        let scriptURL = "http://waitmatehq.com/testData.php?\(newCurrentLocation)"
         
         // Add one parameter
         let urlWithParams = scriptURL
@@ -246,18 +250,46 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                     
                 guard let name = dictionary["locationName"] as? String,
                     let recent = dictionary["recent"] as? String,
-                    let lastUpdated = dictionary["lastUpdated"] as? String
+                    let lastUpdated = dictionary["lastUpdated"] as? String,
+                    let specials = dictionary["specials"] as? String,
+                    let longitude = dictionary["longitude"] as? Double,
+                    let latitude = dictionary["latitude"] as? Double,
+                    let longName = dictionary["longName"] as? String
                     else {
                         print("error")
                         return
                 }
+                
+                var recentTime = String()
+          if lastUpdated != "" {
+                //Setting date formatter
+                let dateFormatter = DateFormatter()
+                //setting the sytle for the date
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                //setting the recent time to the date format
+                let date1 = dateFormatter.date(from: lastUpdated)!
+                //taking the interval from the date formatted date
+                let TimeNow = date1.timeIntervalSinceNow
+                //making it a positive number instead of negative/ making it back to a string from a time interval
+                 recentTime = self.stringFromTimeInterval(interval: TimeNow * -1)
+                }
+          else {
+                recentTime = ""
+                }
                 let numberRecent = Int(recent)
-                guard let Acme = location(detail1: name, detail2: name, special: self.AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: lastUpdated, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: numberRecent!, ratings: self.AcmeDataPiece) else {
+                let lat = CLLocationDegrees(latitude)
+                let long = CLLocationDegrees(longitude)
+                
+                guard let Acme = location(locationName: name, locationNameLong: longName, special: specials, cityId:
+                    0, cityName: "", latitude: lat, longitude: long, locationId: 0, recent: numberRecent!, recentTime:
+                    recentTime) else {
                     fatalError("Unable to instantiate location2")
                 }
                 DispatchQueue.main.async() {  self.locations.append(Acme) }
                 DispatchQueue.main.async() { self.tableView.reloadData() }
                 
+             //   DispatchQueue.main.async() { self.tableView.reloadData() }
+                DispatchQueue.main.async() { UIApplication.shared.isNetworkActivityIndicatorVisible = false }
             }
         }
             
@@ -829,11 +861,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
                 default:
                     
                     print("error")
-                    
-                    
-                }
-                
-                
+     }
             }
             
             guard let firstObject = array.last else {
@@ -854,8 +882,13 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
-        NewDataLoad2()
-        
+        if UserDefaults.standard.value(forKey: "CurrentLocation") != nil {
+            navigationItem.title = UserDefaults.standard.value(forKey: "CurrentLocation") as! String
+            NewDataLoad2()
+            
+        }
+        //previous way we determined location/navigaiton title
+        /*
         switch UserDefaults.standard.integer(forKey: "locationSelected") {
         case 0:
             print("Annapolis")
@@ -866,6 +899,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         default:
             print("no location selected")
         }
+ */
         
         LocationSelected()
         
@@ -887,7 +921,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         timer =  Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(endLoading), userInfo: nil, repeats: false)
         
-        AcmeSpecial = [aSpecial!,aSpecial1!,aSpecial2!,aSpecial3!,aSpecial4!]
+        // AcmeSpecial = [aSpecial!,aSpecial1!,aSpecial2!,aSpecial3!,aSpecial4!]
         
         //loadData1()
        // NewLoadData()
@@ -960,11 +994,19 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         let location = locations[indexPath.row]
         
         
-        cell.detail1Lbl.text = location.detail1
+        cell.detail1Lbl.text = location.locationNameLong
         
-        cell.timeSinceLastPostLbl.text = location.timeSinceLastPost
+        if location.special != "" {
+            
+            cell.timeSinceLastPostLbl.text = "SPECIALS"
+
+        } else {
+            cell.timeSinceLastPostLbl.text = ""
+        }
         
-        switch location.llLocation {
+        //cell.timeSinceLastPostLbl.text = location.recentTime
+        
+        switch location.recent {
             
         case 0:
             
@@ -1016,17 +1058,17 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        UIButton.appearance().setTitleColor(UIColor.green, for: UIControlState.normal)
+      //  UIButton.appearance().setTitleColor(UIColor.green, for: UIControlState.normal)
         
         let postAction = UITableViewRowAction(style: .normal, title: "          ") { (action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
             
             let firstActivityAction = self.locations[indexPath.row]
             
-            var request = URLRequest(url: URL(string: "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/insert.php")!)
+            var request = URLRequest(url: URL(string: "http://waitmatehq.com/insertTest.php")!)
             
             request.httpMethod = "POST"
             
-            let postString = "Location_Name=\(firstActivityAction.detail2)"+"&Circle_Rating=\(firstActivityAction.llLocation)"
+            let postString = "Location_Name=\(firstActivityAction.locationName)"+"&Circle_Rating=\(firstActivityAction.recent)"
             
             request.httpBody = postString.data(using: .utf8)
             
@@ -1072,6 +1114,9 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         postAction2.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "joinTheLine"))
         
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        
         return [postAction, postAction2]
     }
     
@@ -1113,6 +1158,9 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             
             locationDetailViewController.directPost = 0
             
+            UserDefaults.standard.set(selectedLocation.locationName, forKey: "BarSelected")
+            UserDefaults.standard.set(selectedLocation.locationNameLong, forKey: "LongNameSelected")
+            UserDefaults.standard.synchronize()
             
         case "JoinTheLine":
             
@@ -1237,9 +1285,10 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
        // NewLoadData()
         
         locations.removeAll()
-        NewDataLoad2()
-        
-        tableView.reloadData()
+       
+       
+          DispatchQueue.main.async() {  self.NewDataLoad2() }
+             DispatchQueue.main.async() { self.tableView.reloadData() }
         
     }
     
@@ -1270,6 +1319,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         self.ActivityView.isHidden = true
         
        // NewLoadData()
+        locations.removeAll()
         NewDataLoad2()
         
         timer =  Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(endOfWork), userInfo: nil, repeats: false)
@@ -1321,6 +1371,9 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         }
     }
     
+    
+    
+   
     private func LocationSelected() {
         
     }

@@ -16,6 +16,13 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     
     var LineLength: Int?
     
+    var currentCity = String()
+    var latitude = CLLocationDegrees()
+    var longitude = CLLocationDegrees()
+    var span = Double()
+    
+    var inCity = false
+    
     @IBOutlet weak var longSaveButton: UIButton!
     
     @IBOutlet weak var sliderLbl: UILabel!
@@ -53,6 +60,8 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     @IBOutlet weak var segementedLineLBL: UILabel!
     
     @IBOutlet weak var segementLineController: UISegmentedControl!
+    
+    var center: CLLocationCoordinate2D {  return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)}
     
     var sliderValue = Int()
     
@@ -116,6 +125,115 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         
     }
     
+    func NewLoadData() {
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let scriptURL = "http://waitmatehq.com/testCities.php"
+        
+        // Add one parameter
+        let urlWithParams = scriptURL
+        
+        let myUrl = NSURL(string: urlWithParams);
+        
+        let request = NSMutableURLRequest(url: myUrl as! URL);
+        
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            // Check for error
+            if error != nil
+            {
+                print("error=\(error)")
+                return
+            }
+            
+            // Print out response string
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            
+            print("here2")
+            
+            if let cities = json as? [Any] {
+                
+                print("inside array for cities")
+                print(cities)
+             //   DispatchQueue.main.async() {  self.locations.removeAll() }
+                
+                
+                for city in cities {
+                    
+                    if let dictionary = city as? [String: Any] {
+                        
+                        if let number = dictionary["cityName"] as? String {
+                            
+                            
+                            //  if let cityName = dic["cityName"] as? String {
+                            
+                            print(number)
+                    //        DispatchQueue.main.async() { self.locations.append(number) }
+                    //        DispatchQueue.main.async() {   self.tableview.reloadData() }
+                            // access individual object in array
+                        }
+                        
+                        guard let cityName = dictionary["cityName"] as? String,
+                            let latitude = dictionary["latitude"] as? Double,
+                           let longitude = dictionary["longitude"] as? Double,
+                           let span =  dictionary["span"] as? Double
+                        else {
+                                print("error")
+                                return
+                        }
+                        //print("making it here past city")
+                        
+                        if cityName == UserDefaults.standard.value(forKey: "CurrentLocation") as? String {
+            
+                            self.currentCity = cityName
+                            self.latitude = CLLocationDegrees(latitude)
+                            self.longitude = CLLocationDegrees(longitude)
+                            self.span = Double(span)
+                            print("switching")
+                            self.inCity = true
+                            print(self.currentCity)
+                            print(self.latitude)
+                            print(self.longitude)
+                            print(self.span)
+                        }
+                        
+                    }
+                }
+            }
+            // Convert server json response to NSDictionary
+            do {
+                //   if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
+                
+                // Print out dictionary
+                // print(convertedJsonIntoDict)
+                
+                // Get value by key
+                //  let firstNameValue = convertedJsonIntoDict["locationName"] as? String
+                //   print(firstNameValue!)
+                
+                // }
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+            
+        }
+        
+        task.resume()
+        
+    }
+
+    private func calcCenter() {
+      //  var center: CLLocationCoordinate2D {  return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)}
+         // var center: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978443, longitude:  -76.492180) }
+    }
+    
     @IBAction func TimeButtonPressed(_ sender: UIButton) {
         
         let title = sender.currentTitle!
@@ -152,9 +270,9 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
             return print("buttons failed. Error")
         }
         
-        let region1 = CLCircularRegion(center: center, radius: 10000, identifier: identifier)
+        let region1 = CLCircularRegion(center: center, radius: span, identifier: identifier)
         
-        let region2 = CLCircularRegion(center: center2, radius: 10000, identifier: identifier)
+     //   let region2 = CLCircularRegion(center: center2, radius: 10000, identifier: identifier)
 
         
         // region1.contains(<#T##coordinate: CLLocationCoordinate2D##CLLocationCoordinate2D#>)
@@ -162,6 +280,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         print(locationManager.location?.coordinate)
         print("current location")
         
+        print(inCity)
         
         if locationManager.location?.coordinate != nil {
             
@@ -173,6 +292,28 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
                 longSaveButton.isEnabled = true
             }
             
+            else {
+            self.navigationController?.isToolbarHidden = false
+            
+            self.navigationController?.toolbar.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            
+            var items = [UIBarButtonItem]()
+            
+            items.append(
+                
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+            )
+            items.append(
+                UIBarButtonItem(title: "Must be in \(currentCity) to post", style: .plain, target: self, action: nil)
+            )
+            items.append(
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+            )
+            
+            self.navigationController?.toolbar.items = items
+        }
+    }
+            /*
             if LocationName == "Bentleys" || LocationName == "Terrapins Turf" || LocationName == "Cornerstone" {
                 
                 if region2.contains((locationManager.location?.coordinate)!) == true {
@@ -236,6 +377,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
                 }
             }
         }
+ */
         
         if locationManager.location?.coordinate == nil {
             
@@ -284,6 +426,8 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         */
         }
     }
+    
+    
     
     func userNotInRegion() {
         
@@ -461,7 +605,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     
     var Rating: rating?
     
-    var center: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978443, longitude:  -76.492180) }
+   // var center: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978443, longitude:  -76.492180) }
     
     var center2: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.980481, longitude: -76.937557) }
 
@@ -473,9 +617,11 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NewLoadData()
         
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        navigationItem.title = UserDefaults.standard.value(forKey: "LongNameSelected") as? String
         
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
         
@@ -563,7 +709,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         
         if let rating = Rating {
             
-            navigationItem.title = rating.locationName
+         //   navigationItem.title = rating.locationName
             
             print("rating11")
             
@@ -572,13 +718,13 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
         if let location = Location {
             
             
-            navigationItem.title = location.detail1
-            navigationItem.title = Location?.detail1
+          //  navigationItem.title = location.locationNameLong
+          //  navigationItem.title = Location?.locationNameLong
             print("nameright now is ")
             print(LocationName)
         }
         
-        navigationItem.title = LocationName
+      //  navigationItem.title = LocationName
         print("nameright now is ")
         print(LocationName)
         
@@ -668,7 +814,10 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
     
     override func viewDidAppear(_ animated: Bool) {
         
-        var region1 = CLCircularRegion(center: center, radius: 1000, identifier: identifier)
+      //  var region1 = CLCircularRegion(center: center, radius: 1000, identifier: identifier)
+        
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         print(locationManager.location?.coordinate as Any)
         print("contains")
@@ -711,7 +860,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
             
             let timeIntervalSinceNow1 = NSDate()
             let timeNow = timeIntervalSinceNow1
-            let locationName = LocationName
+            let locationName = UserDefaults.standard.value(forKey: "BarSelected") as? String
             
             if let destinationView = segue.destination as? LocationDetailViewController {
                 print("id working")
@@ -725,13 +874,13 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
             
             // print("missed")
             
-            Rating = rating(locationName: locationName, time: time!, circleRating: ratingInt, timeIntervalSinceNow: timeNow)
+            Rating = rating(locationName: locationName!, time: time!, circleRating: ratingInt, timeIntervalSinceNow: timeNow)
             
-            var request = URLRequest(url: URL(string: "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/insert.php")!)
+            var request = URLRequest(url: URL(string: "http://waitmatehq.com/insertTest.php")!)
             
             request.httpMethod = "POST"
             
-            locationName.replacingOccurrences(of: " ", with: "_")
+            locationName?.replacingOccurrences(of: " ", with: "_")
             
             let postString = "Location_Name=\(locationName)"+"&Circle_Rating=\(ratingInt)"
             
@@ -768,7 +917,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
           
             let timeIntervalSinceNow1 = NSDate()
             let timeNow = timeIntervalSinceNow1
-            let locationName = LocationName
+            let locationName = UserDefaults.standard.value(forKey: "BarSelected") as! String
             
             if segue.destination is LocationDetailViewController {
                               print("id working")
@@ -783,7 +932,7 @@ class RatingViewController: UIViewController, UITextFieldDelegate, CLLocationMan
             
             Rating = rating(locationName: locationName, time: time!, circleRating: ratingInt, timeIntervalSinceNow: timeNow)
             
-            var request = URLRequest(url: URL(string: "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/insert.php")!)
+            var request = URLRequest(url: URL(string: "http://waitmatehq.com/insertTest.php")!)
             
             request.httpMethod = "POST"
             

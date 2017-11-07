@@ -8,7 +8,7 @@
 
 import UIKit
 import os.log
-
+/*
 class LocationsListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
@@ -930,7 +930,7 @@ override func viewDidAppear(_ animated: Bool) {
         }
         
         
-        func sampleLocations() {
+     /*   func sampleLocations() {
             
             guard let Acme = location(detail1: "Acme Bar & Grill", detail2: "Acme", special: AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: self.AcmeTime, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: self.AcmeCircle, ratings: AcmeDataPiece) else {
                 fatalError("Unable to instantiate location2")
@@ -993,7 +993,8 @@ override func viewDidAppear(_ animated: Bool) {
             
             self.ActivityView.isHidden = true
         }
-        
+        */
+    
         @objc private func progressloading() {
             //  loadData1()
         }
@@ -1088,3 +1089,4 @@ override func viewDidAppear(_ animated: Bool) {
         }
 }
 
+*/

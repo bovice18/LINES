@@ -13,10 +13,7 @@ class Special: NSObject, NSCoding {
     
     //MARK: Properties
     var name: String
-    
     var details: String
-    
-    var Image: UIImage
     
     
     //MARK: Archiving Paths
@@ -27,21 +24,15 @@ class Special: NSObject, NSCoding {
     //MARK: Property key
     struct PropertyKey {
         static let name = "name"
-        
         static let details = "details"
-        
         static let Image = "image"
-        
         }
     
     
-    init?(name: String, details: String, Image: UIImage) {
+    init?(name: String, details: String) {
         
         self.name = name
-        
         self.details = details
-        
-        self.Image = Image
     }
     
     //MARK: NSCoding:
@@ -50,9 +41,6 @@ class Special: NSObject, NSCoding {
         aCoder.encode(name, forKey: PropertyKey.name)
         
         aCoder.encode(details, forKey: PropertyKey.details)
-        
-        aCoder.encode(Image, forKey: PropertyKey.Image)
-        
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -60,9 +48,7 @@ class Special: NSObject, NSCoding {
         let name = aDecoder.decodeObject(forKey: PropertyKey.name) as! String
         
         let details = aDecoder.decodeObject(forKey: PropertyKey.details) as! String
-        
-        let image = aDecoder.decodeObject(forKey: PropertyKey.Image) as? UIImage
-        
-        self.init(name: name, details: details, Image: image!)
+    
+        self.init(name: name, details: details)
     }
 }

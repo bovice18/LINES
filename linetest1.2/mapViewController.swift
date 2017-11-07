@@ -8,48 +8,36 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class mapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
+    var locations = [location]()
     
     @IBOutlet weak var mapView: MKMapView!
     
     var DillosCircle: Int?
-    
     var BentleysCircle: Int?
-    
     var TerrapinsCircle: Int?
-    
     var CornerstoneCirle: Int?
-    
     var McGraveysCircle: Int?
-    
     var PussersCircle: Int?
-    
     var AcmeCircle: Int?
-    
     var MoesCircle: Int?
-    
     var FedHouseCircle: Int?
-    
     var JossCircle: Int?
-    
     var AnnapolisIce: Int?
-    
     var DockStreetCircle: Int?
-    
     var CityDockCircle: Int?
-    
     var IronRooserCircle: Int?
-    
     var StormBrosCircle: Int?
-    
     var StarbucksCircle: Int?
     
     let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getData.php"
     
+    /*
     func NewLoadData() {
         let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/getDataNew.php"
         
@@ -250,22 +238,188 @@ class mapViewController: UIViewController, MKMapViewDelegate {
      
     }
     
+   */
     
+    func NewDataLoad2() {
+        
+        
+        let currentLocation = UserDefaults.standard.value(forKey: "CurrentLocation") as! String
+        print("current location")
+        print(currentLocation)
+        
+        let newCurrentLocation = currentLocation.replacingOccurrences(of: " ", with: "_")
+        print(newCurrentLocation)
+        
+        // UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let scriptURL = "http://waitmatehq.com/testData.php?\(newCurrentLocation)"
+        
+        // Add one parameter
+        let urlWithParams = scriptURL
+        
+        print("URL")
+        print(urlWithParams)
+        let myUrl = NSURL(string: urlWithParams);
+        //  print(myUrl)
+        let request = NSMutableURLRequest(url: myUrl as! URL);
+        
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            // Check for error
+            if error != nil
+            {
+                print("error=\(error)")
+                return
+            }
+            
+            // Print out response string
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            
+            print("newloaddata")
+            
+            
+            if let array = json as? [Any] {
+      
+                self.locations.removeAll()
+                for object in array {
+                   
+                    guard let dictionary = object as? [String: Any] else {
+                        print("error")
+                        return
+                    }
+                    print("inside here")
+                    print(dictionary)
+                    
+                    guard let name = dictionary["locationName"] as? String,
+                        let recent = dictionary["recent"] as? String,
+                      //  let lastUpdated = dictionary["lastUpdated"] as? String,
+                        //  let specials = dictionary["specials"] as? String,
+                        let longitude = dictionary["longitude"] as? Double,
+                        let latitude = dictionary["latitude"] as? Double,
+                        let longName = dictionary["longName"] as? String
+                        else {
+                            print("error")
+                            return
+                    }
+   
+                    let numberRecent = Int(recent)
+                    let lat = CLLocationDegrees(latitude)
+                    let long = CLLocationDegrees(longitude)
+                    
+                    guard let location = location(locationName: name, locationNameLong: longName, special: "specials", cityId:
+                        0, cityName: "", latitude: lat, longitude: long, locationId: 0, recent: numberRecent!, recentTime:
+                        "recentTime") else {
+                            fatalError("Unable to instantiate location2")
+                    }
+
+                       self.locations.append(location)
+               
+                    //   DispatchQueue.main.async() { self.tableView.reloadData() }
+                   // DispatchQueue.main.async() { UIApplication.shared.isNetworkActivityIndicatorVisible = false }
+                }
+                DispatchQueue.main.async(execute: {
+                    self.loadingMapAnnotations()
+                })
+               // DispatchQueue.main.async() {  self.loadingMapAnnotations() }
+            }
+            
+            
+            
+            do {
+                //   if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
+                
+                // Print out dictionary
+                // print(convertedJsonIntoDict)
+                
+                // Get value by key
+                //  let firstNameValue = convertedJsonIntoDict["locationName"] as? String
+                //   print(firstNameValue!)
+                
+                // }
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+            
+        }
+        
+        task.resume()
+    }
     
+    func loadingMapAnnotations() {
+        
+        
+
+        var coordinates: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: (locations.first?.latitude)!, longitude: (locations.first?.longitude)!) }
+        var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(coordinates, 1000, 1000) }
+        mapView.setRegion(region, animated: false)
+        
+        for location in locations {
+        
+            var locationAnnotation = MKPointAnnotation()
+            
+            let latitude = location.latitude
+            let longitude = location.longitude
+            var coordinates: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: latitude, longitude: longitude) }
+            locationAnnotation.coordinate = coordinates
+            locationAnnotation.title = location.locationNameLong
+         //   var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(coordinates, 1000, 1000) }
+           // mapView.removeAnnotation(locationAnnotation)
+            
+            let recent = location.recent
+            switch recent {
+            case 0:
+                locationAnnotation.subtitle = "Line: 0-5m"
+            case 1:
+                locationAnnotation.subtitle = "Line: 0-5m"
+            case 2:
+                locationAnnotation.subtitle = "Line: 5-10m"
+            case 3:
+                locationAnnotation.subtitle = "Line: 10-20m"
+            case 4:
+                locationAnnotation.subtitle = "Line: + 20m"
+            case 5:
+                locationAnnotation.subtitle = "Line: 20m"
+            default:
+                print("failed..error")
+            }
+            
+          //  let annotationView = MKPinAnnotationView()
+            
+         //   annotationView.pinTintColor = UIColor.purple
+            
+            mapView.removeAnnotation(locationAnnotation)
+            
+            mapView.addAnnotation(locationAnnotation)
+        }
+      
+        
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+       
+       // NewLoadData()
         
-        
-        NewLoadData()
-        
+      //  mapView.mapType = MKMapType.mutedStandard
         mapView.delegate = self
-     
+        mapView.showsBuildings = true
+        mapView.showsScale = true
+        mapView.showsCompass = true
         
-        switch UserDefaults.standard.integer(forKey: "locationSelected") {
+        NewDataLoad2()
+        
+       //old way for declaring the span. will no longer work
+        /*switch UserDefaults.standard.integer(forKey: "CurrentLocation") {
         case 0:
             print("Annapolis")
             
@@ -286,6 +440,7 @@ class mapViewController: UIViewController, MKMapViewDelegate {
         default:
             print("no location selected")
         }
+        */
         
        /* var annanpolis: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: 38.978445, longitude: -76.492183) }
         

@@ -20,6 +20,10 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
        override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        UINavigationBar.appearance().backgroundColor = #colorLiteral(red: 0.004859850742, green: 0.09608627111, blue: 0.5749928951, alpha: 1)
+        
         tableview.delegate = self
         
         tableview.dataSource = self
@@ -32,6 +36,9 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     override func viewDidAppear(_ animated: Bool) {
+        
+        navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
     }
 
@@ -65,12 +72,8 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         cell.locationLabel.text = location
         
-        
-        
         // Fetches the appropriate day for the data source laout
-
-        
-       return cell
+        return cell
     }
    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -92,7 +95,7 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        let scriptURL = "http://ec2-54-202-9-244.us-west-2.compute.amazonaws.com/testLocations.php"
+        let scriptURL = "http://waitmatehq.com/testCities.php"
         
         // Add one parameter
         let urlWithParams = scriptURL
@@ -151,11 +154,38 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
                 */
             print("here2")
+            
+            if let cities = json as? [Any] {
+                
+                print("inside array for cities")
+                print(cities)
+                DispatchQueue.main.async() {  self.locations.removeAll() }
+                
+    
+                for city in cities {
+                    
+                if let dictionary = city as? [String: Any] {
+                    
+                    if let number = dictionary["cityName"] as? String {
+                        
+                  //  if let cityName = dic["cityName"] as? String {
+                        
+                        print(number)
+                        DispatchQueue.main.async() { self.locations.append(number) }
+                        DispatchQueue.main.async() {   self.tableview.reloadData() }
+                    // access individual object in array
+                }
+            }
+                }
+            }
+            /*
             if let array = json as? [String] {
+                print("locations are a array")
                 if let firstObject = array.first {
                     //print(firstObject)
                     // access individual object in array
                 }
+                
                 DispatchQueue.main.async() {  self.locations.removeAll() }
                 for object in array {
                     // access all objects in array
@@ -166,6 +196,7 @@ class LoadingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
             }
             //
+ */
               /*
             if let dictionary = json as? [String: Any] {
                 //

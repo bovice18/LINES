@@ -8,29 +8,23 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class location {
     
     //MARK: Properties
-    var detail1: String
-    
-    var detail2: String
-    
-    var special = [Special]()
-    
-    var locationImagine: UIImage
-    
-    var timeSinceLastPost: String
-    
-    var phoneNumber: String
-    
-    var displayedAddress: String
-    
-    var displayedPhoneNumber: String
-    
-    var llLocation: Int
-    
-    var ratings = [BarDisplayDataPiece]()
+    var locationName: String
+    var locationNameLong: String
+    var special: String
+    var cityId: Int
+    var cityName: String
+    var latitude: CLLocationDegrees
+    var longitude: CLLocationDegrees
+    var locationId: Int
+ //   var displayedPhoneNumber: String
+    var recent: Int
+    var recentTime: String
+   // var ratings = [BarDisplayDataPiece]()
     
     //MARK: Archiving Paths
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -39,71 +33,63 @@ class location {
     //MARK: Property key
     struct PropertyKey {
         
-        static let detail1 = "detail1"
-        
-        static let detail2 = "detail2"
-        
+        static let locationName = "locationName"
+        static let locationNameLong = "locationNameLong"
         static let special = "special"
+        static let cityId = "cityId"
+        static let cityName = "cityName"
+        static let latitude = "latitude"
+        static let longitude = "longitude"
+        static let locationId = "locationId"
+        static let recent = "recent"
+        static let recentTime = "recentTime"
         
-        static let locationImagine = "locationImagine"
-        
-        static let timeSinceLastPost = "timeSinceLastPost"
-        
-        static let phoneNumber = "phoneNumber"
-        
-        static let displayedPhoneNumber = "displayedPhoneNumber"
-        
-        static let displayedAddress = "displayedAddress"
-        
-        static let llLocation = "llLocation"
- 
-        static let ratings = "ratings"
     }
     
     //MARK: Initialization
 
-    init?(detail1: String, detail2: String, special: [Special], locationImagine: UIImage, timeSinceLastPost: String, phoneNumber: String, displayedAddress: String, displayedPhoneNumber: String, llLocation: Int, ratings: [BarDisplayDataPiece]) {
+    init?(locationName: String, locationNameLong: String, special: String, cityId: Int, cityName: String, latitude: CLLocationDegrees, longitude: CLLocationDegrees, locationId: Int, recent: Int, recentTime: String) {
     
     //Initialize stored properties
-    self.detail1 = detail1
-    self.detail2 = detail2
+    self.locationName = locationName
+    self.locationNameLong = locationNameLong
     self.special = special
-    self.locationImagine = locationImagine
-    self.timeSinceLastPost = timeSinceLastPost
-    self.phoneNumber = phoneNumber
-    self.displayedAddress = displayedAddress
-    self.displayedPhoneNumber = displayedPhoneNumber
-    self.llLocation = llLocation
-    self.ratings = ratings
+    self.cityId = cityId
+    self.cityName = cityName
+    self.latitude = latitude
+    self.longitude = longitude
+    self.locationId = locationId
+    self.recent = recent
+    self.recentTime = recentTime
     }
     
     //MARK: NSCoding:
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(detail1, forKey: PropertyKey.detail1)
-        aCoder.encode(detail2, forKey: PropertyKey.detail2)
+        aCoder.encode(locationName, forKey: PropertyKey.locationName)
+        aCoder.encode(locationNameLong, forKey: PropertyKey.locationNameLong)
         aCoder.encode(special, forKey: PropertyKey.special)
-        aCoder.encode(locationImagine, forKey: PropertyKey.locationImagine)
-        aCoder.encode(timeSinceLastPost, forKey: PropertyKey.timeSinceLastPost)
-        aCoder.encode(phoneNumber, forKey: PropertyKey.phoneNumber)
-        aCoder.encode(displayedAddress, forKey: PropertyKey.displayedAddress)
-        aCoder.encode(displayedPhoneNumber, forKey: PropertyKey.displayedPhoneNumber)
-        aCoder.encode(llLocation, forKey: PropertyKey.llLocation)
-        aCoder.encode(ratings, forKey: PropertyKey.ratings)
+        aCoder.encode(cityId, forKey: PropertyKey.cityId)
+        aCoder.encode(cityName, forKey: PropertyKey.cityName)
+        aCoder.encode(latitude, forKey: PropertyKey.latitude)
+        aCoder.encode(longitude, forKey: PropertyKey.longitude)
+        aCoder.encode(locationId, forKey: PropertyKey.locationId)
+        aCoder.encode(recent, forKey: PropertyKey.recent)
+        aCoder.encode(recentTime, forKey: PropertyKey.recentTime)
         
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        let detail1 = aDecoder.decodeObject(forKey: PropertyKey.detail1) as! String
-        let detail2 = aDecoder.decodeObject(forKey: PropertyKey.detail2) as! String
-        let special = aDecoder.decodeObject(forKey: PropertyKey.special) as! [Special]
-        let locationImagine = aDecoder.decodeObject(forKey: PropertyKey.locationImagine) as! UIImage
-        let timeSinceLastPost = aDecoder.decodeObject(forKey: PropertyKey.timeSinceLastPost) as! String
-        let phoneNumber = aDecoder.decodeObject(forKey: PropertyKey.phoneNumber) as! String
-        let displayedPhoneNumber = aDecoder.decodeObject(forKey: PropertyKey.displayedPhoneNumber) as! String
-        let displayedAddress = aDecoder.decodeObject(forKey: PropertyKey.displayedAddress) as! String
-        let llLocation = aDecoder.decodeObject(forKey: PropertyKey.llLocation) as? Int
-        let ratings = aDecoder.decodeObject(forKey: PropertyKey.ratings) as! [BarDisplayDataPiece]
+        let locationName = aDecoder.decodeObject(forKey: PropertyKey.locationName) as! String
+        let locationNameLong = aDecoder.decodeObject(forKey: PropertyKey.locationNameLong) as! String
+        let special = aDecoder.decodeObject(forKey: PropertyKey.special) as! String
+        let cityId = aDecoder.decodeObject(forKey: PropertyKey.cityId) as! Int
+        let cityName = aDecoder.decodeObject(forKey: PropertyKey.cityName) as! String
+        let latitude = aDecoder.decodeObject(forKey: PropertyKey.latitude) as! CLLocationDegrees
+        let longitude = aDecoder.decodeObject(forKey: PropertyKey.longitude) as! CLLocationDegrees
+        let locationId = aDecoder.decodeObject(forKey: PropertyKey.locationId) as! Int
+        let recent = aDecoder.decodeObject(forKey: PropertyKey.recent) as? Int
+        let recentTime = aDecoder.decodeObject(forKey: PropertyKey.recentTime) as! String
         
-        self.init(detail1: detail1, detail2: detail2, special: special, locationImagine: locationImagine, timeSinceLastPost: timeSinceLastPost, phoneNumber: phoneNumber, displayedAddress: displayedAddress, displayedPhoneNumber: displayedPhoneNumber, llLocation: llLocation!, ratings: ratings)
+        self.init(locationName: locationName, locationNameLong: locationNameLong, special: special, cityId: cityId, cityName: cityName, latitude: latitude, longitude: longitude, locationId: locationId, recent: recent!, recentTime: recentTime)
     }
 }
