@@ -9,15 +9,11 @@ Location:
   <option value="Dock Street">Dock Street</option>
   <option value="McGarveys">McGarveys</option>
   <option value="Pussers">Pussers</option>
-  <option value="Iron Rooster">Iron Rooster</option>
-  <option value="Joss">Joss</option>
-  <option value="Chipotle">Chipotle</option>
-  <option value="Moes">Moes</option>
-  <option value="Starbucks">Starbucks</option>
-  <option value="City Dock Cafe">City Dock Cafe</option>
-  <option value="Red Bean">Red Bean</option>
-  <option value="Annapolis Ice Cream Co">Annapolis Ice Cream Co</option>
-  <option value="Storm Bros">Storm Bros</option>
+  <option value="Armadillos">Armadillos</option>
+  <option value="Federal House">Federal House</option>
+  <option value="Bentleys">Bentleys</option>
+  <option value="Terrapins Turf">Terrapins Turf</option>
+  <option value="Cornerstone">Cornerstone</option>
 </select><br><br>
 Circle Rating: <input type="number" name="Circle_Rating" maxlength="11" size="2" /><br><br>
 <input type="submit" />
