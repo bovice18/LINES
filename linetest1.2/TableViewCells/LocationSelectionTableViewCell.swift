@@ -10,8 +10,12 @@ import UIKit
 
 class LocationSelectionTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var locationLabel: UILabel!
 
+    @IBOutlet weak var cityImage: UIImageView!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var barCountLbl: UILabel!
+    @IBOutlet weak var cityLbl: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

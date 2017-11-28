@@ -10,16 +10,73 @@ import UIKit
 import CoreLocation
 import MapKit
 import os.log
+
 //import UberRides
 
-class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UITableViewDataSource, */ CLLocationManagerDelegate,  MKMapViewDelegate {
+class LocationDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,  MKMapViewDelegate {
     
-    @IBOutlet weak var mapView: MKMapView!
-    //Swipe left action to move to specials page
-    @IBAction func SwipeLeft(_ sender: UISwipeGestureRecognizer) {
-        performSegue(withIdentifier: "Switch", sender: sender)
+    @IBOutlet weak var barBackground: UIImageView!
+    var Specials = [Special]()
+    var fullSpecialsString = String()
+    
+    var locationPostName = String()
+    
+    @IBAction func confirmButton(_ sender: UIButton) {
+        
+        var lineRating = Int()
+        switch LineImage.image! {
+        case UIImage(named: "0-5")!:
+          lineRating = 1
+        case UIImage(named: "5-10")!:
+            lineRating = 2
+        case UIImage(named: "10-20")!:
+            lineRating = 3
+        case UIImage(named: "20+")!:
+            lineRating = 4
+        default:
+            print("no circle rating found")
+        }
+        
+         var request = URLRequest(url: URL(string: "http://waitmatehq.com/insertTest.php")!)
+         
+         request.httpMethod = "POST"
+         
+         let postString = "Location_Name=\(locationPostName)"+"&Circle_Rating=\(lineRating)"
+         
+         request.httpBody = postString.data(using: .utf8)
+         
+         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+         guard let data = data, error == nil else {                                                 // check for fundamental networking error
+         print("error=\(String(describing: error))")
+         return
+         }
+         
+         if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+         print("statusCode should be 200, but is \(httpStatus.statusCode)")
+         print("response = \(String(describing: response))")
+         }
+         
+         let responseString = String(data: data, encoding: .utf8)
+         print("responseString = \(String(describing: responseString))")
+         }
+         
+         task.resume()
+         
+       //  self.performSegue(withIdentifier: "Confirmed", sender: sender)
+    
     }
     
+    
+    @IBOutlet weak var lineView: UIView!
+    @IBOutlet weak var mapView: MKMapView!
+    //Swipe left action to move to specials page
+ //   @IBAction func SwipeLeft(_ sender: UISwipeGestureRecognizer) {
+  //      performSegue(withIdentifier: "Switch", sender: sender)
+  //  }
+    @IBOutlet weak var postButton: UIButton!
+    @IBOutlet weak var confirmButton: UIButton!
+    
+    @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var timeSincePostLbl: UILabel!
     
@@ -32,9 +89,9 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
     @IBOutlet weak var FirstWhiteView: UIView!
     
     @IBOutlet weak var WaitSegmentedControl: UISegmentedControl!
-    @IBAction func switchButtonPressed(_ sender: UISegmentedControl) {
+  //  @IBAction func switchButtonPressed(_ sender: UISegmentedControl) {
         
-        switch sender.selectedSegmentIndex {
+       /* switch sender.selectedSegmentIndex {
         case 0:
             print("Wait")
         case 1:
@@ -43,11 +100,14 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
         default:
             print("failed segment")
         }
-    }
+ 
+ */
+    //}
+
     //Button to post
     @IBOutlet weak var joinTheLineButton: UIBarButtonItem!
     //old table view, no longer exists need to delete
-    @IBOutlet weak var tableView: UITableView!
+   
     //old label for address,, check to see if still used
     @IBOutlet weak var adressLbl: UILabel!
     //old label for phone number,, check to see if still used
@@ -81,7 +141,7 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
     
     var ratings = [rating]()
     
-    var specials = [Special]()
+  //  var specials = [Special]()
     
     //Variables for different estimated waits
     var waitsAt11 = Int()
@@ -662,11 +722,31 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+    //  UINavigationBar.appearance().backgroundColor = UIColor.clear
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+    
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-         mapView.delegate = self
+        mapView.delegate = self
         
         mapView.layer.cornerRadius = 4
+        mapView.layer.cornerRadius = 4
+        
+        
+        
+        confirmButton.layer.cornerRadius = 4
+        postButton.layer.cornerRadius = 4
+        postButton.layer.borderWidth = 1
+        postButton.layer.borderColor = #colorLiteral(red: 0.3430494666, green: 0.8636034131, blue: 0.467017293, alpha: 1)
+        
+        //tableView.layer.borderWidth = 1
+       // tableView.layer.borderColor
+        tableView.layer.cornerRadius = 4
+        
     
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -676,18 +756,18 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
         
         self.mapView.showsUserLocation = true
     
-     //   animateBars()
+        LoadingAllSpecials()
+        //   animateBars()
         
       //  AllDeals.append(FridayDeal!)
         
        // NewLoadData()
        DispatchQueue.main.async() { self.NewDataLoad2() }
         
-        //OLD TABLE VIEW LOADING
-        /*
+        //New TABLE VIEW LOADING
         tableView.delegate = self
         tableView.dataSource = self
-        */
+    
         
         //ADDING BLUR EFFECT
         let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
@@ -709,6 +789,7 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
             
             Location?.longitude = location.longitude
             Location?.latitude = location.latitude
+            
            //way to load recent without connection
             /*let recent = location.recent
             //making the recent post into an integer
@@ -729,8 +810,29 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
             print("target")
             
             navigationItem.title = location.locationNameLong
+            
+            locationPostName = location.locationName
+            
 
             print("entered")
+        }
+        
+         //waitmatehq.com/img/Annapolis,_MD.jpg
+        let locationName = locationPostName.replacingOccurrences(of: " ", with: "_")
+        let url = NSURL(string: "http://waitmatehq.com/img/\(locationName).jpg")
+        let data = NSData(contentsOf:  (url as? URL)!)
+        if data != nil
+        {
+            let image = UIImage(data: data as! Data)
+            barBackground.image = image
+        }
+        else {
+            let currentLocation = UserDefaults.standard.value(forKey: "CurrentLocation") as! String
+            let locationName = currentLocation.replacingOccurrences(of: " ", with: "_")
+            let url = NSURL(string: "http://waitmatehq.com/img/\(locationName).jpg")
+            let data = NSData(contentsOf:  (url as? URL)!)
+            let image = UIImage(data: data as! Data)
+            barBackground.image = image
         }
         
         // NewDataLoad2()
@@ -781,7 +883,9 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
         */
         
         if directPost == 1 {
+            
             performSegue(withIdentifier: "Post", sender: viewDidAppear(true))
+            
         }
         //    SortingBarDisplayData()
         //    loadBarDisplay()
@@ -845,13 +949,13 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
     }
     
     // MARK: - Table view data source ----- ALL OLD TABLEVIEW IS PHASED OUT BEFORE VERISON 1.0
-    /*
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AllDeals.count
+        return Specials.count
         
     }
     
@@ -859,22 +963,21 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
         
         // Table view ells are reused and should be dequeued using a cell identifier.
         
-        let cellIdentifier = "RatingTableViewCell"
+        let cellIdentifier = "SpecialCell"
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! RatingTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! SpecialsTableViewCell
         
         // Fetches the appropriate day for the data source laout
-        let rating = AllDeals[indexPath.row]
+        let special = Specials[indexPath.row]
         
-        cell.detailsLabel.text = rating.details
+        cell.titleLbl.text = special.name
         
-        cell.LineImage.image = rating.Image
-        
-        cell.timeLbl.text = rating.name
-        
+        cell.specialDetailLbl.text = special.details
+    
+
         return cell
     }
-    */
+    
     
     // MARK: - Navigation
     @IBAction func unwindToRatingList(sender: UIStoryboardSegue) {
@@ -2002,7 +2105,7 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
         var coorindates: CLLocationCoordinate2D { return CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!) }
         locationAnnotation.coordinate = coorindates
         locationAnnotation.title = Location?.locationNameLong
-        var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(coorindates, 1000, 1000) }
+        var region: MKCoordinateRegion { return MKCoordinateRegionMakeWithDistance(coorindates, 500, 500) }
         mapView.setRegion(region, animated: true)
         mapView.addAnnotation(locationAnnotation)
         
@@ -2117,7 +2220,333 @@ class LocationDetailViewController: UIViewController, /*UITableViewDelegate, UIT
         NewDataLoad2()
         */
     }
- 
+    
+    func LoadingAllSpecials() {
+        
+        let currentLocation = UserDefaults.standard.value(forKey: "CurrentLocation") as! String
+        print("current location")
+        print(currentLocation)
+        
+        let newCurrentLocation = currentLocation.replacingOccurrences(of: " ", with: "_")
+        print(newCurrentLocation)
+        
+        // UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let scriptURL = "http://waitmatehq.com/testData.php?\(newCurrentLocation)"
+        
+        // Add one parameter
+        let urlWithParams = scriptURL
+        
+        print("URL")
+        print(urlWithParams)
+        let myUrl = NSURL(string: urlWithParams);
+        //  print(myUrl)
+        let request = NSMutableURLRequest(url: myUrl as! URL);
+        
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) {
+            data, response, error in
+            
+            // Check for error
+            if error != nil
+            {
+                print("error=\(error)")
+                return
+            }
+            
+            // Print out response string
+            let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print("responseString = \(responseString)")
+            
+            let json = try? JSONSerialization.jsonObject(with: data!, options: [])
+            
+            print("newloaddata")
+            
+            
+            if let array = json as? [Any] {
+                /*
+                 if let firstObject = array.first {
+                 print("data here")
+                 print(firstObject)
+                 if let dictionary = firstObject as? [String: Any] {
+                 print("inside here")
+                 print(dictionary)
+                 if let number = dictionary["locationName"] as? String {
+                 // access individual value in dictionary
+                 print(number)
+                 }
+                 if let number = dictionary["recent"] as? String {
+                 // access individual value in dictionary
+                 print(number)
+                 }
+                 if let number = dictionary["lastUpdated"] as? String {
+                 // access individual value in dictionary
+                 print(number)
+                 }
+                 if let nestedDictionary = dictionary["estimated"] as? [String: Any] {
+                 print(nestedDictionary)
+                 print("nested here")
+                 if let number = nestedDictionary["17"] as? String {
+                 // access individual value in dictionary
+                 print(number)
+                 }
+                 }
+                 }
+                 //print(firstObject)
+                 // access individual object in array
+                 */
+                //INITIAL ACCESS POINT FOR DATA
+                for object in array {
+                    // access all objects in array
+                    /*
+                     guard let dictionary = firstobject as? [String: Any] else {
+                     
+                     print("error")
+                     return
+                     }
+                     
+                     guard let circleRating = dictionary["circleRating"] as? String,
+                     let Time = dictionary["timeDate"] as? String,
+                     let location = dictionary["locationName"] as? String
+                     else {
+                     print("error")
+                     return
+                     }
+                     */
+                    //NOW ENTERING THE OBJECTS THAT MAKE UP THE ARRAY "{'':""}"
+                    guard let dictionary = object as? [String: Any] else {
+                        print("error")
+                        return
+                    }
+                    print("inside here")
+                    print(dictionary)
+                    
+                    //*EXAMPLE*METHOD FOR GETTING THE ESTIMATED WAIT AT 17
+                    /*
+                     guard let nestedDictionary = dictionary["estimated"] as? [String: Any] else {
+                     print("error")
+                     return
+                     }
+                     print(nestedDictionary)
+                     print("nested here")
+                     
+                     guard let number = nestedDictionary["17"] as? String else {
+                     print("error")
+                     return
+                     }
+                     // access individual value in dictionary
+                     print(number)
+                     */
+                    
+                    guard let name = dictionary["locationName"] as? String, //Location name accessed
+                        let recent = dictionary["recent"] as? String, //recent post accessed as string
+                        let lastUpdated = dictionary["lastUpdated"] as? String, //recent post time accessed as string
+                        let special = dictionary["specials"] as? String,
+                        let longName = dictionary["longName"] as? String //recent post time accessed as string
+                        else {
+                            print("error")
+                            return
+                    }
+                    //if the location out of the lists of locations is equal to the navigation controller then
+                    if longName == self.navigationItem.title {
+                        
+                        
+                        self.fullSpecialsString = special
+                        self.loadingSpecials()
+                        print(special)
+                        print("special is above")
+                        
+                        //making the recent post into an integer
+                        //  let numberRecent = Int(recent)
+                        //setting the image number as the recent post and the reloading it on the main thread
+                        //  self.imageNumber = numberRecent
+                        
+                        //  DispatchQueue.main.async() { self.updateCircleRating() }
+                        //   print(numberRecent)
+                        //   print("recent number")
+                        
+                    }
+                    
+                    // guard let Acme = location(detail1: name, detail2: name, special: self.AcmeSpecial, locationImagine: #imageLiteral(resourceName: "home"), timeSinceLastPost: lastUpdated, phoneNumber: "3012778898", displayedAddress: "7323 Baltimore Ave, College Park, MD", displayedPhoneNumber: "(301) 277-8898", llLocation: numberRecent!, ratings: self.AcmeDataPiece) else {
+                    //    fatalError("Unable to instantiate location2")
+                    // }
+                    //  self.locations.append(Acme)
+                    // self.tableView.reloadData()
+                }
+                //ACCESSSING ALL ESTIMATED WAIT DATA
+                for object in array {
+                    
+                    guard let dictionary = object as? [String: Any] else {
+                        print("error")
+                        return
+                    }
+                    print("inside here")
+                    print(dictionary)
+                    
+                    guard let longName = dictionary["longName"] as? String else {
+                        print("error")
+                        return
+                    }
+                    
+                    print("inside here")
+                    print(longName)
+                    
+                    if longName == self.navigationItem.title {
+                        
+                        
+                        /*   guard let nestedDictionary = dictionary["estimated"] as? [String: Any] else {
+                         print("error")
+                         return
+                         }
+                         
+                         print(nestedDictionary)
+                         print("nested here")
+                         
+                         let hourArray = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21", "22", "23", "24"]
+                         
+                         // let average1 = Int()
+                         
+                         // let hourArray2 = [String: Int]()
+                         
+                         
+                         for hour in hourArray {
+                         
+                         if let lastupdated = nestedDictionary[hour] as? String {
+                         
+                         /* guard let number = nestedDictionary[hour] as? String else {
+                         print("error")
+                         return
+                         }
+                         */
+                         print(lastupdated)
+                         print(hour)
+                         
+                         switch hour {
+                         case "2":
+                         print("average at 1")
+                         print(lastupdated)
+                         self.waitsAt1 = Int(lastupdated)!
+                         DispatchQueue.main.async() {
+                         self.loadBarDisplay2() }
+                         case "14":
+                         print("average at 2")
+                         print(lastupdated)
+                         self.waitsAt2 = Int(lastupdated)!
+                         DispatchQueue.main.async() {
+                         self.loadBarDisplay2() }
+                         case "15":
+                         print("average at 3")
+                         print(lastupdated)
+                         self.waitsAt3 = Int(lastupdated)!
+                         DispatchQueue.main.async() {
+                         self.loadBarDisplay3() }
+                         case "16":
+                         print("average at 4")
+                         print(lastupdated)
+                         self.waitsAt4 = Int(lastupdated)!
+                         DispatchQueue.main.async() {
+                         self.loadBarDisplay4() }
+                         
+                         case "17":
+                         print("average at 5")
+                         print(lastupdated)
+                         self.waitsAt5 = Int(lastupdated)!
+                         DispatchQueue.main.async() {
+                         self.loadBarDisplay5() }
+                         case "18":
+                         print("average at 6")
+                         print(lastupdated)
+                         self.waitsAt6 = Int(lastupdated)!
+                         DispatchQueue.main.async() {
+                         self.loadBarDisplay10() }
+                         case "19":
+                         print("average at 7")
+                         print(lastupdated)
+                         self.waitsAt7 = Int(lastupdated)!
+                         DispatchQueue.main.async() {
+                         self.loadBarDisplay6() }
+                         case "20":
+                         print("average at 8")
+                         print(lastupdated)
+                         self.waitsAt8 = Int(lastupdated)!
+                         DispatchQueue.main.async() {
+                         self.loadBarDisplay7() }
+                         case "21":
+                         print("average at 9")
+                         print(lastupdated)
+                         self.waitsAt9 = Int(lastupdated)!
+                         DispatchQueue.main.async() { self.loadBarDisplay8() }
+                         case "22":
+                         print("average at 10")
+                         print(lastupdated)
+                         self.waitsAt10 = Int(lastupdated)!
+                         DispatchQueue.main.async() {
+                         self.loadBarDisplay9() }
+                         case "23":
+                         print("average at 11")
+                         print(lastupdated)
+                         self.waitsAt11 = Int(lastupdated)!
+                         DispatchQueue.main.async() {
+                         self.loadBarDisplay() }
+                         case "0":
+                         print("average at 12")
+                         print(lastupdated)
+                         self.waitsAt12 = Int(lastupdated)!
+                         DispatchQueue.main.async() {  self.loadBarDisplay1() }
+                         default:
+                         print("not a real time")
+                         }
+                         
+                         DispatchQueue.main.async() { UIApplication.shared.isNetworkActivityIndicatorVisible = false }
+                         }
+                         */
+                    }
+                }
+                // access individual value in dictionary
+                // print(number)
+            }
+        }
+        do {
+            //   if let convertedJsonIntoDict = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary {
+            
+            // Print out dictionary
+            // print(convertedJsonIntoDict)
+            
+            // Get value by key
+            //  let firstNameValue = convertedJsonIntoDict["locationName"] as? String
+            //   print(firstNameValue!)
+            
+            // }
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        task.resume()
+    }
+    
+    private func loadingSpecials() {
+        //  let firstDayIndex = fullSpecialsString.index(of: ":")!
+        //  let firstDay = fullSpecialsString[...firstDayIndex]
+        let count = fullSpecialsString.components(separatedBy: "|")
+        for special in count {
+            
+            let oneSpecial = special.components(separatedBy: ":")
+            let day = oneSpecial.first!
+            let actualSpecial = oneSpecial.last!
+            
+            print(oneSpecial)
+            print(day)
+            print(actualSpecial)
+            
+            let fullSpecial = Special(name: day, details: actualSpecial)!
+            Specials.append(fullSpecial)
+            DispatchQueue.main.async() {  self.tableView.reloadData() }
+            
+        }
+        print(count)
+        //    print(firstDay)
+        //   print(firstDayIndex)
+    }
         
 }
 

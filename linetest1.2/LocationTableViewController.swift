@@ -150,6 +150,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
     func NewDataLoad2() {
         
         
+        
         let currentLocation = UserDefaults.standard.value(forKey: "CurrentLocation") as! String
         print("current location")
         print(currentLocation)
@@ -174,6 +175,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         let task = URLSession.shared.dataTask(with: request as URLRequest) {
             data, response, error in
+            
             
             // Check for error
             if error != nil
@@ -881,6 +883,9 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
         
         navigationItem.leftBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+      //  UINavigationBar.appearance().backgroundColor = #colorLiteral(red: 0.004859850742, green: 0.09608627111, blue: 0.5749928951, alpha: 1)
+       // self.navigationController?.navigationBar.isTranslucent = true
+        //self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.1529411765, green: 0.1647058824, blue: 0.8470588235, alpha: 1)
         
         if UserDefaults.standard.value(forKey: "CurrentLocation") != nil {
             navigationItem.title = UserDefaults.standard.value(forKey: "CurrentLocation") as! String
@@ -1068,6 +1073,7 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             
             request.httpMethod = "POST"
             
+            
             let postString = "Location_Name=\(firstActivityAction.locationName)"+"&Circle_Rating=\(firstActivityAction.recent)"
             
             request.httpBody = postString.data(using: .utf8)
@@ -1094,7 +1100,10 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             let indexPath1 = [indexPath]
             
         }
+      //  let postAction2 = UITableViewRowAction(style: .normal, title: "             ") { (action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
+        
         let postAction2 = UITableViewRowAction(style: .normal, title: "             ") { (action: UITableViewRowAction!, indexPath: IndexPath!) -> Void in
+
             
             let firstActivityAction2 = self.locations[indexPath.row]
             
@@ -1179,6 +1188,10 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
             locationDetailViewController.Location = selectedLocation
             
             locationDetailViewController.directPost = 1
+            
+            UserDefaults.standard.set(selectedLocation.locationName, forKey: "BarSelected")
+            UserDefaults.standard.set(selectedLocation.locationNameLong, forKey: "LongNameSelected")
+            UserDefaults.standard.synchronize()
             
         case "Confirmation":
             
@@ -1285,8 +1298,20 @@ class LocationTableViewController: UITableViewController, UISearchBarDelegate {
        // NewLoadData()
         
         locations.removeAll()
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.004859850742, green: 0.09608627111, blue: 0.5749928951, alpha: 1)
+        
+      //    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+       // self.navigationController?.navigationBar.
        
-       
+        //   UINavigationBar.appearance().backgroundColor = #colorLiteral(red: 0.004859850742, green: 0.09608627111, blue: 0.5749928951, alpha: 1)
+      //  self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.1529411765, green: 0.1647058824, blue: 0.8470588235, alpha: 1)
+       // UINavigationBar.appearance().backgroundColor = #colorLiteral(red: 0.004859850742, green: 0.09608627111, blue: 0.5749928951, alpha: 1)
+       // self.navigationController?.view.backgroundColor = #colorLiteral(red: 0.1529411765, green: 0.1647058824, blue: 0.8470588235, alpha: 1)
+
           DispatchQueue.main.async() {  self.NewDataLoad2() }
              DispatchQueue.main.async() { self.tableView.reloadData() }
         
